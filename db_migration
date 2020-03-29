@@ -1,0 +1,14 @@
+
+CREATE TABLE `ci_branches` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `branch_name` varchar(150) NOT NULL,
+ `created_at` datetime NOT NULL,
+ `updated_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8
+
+
+
+INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (12, 'New Branch Add');
+INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (13, 'Branch Edited');
+INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (14, 'Branch Deleted');
