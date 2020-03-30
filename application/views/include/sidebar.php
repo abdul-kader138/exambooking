@@ -49,17 +49,18 @@
                     </li>
                 </ul>
             </li>
-            <li id="admin">
+            <?php if($this->session->userdata('admin_type')=='2' ) {?>
+            <li id="admins">
                 <a href="javascript:void(0);" class="menu-toggle">
                     <i class="material-icons">person</i>
                     <span>Admin</span>
                 </a>
                 <ul class="ml-menu">
-                    <li id="addadmin">
-                        <a href="#">Add New Admin</a>
+                    <li id="admin_add">
+                        <a href="<?= base_url('admin/admins/admin_add'); ?>">Add New Admin</a>
                     </li>
                     <li id="admin_list">
-                        <a href="#">Admin List</a>
+                        <a href="<?= base_url('admin/admins'); ?>">Admins List</a>
                     </li>
                 </ul>
             </li>
@@ -212,6 +213,7 @@
                     </li>
                 </ul>
             </li>
+            <?php } ?>
         </ul>
     </div>
     <!-- #Menu -->

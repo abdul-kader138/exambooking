@@ -12,3 +12,16 @@ CREATE TABLE `ci_branches` (
 INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (12, 'New Branch Add');
 INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (13, 'Branch Edited');
 INSERT INTO `ci_activity_status` (`id`, `description`) VALUES (14, 'Branch Deleted');
+
+
+CREATE TABLE `ci_admin_types` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `type_name` varchar(100) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8
+
+INSERT INTO `ci_admin_types` (`id`, `type_name`) VALUES ('2', 'Super Admin');
+INSERT INTO `ci_admin_types` (`id`, `type_name`) VALUES ('3', 'Branch Admin');
+INSERT INTO `ci_admin_types` (`id`, `type_name`) VALUES ('1', 'None');
+
+ALTER TABLE `ci_users` ADD `admin_type` INT(11) NOT NULL DEFAULT '1' AFTER `updated_at`;

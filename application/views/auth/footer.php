@@ -49,6 +49,7 @@
     <!-- Custom Js -->
     <script src="<?= base_url() ?>public/js/admin.js"></script>
     <script src="<?= base_url() ?>public/js/pages/examples/sign-in.js"></script>
+    <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
 
 
 </body>

@@ -58,6 +58,7 @@ class Auth extends CI_Controller {
 					if($result['is_admin'] == 1){
 						$admin_data = array(
 							'admin_id' => $result['id'],
+                            'admin_type' => $result['admin_type'],
 							'name' => $result['firstname'],
 							'is_admin_login' => TRUE
 						);
@@ -71,6 +72,7 @@ class Auth extends CI_Controller {
 					if ($result['is_admin'] == 0){
 						$user_data = array(
 							'user_id' => $result['id'],
+                            'admin_type' => $result['admin_type'],
 							'name' => $result['firstname'],
 							'is_user_login' => TRUE
 						);
