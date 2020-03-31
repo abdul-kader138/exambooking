@@ -9,6 +9,8 @@
 		public function get_all_users(){
 			$wh =array();
 			$SQL ='SELECT * FROM ci_users';
+            $wh[] = " is_admin = 0";
+			if($this->session->userdata('admin_type')==3) $wh[] = " is_admin = 0 and branch_id=".$this->session->userdata('branch_id');
 			$wh[] = " is_admin = 0";
 			if(count($wh)>0)
 			{
@@ -105,6 +107,12 @@
 			return $result = $query->result_array();
 		}
 
+        //---------------------------------------------------
+        // Get Branch
+        public function get_branches(){
+            $query = $this->db->get('ci_branches');
+            return $result = $query->result_array();
+        }
 	}
 
 ?>

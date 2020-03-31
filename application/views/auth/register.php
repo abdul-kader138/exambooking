@@ -51,6 +51,19 @@
                             <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
                         </div>
                     </div>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">view_module</i>
+                        </span>
+                    <div class="form-line">
+                        <select class="form-control show-tick" id="branch" name="branch" required>
+                            <option value="">-- Please select Branch--</option>
+                            <?php foreach($branches as $branch): ?>
+                                <option value="<?= $branch['id']; ?>"><?= $branch['branch_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
                     <div class="form-group">
                         <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
                         <label for="terms">I read and agree to the <a href="/exambooking/auth/terms_conditions" target="_blank">Terms & Conditions</a>.</label>

@@ -2,6 +2,7 @@
 class Widgets extends UR_Controller {
 	public function __construct(){
 		parent::__construct();
+        $this->checkUsersProfileStatus();
 	}
 
 	public function basic(){

@@ -121,13 +121,37 @@
         }
 
         //---------------------------------------------------
-        // Get User Role/Group
+        // Get admin Type
         public function get_admin_types(){
             $query = $this->db->get_where('ci_admin_types', array('id >' => 1));
             return $result = $query->result_array();
         }
 
+        //---------------------------------------------------
+        // Get Branch
+        public function get_branches(){
+            $query = $this->db->get('ci_branches');
+            return $result = $query->result_array();
+        }
+        //---------------------------------------------------
+        // get all users for server-side datatable processing (ajax based)
+        public function get_all_users_without_current(){
+            $wh =array();
+            $SQL ='SELECT * FROM ci_users';
+            $wh[] = " is_admin = 1 and id!=".$this->session->userdata('admin_id');
+            if(count($wh)>0)
+            {
+                $WHERE = implode(' and ',$wh);
+                return $this->datatable->LoadJson($SQL,$WHERE);
+            }
+            else
+            {
+                return $this->datatable->LoadJson($SQL);
+            }
+        }
+
 
     }
+
 
 ?>

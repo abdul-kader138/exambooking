@@ -49,7 +49,7 @@ class Branches extends MY_Controller
         if ($this->input->post('submit')) {
 
             if (!$this->session->userdata('is_admin_login')) {
-                $this->session->set_flashdata('msg', 'Access Denied!!!');
+                $this->session->set_flashdata('error', 'Access Denied!!!');
                 redirect(base_url('admin'));
             }
 
@@ -87,7 +87,7 @@ class Branches extends MY_Controller
 
         //Access check
         if (!$this->session->userdata('is_admin_login')) {
-            $this->session->set_flashdata('msg', 'Access Denied!!!');
+            $this->session->set_flashdata('error', 'Access Denied!!!');
             redirect(base_url('admin'));
         }
         $branch_info = $this->branch_model->get_branch_by_id($id);
@@ -129,8 +129,11 @@ class Branches extends MY_Controller
     public function del($id = 0)
     {
 
-        //@todo
-//        Later add user association check
+//        Check brach association with users
+        if($this->branch_model->get_branch_from_users_by_id($id)){
+            $this->session->set_flashdata('error', 'Branch has association with users,please first remove the association.');
+            redirect(base_url('admin/branches'));
+        }
         $this->db->delete('ci_branches', array('id' => $id));
 
         // Add User Activity

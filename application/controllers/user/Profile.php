@@ -13,6 +13,8 @@ class Profile extends UR_Controller {
 				'lastname' => $this->input->post('lastname'),
 				'email' => $this->input->post('email'),
 				'mobile_no' => $this->input->post('mobile_no'),
+				'address' => $this->input->post('address'),
+				'branch_id' => $this->input->post('branch'),
 				'updated_at' => date('Y-m-d : h:m:s'),
 			);
 			$data = $this->security->xss_clean($data);
@@ -23,6 +25,8 @@ class Profile extends UR_Controller {
 			}
 		}
 		else{
+            $data['user_groups'] = $this->user_model->get_user_groups();
+            $data['branches'] = $this->user_model->get_branches();
 			$data['user'] = $this->user_model->get_user_detail();
 			$data['title'] = 'User Profile';
 			$data['view'] = 'user/profile';
@@ -60,6 +64,8 @@ class Profile extends UR_Controller {
 			$this->load->view('layout', $data);
 		}
 	}
+
+
 }
 
 ?>	

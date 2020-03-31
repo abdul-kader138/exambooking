@@ -25,3 +25,4 @@ INSERT INTO `ci_admin_types` (`id`, `type_name`) VALUES ('3', 'Branch Admin');
 INSERT INTO `ci_admin_types` (`id`, `type_name`) VALUES ('1', 'None');
 
 ALTER TABLE `ci_users` ADD `admin_type` INT(11) NOT NULL DEFAULT '1' AFTER `updated_at`;
+ALTER TABLE `ci_users` ADD `branch_id` INT(11) NULL DEFAULT '0' AFTER `admin_type`;

@@ -60,6 +60,7 @@ class Auth extends CI_Controller {
 							'admin_id' => $result['id'],
                             'admin_type' => $result['admin_type'],
 							'name' => $result['firstname'],
+                            'branch_id' => $result['branch_id'],
 							'is_admin_login' => TRUE
 						);
 						$this->session->set_userdata($admin_data);
@@ -73,6 +74,8 @@ class Auth extends CI_Controller {
 						$user_data = array(
 							'user_id' => $result['id'],
                             'admin_type' => $result['admin_type'],
+                            'role' => $result['role'],
+                            'branch_id' => $result['branch_id'],
 							'name' => $result['firstname'],
 							'is_user_login' => TRUE
 						);
@@ -124,12 +127,14 @@ class Auth extends CI_Controller {
 			//$this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[ci_users.username]');
 			$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 			$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
+			$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
 			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
 			$this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'trim|required|matches[password]');
             $this->form_validation->set_rules('terms', 'Terms', 'required');
 
 			if ($this->form_validation->run() == FALSE) {
+				            $data['branches'] = $this->auth_model->get_branches();
 				            $data['title'] = 'Create an Account';
                             $data['loginBtn'] = 'yes';
                             $data['bodyClass'] = 'register-page';
@@ -144,6 +149,7 @@ class Auth extends CI_Controller {
 					'firstname' => $this->input->post('firstname'),
 					'lastname' => $this->input->post('lastname'),
 					'email' => $this->input->post('email'),
+					'branch_id' => $this->input->post('branch'),
 					'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 					'is_active' => 1,
 					'is_verify' => 0,
@@ -175,7 +181,8 @@ class Auth extends CI_Controller {
 				}
 			}
 		}
-		else{     
+		else{
+            $data['branches'] = $this->auth_model->get_branches();
             $data['title'] = 'Create an Account';
             $data['loginBtn'] = 'yes';
             $data['bodyClass'] = 'register-page';

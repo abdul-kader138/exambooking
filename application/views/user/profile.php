@@ -1,3 +1,4 @@
+<link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
@@ -46,6 +47,74 @@
                                     </div>
                                 </div>
                             </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="email">Mobile No</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" value="<?= $user['mobile_no']; ?>" name="mobile_no" class="form-control" placeholder="Enter your mobile no">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="email">Address</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" value="<?= $user['address']; ?>" name="address" class="form-control" placeholder="Enter your address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="email">Branch</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select class="form-control show-tick" id="branch" name="branch" required>
+                                            <option value="">-- Please select --</option>
+                                            <?php foreach ($branches as $branch): ?>
+                                                <option value="<?= $branch['id']; ?>" <?= ($user['branch_id'] == $branch['id']) ? 'selected' : '' ?>><?= $branch['branch_name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="email">Status</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <?php
+                                        $status = ($user['is_verify'] == 0)? 'Pending': 'Active';
+                                        ?>
+                                        <input type="text" value="<?= $status; ?>"  class="form-control" readonly="readonly" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="email">Group</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" value="<?= $user_groups['group_name']; ?>" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             <div class="row clearfix">
                                 <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                                   <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect">
@@ -115,3 +184,4 @@
 <script>
     $("#users").addClass('active');
 </script>
+<!--<script src="--><?//= base_url() ?><!--public/plugins/autosize/autosize.js"></script>-->

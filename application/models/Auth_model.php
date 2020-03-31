@@ -111,6 +111,13 @@
 				return false;
 		}
 
+        //---------------------------------------------------
+        // Get Branch
+        public function get_branches(){
+            $query = $this->db->get('ci_branches');
+            return $result = $query->result_array();
+        }
+
 	}
 
 ?>

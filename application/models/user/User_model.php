@@ -21,6 +21,22 @@
 			return true;
 		}
 
+        //---------------------------------------------------
+        // Get User Role/Group
+        public function get_user_groups(){
+            $id = $this->session->userdata('role');
+//            $query = $this->db->get('ci_user_groups');
+            $query = $this->db->get_where('ci_user_groups', array('id' => $id),1);
+            return $result = $query->row_array();
+        }
+
+        //---------------------------------------------------
+        // Get Branch
+        public function get_branches(){
+            $query = $this->db->get('ci_branches');
+            return $result = $query->result_array();
+        }
+
 	}
 
 ?>

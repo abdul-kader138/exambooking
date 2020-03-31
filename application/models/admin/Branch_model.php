@@ -5,7 +5,7 @@
 			return true;
 		}
 		//---------------------------------------------------
-		// get all users for server-side datatable processing (ajax based)
+		// get all branch for server-side datatable processing (ajax based)
 		public function get_all_branches(){
 			$wh =array();
 			$SQL ='SELECT * FROM ci_branches';
@@ -21,7 +21,7 @@
 		}
 
 		//---------------------------------------------------
-		// get all user records
+		// get all branch records
 		public function get_all_simple_branches(){
 			$this->db->order_by('created_at', 'desc');
 			$query = $this->db->get('ci_branches');
@@ -29,13 +29,13 @@
 		}
 
 		//---------------------------------------------------
-		// Count total user for pagination
+		// Count total branch for pagination
 		public function count_all_branches(){
 			return $this->db->count_all('ci_branches');
 		}
 
 		//---------------------------------------------------
-		// Get all users for pagination
+		// Get all branch for pagination
 		public function get_all_branches_for_pagination($limit, $offset){
 			$wh =array();	
 			$this->db->order_by('created_at', 'desc');
@@ -54,7 +54,7 @@
 
 
 		//---------------------------------------------------
-		// get all users for server-side datatable with advanced search
+		// get all branch for server-side datatable with advanced search
 		public function get_all_branches_by_advance_search(){
 			$wh =array();
 			$SQL ='SELECT * FROM ci_branches';
@@ -78,20 +78,25 @@
 
 
 		//---------------------------------------------------
-		// Get user detial by ID
+		// Get branch detial by ID
 		public function get_branch_by_id($id){
 			$query = $this->db->get_where('ci_branches', array('id' => $id));
 			return $result = $query->row_array();
 		}
 
 		//---------------------------------------------------
-		// Edit user Record
+		// Edit branch Record
 		public function edit_branch($data, $id){
 			$this->db->where('id', $id);
 			$this->db->update('ci_branches', $data);
 			return true;
 		}
 
+        // check branch association from users table by ID
+        public function get_branch_from_users_by_id($id){
+            $query = $this->db->get_where('ci_users', array('branch_id' => $id));
+            return $result = $query->row_array();
+        }
 
 	}
 

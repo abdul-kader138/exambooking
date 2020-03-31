@@ -18,9 +18,12 @@ class Users extends MY_Controller {
 			$data = array();
 			$i = 0;
 			foreach ($records['data']  as $row) 
-			{  
-				$status = ($row['is_active'] == 0)? 'inactive': 'active'.'<span>';
-				$disabled = ($row['is_admin'] == 1)? 'disabled': ''.'<span>';
+			{
+                $delete_link='';
+				$status = ($row['is_verify'] == 0)? 'pending': 'active'.'<span>';
+//				$disabled = ($row['is_admin'] == 1)? 'disabled': ''.'<span>';
+				if($this->session->userdata('admin_type') ==2)
+				$delete_link='<a title="Delete" class="delete btn btn-sm btn-danger" data-href="'.base_url('admin/users/del/'.$row['id']).'" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>';
 				$data[]= array(
 					++$i,
 					$row['firstname'],
@@ -32,8 +35,7 @@ class Users extends MY_Controller {
 					
 					'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('admin/users/edit/'.$row['id']).'"> <i class="material-icons">visibility</i></a>
 					<a title="Edit" class="update btn btn-sm btn-primary" href="'.base_url('admin/users/edit/'.$row['id']).'"> <i class="material-icons">edit</i></a>
-					<a title="Delete" class="delete btn btn-sm btn-danger '.$disabled.'" data-href="'.base_url('admin/users/del/'.$row['id']).'" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>
-					',
+					'.$delete_link,
 					
 				);
 			}
@@ -43,13 +45,15 @@ class Users extends MY_Controller {
 		//-----------------------------------------------------------------------
 		public function add(){
 			$data['user_groups'] = $this->user_model->get_user_groups();
+            $data['branches'] = $this->user_model->get_branches();
 			if($this->input->post('submit')){
 				//$this->form_validation->set_rules('username', 'Username', 'trim|min_length[3]|required');
 				$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 				$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
 				$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
-				$this->form_validation->set_rules('mobile_no', 'Number', 'trim|required');
+				$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required');
+				$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
 				$this->form_validation->set_rules('address', 'Address', 'trim');
 				$this->form_validation->set_rules('group', 'Group', 'trim|required');
 				if ($this->form_validation->run() == FALSE) {
@@ -64,6 +68,7 @@ class Users extends MY_Controller {
 						'email' => $this->input->post('email'),
 						'mobile_no' => $this->input->post('mobile_no'),
 						'address' => $this->input->post('address'),
+						'branch_id' => $this->input->post('branch'),
 						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 						'role' => $this->input->post('group'),
 						'is_verify' => 1,
@@ -89,12 +94,15 @@ class Users extends MY_Controller {
 		}
 		//-----------------------------------------------------------------------
 		public function edit($id = 0){
+
+            $data['branches'] = $this->user_model->get_branches();
 			if($this->input->post('submit')){
 				//$this->form_validation->set_rules('username', 'Username', 'trim|required');
 				$this->form_validation->set_rules('firstname', 'Username', 'trim|required');
 				$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
 				$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
-				$this->form_validation->set_rules('mobile_no', 'Number', 'trim|required');
+				$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required');
+				$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
 				$this->form_validation->set_rules('status', 'Status', 'trim|required');
 				$this->form_validation->set_rules('address', 'Address', 'trim');
 				$this->form_validation->set_rules('group', 'Group', 'trim|required');
@@ -112,6 +120,7 @@ class Users extends MY_Controller {
 						'lastname' => $this->input->post('lastname'),
 						'email' => $this->input->post('email'),
 						'mobile_no' => $this->input->post('mobile_no'),
+						'branch_id' => $this->input->post('branch'),
 						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 						'role' => $this->input->post('group'),
 						'is_verify' => 1,

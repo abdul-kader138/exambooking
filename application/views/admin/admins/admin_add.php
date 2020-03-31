@@ -7,7 +7,7 @@
     <h2>
       ADD NEW ADMIN
     </h2>
-    <a href="<?= base_url('admin/admins/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+    <a href="<?= base_url('admin/admins/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Admin List</a>
   </div>
   <div class="body">
     <div class="row clearfix">
@@ -118,10 +118,27 @@
             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                 <div class="form-group">
                     <div class="form-line">
-                        <select class="form-control show-tick" name="admin_type">
+                        <select class="form-control show-tick" id="admin_type" name="admin_type">
                             <option value="">-- Please select --</option>
                             <?php foreach($admin_types as $types): ?>
                               <option value="<?= $types['id']; ?>"><?= $types['type_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix no">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                <label for="group">Branch</label>
+            </div>
+            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                <div class="form-group">
+                    <div class="form-line">
+                        <select class="form-control show-tick" id="branch" name="branch">
+                            <option value="">-- Please select --</option>
+                            <?php foreach($branches as $branch): ?>
+                                <option value="<?= $branch['id']; ?>"><?= $branch['branch_name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -140,3 +157,18 @@
 </div>
 </div>
 
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $('.no').slideUp();
+        $('#admin_type').change(function (event) {
+            var admin_type = $(this).val();
+            if (admin_type == '2') {
+                $('.no').slideUp();
+                $("#branch").removeAttr('required');
+            } else {
+                $('.no').slideDown();
+                $("#branch").prop('required', true);
+            }
+        });
+    });
+</script>
