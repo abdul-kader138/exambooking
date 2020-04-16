@@ -49,7 +49,7 @@ class UR_Controller extends CI_Controller
         $this->load->model('user/user_model', 'user_model');
         $user_details = $this->user_model->get_user_detail();
         if (!$user_details['mobile_no'] || !$user_details['address'] || !$user_details['branch_id']) {
-            $this->session->set_flashdata('error', 'Please update your profile first');
+            $this->session->set_flashdata('alert', 'Please update your profile first');
             redirect(base_url('user/profile'), 'refresh');
         }
     }

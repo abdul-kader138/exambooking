@@ -1,3 +1,4 @@
+
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
@@ -7,6 +8,15 @@
                 </h2>
             </div>
             <div class="body">
+                <?php
+                if (isset($msg) || validation_errors() !== ''): ?>
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-warning"></i> Alert!</h4>
+                        <?= validation_errors(); ?>
+                        <?= isset($msg) ? $msg : ''; ?>
+                    </div>
+                <?php endif; ?>
                 <div class="row clearfix">
                     <div class="col-md-12">
                       <?php echo form_open(base_url('admin/profile'), 'class="form-horizontal"' )?> 
@@ -82,13 +92,6 @@
                 </h2>
             </div>
             <div class="body">
-               <?php if(validation_errors() !== ''): ?>
-                  <div class="alert alert-warning alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                      <h4><i class="icon fa fa-warning"></i> Alert!</h4>
-                      <?= validation_errors();?>
-                  </div>
-                <?php endif; ?>
                <?php echo form_open(base_url('admin/profile/change_pwd'), 'class="form-horizontal"');  ?> 
                   <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">

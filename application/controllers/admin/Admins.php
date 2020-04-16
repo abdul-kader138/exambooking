@@ -60,7 +60,7 @@ class Admins extends MY_Controller
             $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
             $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
-            $this->form_validation->set_rules('mobile_no', 'Number', 'trim|required');
+            $this->form_validation->set_rules('mobile_no', 'Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
             $this->form_validation->set_rules('password', 'Password', 'trim|required');
             $this->form_validation->set_rules('address', 'Address', 'trim');
             $this->form_validation->set_rules('branch', 'Branch', 'trim');
@@ -107,7 +107,8 @@ class Admins extends MY_Controller
     public function admin_edit($id = 0)
     {
         // get all data to populate UI
-        $data['user'] = $this->admin_model->get_user_by_id($id);
+        $user_details= $this->admin_model->get_user_by_id($id);
+        $data['user'] = $user_details;
         $data['admin_types'] = $this->admin_model->get_admin_types();
         $data['branches'] = $this->admin_model->get_branches();
 
@@ -116,11 +117,14 @@ class Admins extends MY_Controller
             $this->form_validation->set_rules('firstname', 'Username', 'trim|required');
             $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
-            $this->form_validation->set_rules('mobile_no', 'Number', 'trim|required');
+            $this->form_validation->set_rules('mobile_no', 'Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
             $this->form_validation->set_rules('status', 'Status', 'trim|required');
             $this->form_validation->set_rules('address', 'Address', 'trim');
             $this->form_validation->set_rules('branch', 'Branch', 'trim');
             $this->form_validation->set_rules('admin_type', 'Admin Type', 'trim|required');
+            if ($this->input->post('email') != $user_details['email']) {
+                $this->form_validation->set_rules('email', 'Email', 'is_unique[ci_users.email]');
+            }
 
             if ($this->form_validation->run() == FALSE) {
                 $data['view'] = 'admin/admins/admin_edit';

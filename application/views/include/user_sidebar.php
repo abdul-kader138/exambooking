@@ -31,12 +31,15 @@
           <span>My Profile</span>
         </a>
       </li>
-      <li id="forms">
+      <li id="exam_registration">
         <a href="javascript:void(0);" class="menu-toggle">
           <i class="material-icons">assignment</i>
           <span>Register for Exam</span>
         </a>
         <ul class="ml-menu">
+            <li id="add_exam">
+                <a href="<?= base_url('user/exam_registration/add_exam');?>">Add New</a>
+            </li>
           <li id="basic">
             <a href="<?= base_url('user/forms/basic');?>">Basic Form Elements</a>
           </li>

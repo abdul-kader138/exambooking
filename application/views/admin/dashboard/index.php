@@ -12,7 +12,7 @@
                 </div>
                 <div class="content">
                     <div class="text">NEW USERS</div>
-                    <div class="number count-to" data-from="0" data-to="<?= $all_users; ?>" data-speed="15" data-fresh-interval="20"><?= $all_users; ?></div>
+                    <div class="number count-to" data-from="0" data-to="<?= $all_users->total; ?>" data-speed="15" data-fresh-interval="20"><?= $all_users->total; ?></div>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="content">
                     <div class="text">ACTIVE USERS</div>
-                    <div class="number count-to" data-from="0" data-to="<?= $active_users; ?>" data-speed="1000" data-fresh-interval="20"><?= $active_users; ?></div>
+                    <div class="number count-to" data-from="0" data-to="<?= $active_users->total; ?>" data-speed="1000" data-fresh-interval="20"><?= $active_users->total; ?></div>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="content">
                     <div class="text">INACTIVE USERS</div>
-                    <div class="number count-to" data-from="0" data-to="<?= $deactive_users; ?>" data-speed="1000" data-fresh-interval="20"><?= $deactive_users; ?></div>
+                    <div class="number count-to" data-from="0" data-to="<?= $deactive_users->total; ?>" data-speed="1000" data-fresh-interval="20"><?= $deactive_users->total; ?></div>
                 </div>
             </div>
         </div>
