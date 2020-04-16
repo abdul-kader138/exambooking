@@ -117,15 +117,12 @@
         }
 
         //---------------------------------------------------
-        // Get Exam Type grade Details
-        public function get_suite_by_exam_id($exam_type_types_id=null)
+        // Get Exam Type fee Details
+        public function get_suite_by_exam_id($grade_id=null,$instrument_id=null)
         {
-            $query = $this->db->get_where('ci_exam_suite', array('type_types_id'=>$exam_type_types_id));
+            $query = $this->db->get_where('ci_exam_suite_fees', array('grade_id'=>$grade_id,'instrument_id'=>$instrument_id),1);
             if ($query->num_rows() > 0) {
-                foreach (($query->result()) as $row) {
-                    $data[] = $row;
-                }
-                return $data;
+                return $query->row();
             }
             return false;
         }

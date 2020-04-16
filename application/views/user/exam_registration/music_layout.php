@@ -60,11 +60,9 @@
 <div class="row clearfix">
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="exam_suite">Exam Suite</label>
+            <label for="last_name">Exam Suite</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="exam_suite" id="exam_suite">
-                    <option value="">-- Please select Exam Suite--</option>
-                </select>
+                <input type="text" name="exam_suite" class="form-control" disabled required id="exam_suite"/>
             </div>
         </div>
     </div>
@@ -72,7 +70,7 @@
         <div class="form-group">
             <label for="fees">Fees</label>
             <div class="form-line">
-                <input type="text" name="fees" class="form-control" required placeholder=""/>
+                <input type="text" name="fees" id="fees" class="form-control" disabled required placeholder=""/>
             </div>
         </div>
     </div>
@@ -90,10 +88,6 @@
 
 <script type="application/javascript">
     $('#type').change(function () {
-        $("#instrument").selectpicker('refresh');
-        $("#grade").selectpicker('refresh');
-        $("#exam_suite").selectpicker('refresh');
-
         var exam_types = $('#exam_type').val();
         var exam_type_types = $(this).val();
         var l_type = (exam_type_types == '3' ? 'Product Name' : 'Instrument');
@@ -130,20 +124,25 @@
                 $("#grade").selectpicker('refresh');
             },
         });
+    });
+
+    $('#instrument').change(function () {
+        $("#exam_suite").val('');
+        $("#fees").val('');
+        $("#grade").selectpicker('refresh');
+    });
+
+    $('#grade').change(function () {
+        var instrument = $('#instrument').val();
+        var grade = $(this).val();
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
-            data: {exam_type_type: exam_type_types},
+            data: {instrument_id: instrument,grade_id:grade},
             dataType: "json",//return type expected as json
             success: function (states) {
-                $("#l_type").text(l_type);
-                $("#exam_suite").empty();
-                $("#exam_suite").append('<option value="">-- Please Select Exam Suite--</option>');
-                $.each(states, function (index, key) {
-                    $("#exam_suite").append('<option value=' + key.id + '>' + key.name + '</option>');
-
-                });
-                $("#exam_suite").selectpicker('refresh');
+                $("#exam_suite").val(states.suite_name);
+                $("#fees").val(states.fees);
             },
         });
     });

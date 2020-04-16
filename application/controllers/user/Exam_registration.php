@@ -36,8 +36,9 @@ class Exam_registration extends UR_Controller
         exit;
     }
     public function get_exam_suite(){
-        $exam_type_type_id=$this->input->post('exam_type_type');
-        $exam_suites=$this->exam_registration_model->get_suite_by_exam_id($exam_type_type_id);
+        $grade_id=$this->input->post('grade_id');
+        $instrument_id=$this->input->post('instrument_id');
+        $exam_suites=$this->exam_registration_model->get_suite_by_exam_id($grade_id,$instrument_id);
         echo json_encode($exam_suites);
     }
     public function get_exam_type_grade(){

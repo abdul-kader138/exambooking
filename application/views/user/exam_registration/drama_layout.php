@@ -56,11 +56,9 @@
                 </select>
             </div>
             <br>
-            <label for="exam_suite">Exam Suite</label>
+            <label for="last_name">Exam Suite</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="exam_suite" id="exam_suite">
-                    <option value="">-- Please select Exam Suite--</option>
-                </select>
+                <input type="text" name="exam_suite" class="form-control" required id="exam_suite"/>
             </div>
         </div>
     </div>
@@ -71,7 +69,7 @@
         <div class="form-group">
             <label for="fees">Fees</label>
             <div class="form-line">
-                <input type="text" name="fees" class="form-control" required placeholder=""/>
+                <input type="text" name="fees" id="fees" class="form-control" required placeholder=""/>
             </div>
         </div>
     </div>
@@ -87,6 +85,7 @@
 
 <script type="application/javascript">
     $('#type').change(function () {
+
         var exam_types = $('#exam_type').val();
         var exam_type_types = $(this).val();
         $.ajax({
@@ -101,6 +100,7 @@
                     $("#instrument").append('<option value=' + key.id + '>' + key.instrument_name + '</option>');
 
                 });
+                $("#instrument").selectpicker('refresh');
             },
         });
         $.ajax({
@@ -115,6 +115,7 @@
                     $("#grade").append('<option value=' + key.id + '>' + key.grade_name + '</option>');
 
                 });
+                $("#grade").selectpicker('refresh');
             },
         });
         $.ajax({
@@ -123,7 +124,7 @@
             data: {exam_type_type: exam_type_types},
             dataType: "json",//return type expected as json
             success: function (states) {
-                $("#l_type").text(l_type);
+                // $("#l_type").text(l_type);
                 $("#group_name").selectpicker('refresh');
                 $("#exam_suite").empty();
                 $("#exam_suite").append('<option value="">-- Please Select Exam Suite--</option>');
@@ -131,6 +132,27 @@
                     $("#exam_suite").append('<option value=' + key.id + '>' + key.name + '</option>');
 
                 });
+            },
+        });
+    });
+
+    $('#instrument').change(function () {
+        $("#exam_suite").val('');
+        $("#fees").val('');
+        $("#grade").selectpicker('refresh');
+    });
+
+    $('#grade').change(function () {
+        var instrument = $('#instrument').val();
+        var grade = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
+            data: {instrument_id: instrument,grade_id:grade},
+            dataType: "json",//return type expected as json
+            success: function (states) {
+                $("#exam_suite").val(states.suite_name);
+                $("#fees").val(states.fees);
             },
         });
     });
