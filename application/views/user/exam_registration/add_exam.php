@@ -3,19 +3,22 @@
 <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
 
 <style>
-    .btn{
+    .btn {
         font-size: 14px !important;
     }
-    .hide_content{
+
+    .hide_content {
         display: none;
     }
 </style>
 <div class="container-fluid">
+    <?php echo form_open(base_url('user/exam_registration/add_exam'), 'class="form-horizontal"'); ?>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
                     <h2>Add New Exam</h2>
+                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Registered Exam List</a>
                 </div>
                 <div class="body">
                     <div class="row clearfix">
@@ -37,7 +40,8 @@
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
                                 <div class="form-line">
-                                    <input type="text" name="first_name" class="form-control" required placeholder="Please enter first name"/>
+                                    <input type="text" name="first_name" class="form-control" required
+                                           placeholder="Please enter first name" pattern="[a-z A-Z]+" />
                                 </div>
                             </div>
                         </div>
@@ -45,7 +49,8 @@
                             <div class="form-group">
                                 <label for="last_name">Last Name</label>
                                 <div class="form-line">
-                                    <input type="text" name="last_name" class="form-control" required placeholder="Please enter first name"/>
+                                    <input type="text" name="last_name" class="form-control" required
+                                           placeholder="Please enter first name" pattern="[a-z A-Z]+" />
                                 </div>
                             </div>
                         </div>
@@ -54,9 +59,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="dob">Date Of Birth</label>
-                                <div class="form-line">
-                                    <input type="text" class="datepicker form-control" name="dob" required
-                                           placeholder="Please select Date Of Birth">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date" id="dob" name="dob" placeholder="Ex: 30/07/1998">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +85,8 @@
                             <div class="form-group">
                                 <label for="ic_no">IC No.</label>
                                 <div class="form-line">
-                                    <input type="text" name="ic_no" required class="form-control" placeholder="Please enter ic no"/>
+                                    <input type="text" name="ic_no" required class="form-control"
+                                           placeholder="Please enter ic no"/>
                                 </div>
                             </div>
                         </div>
@@ -84,26 +94,33 @@
                             <div class="form-group">
                                 <label for="school_name">School Name</label>
                                 <div class="form-line">
-                                    <input type="text" name="school_name" required class="form-control" placeholder="Please enter school name"/>
+                                    <input type="text" name="school_name" required class="form-control"
+                                           placeholder="Please enter school name"/>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="fees_val" name="fees_val">
+                        <input type="hidden" id="suite_val" name="suite_val">
                     </div>
                     <div id="template"></div>
-                    <button id="submit_info" class="btn btn-primary waves-effect hide_content" type="submit">SUBMIT</button>
+                    <button id="submit_info" class="btn btn-primary waves-effect hide_content" type="submit">ADD
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+    <?php echo form_close(); ?>
 </div>
 <div class="container-fluid">
 
     <script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
     <script src="<?= base_url() ?>public/plugins/momentjs/moment.js"></script>
     <script src="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <script src="<?= base_url() ?>public/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
+            $('#dob').inputmask({ mask: "99-99-9999"});
             $('.common').hide();
             $('#exam_type').change(function () {
                 $('.common').hide();
@@ -130,4 +147,5 @@
             });
 
         });
+
     </script>

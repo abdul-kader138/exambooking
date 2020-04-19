@@ -56,7 +56,6 @@ class Admins extends MY_Controller
         $data['branches'] = $this->admin_model->get_branches();
 
         if ($this->input->post('submit')) {
-            //$this->form_validation->set_rules('username', 'Username', 'trim|min_length[3]|required');
             $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
             $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');

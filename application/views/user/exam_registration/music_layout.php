@@ -37,7 +37,7 @@
         <div class="form-group">
             <label for="type" id="l_type">Instrument</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="instrument" id="instrument">
+                <select class="form-control show-tick" name="instrument" id="instrument" required>
                     <option value="">-- Please select Instrument--</option>
                 </select>
             </div>
@@ -48,7 +48,7 @@
         <div class="form-group">
             <label for="type" id="l_grade">Grade</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="grade" id="grade">
+                <select class="form-control show-tick" required name="grade" id="grade">
                     <option value="">-- Please select Grade--</option>
                 </select>
             </div>
@@ -62,7 +62,7 @@
         <div class="form-group">
             <label for="last_name">Exam Suite</label>
             <div class="form-line">
-                <input type="text" name="exam_suite" class="form-control" disabled required id="exam_suite"/>
+                <input type="text" name="exam_suite" class="form-control" readonly id="exam_suite"/>
             </div>
         </div>
     </div>
@@ -70,7 +70,8 @@
         <div class="form-group">
             <label for="fees">Fees</label>
             <div class="form-line">
-                <input type="text" name="fees" id="fees" class="form-control" disabled required placeholder=""/>
+                <input type="hidden" name="fees_val" id="fees_val">
+                <input type="text" name="fees" id="fees" class="form-control" readonly required placeholder=""/>
             </div>
         </div>
     </div>
@@ -88,10 +89,11 @@
 
 <script type="application/javascript">
     $('#type').change(function () {
+        $("#exam_suite").val('');
+        $("#fees").val('');
         var exam_types = $('#exam_type').val();
         var exam_type_types = $(this).val();
         var l_type = (exam_type_types == '3' ? 'Product Name' : 'Instrument');
-        var l_grade = (exam_type_types == '2' ? 'Diploma' : 'Grade');
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_type_types'); ?>",
@@ -100,18 +102,29 @@
             success: function (states) {
                 $("#l_type").text(l_type);
                 $("#instrument").empty();
+                $("#grade").empty();
                 $("#instrument").append('<option value="">-- Please Select Instrument--</option>');
                 $.each(states, function (index, key) {
                     $("#instrument").append('<option value=' + key.id + '>' + key.instrument_name + '</option>');
 
                 });
                 $("#instrument").selectpicker('refresh');
+                $("#grade").selectpicker('refresh');
             },
         });
+    });
+
+    $('#instrument').change(function () {
+        $("#exam_suite").val('');
+        $("#fees").val('');
+        var exam_type_types = $('#exam_type').val();
+        var types = $('#type').val();
+        var instruments = $(this).val();
+        var l_grade = (types == '2' ? 'Diploma' : 'Grade');
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_type_grade'); ?>",
-            data: {exam_type_type: exam_type_types},
+            data: {exam_type_type: types,instrument:instruments},
             dataType: "json",//return type expected as json
             success: function (states) {
                 $("#l_grade").text(l_grade);
@@ -126,19 +139,13 @@
         });
     });
 
-    $('#instrument').change(function () {
-        $("#exam_suite").val('');
-        $("#fees").val('');
-        $("#grade").selectpicker('refresh');
-    });
-
     $('#grade').change(function () {
         var instrument = $('#instrument').val();
         var grade = $(this).val();
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
-            data: {instrument_id: instrument,grade_id:grade},
+            data: {instrument_id: instrument, grade_id: grade},
             dataType: "json",//return type expected as json
             success: function (states) {
                 $("#exam_suite").val(states.suite_name);

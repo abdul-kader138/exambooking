@@ -35,13 +35,14 @@
         <div class="form-group">
             <label for="group_name">Group name</label>
             <div class="form-line">
-                <input type="text" name="group_name" class="form-control" required placeholder="please enter group name"/>
+                <input type="text" name="group_name" class="form-control" required
+                       placeholder="please enter group name"/>
             </div>
             <br>
-            <label for="type" id="d_type">Categories</label>
+            <label for="type" id="d_grade">Grade</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="instrument" id="instrument">
-                    <option value="">-- Please select Categories--</option>
+                <select class="form-control show-tick" required name="grade" id="grade">
+                    <option value="">-- Please select Grade--</option>
                 </select>
             </div>
         </div>
@@ -49,16 +50,16 @@
 
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="type" id="d_grade">Grade</label>
+            <label for="type" id="d_type">Categories</label>
             <div class="form-line">
-                <select class="form-control show-tick" name="grade" id="grade">
-                    <option value="">-- Please select Grade--</option>
+                <select class="form-control show-tick" required name="instrument" id="instrument">
+                    <option value="">-- Please select Categories--</option>
                 </select>
             </div>
             <br>
             <label for="last_name">Exam Suite</label>
             <div class="form-line">
-                <input type="text" name="exam_suite" class="form-control" required id="exam_suite"/>
+                <input type="text" name="exam_suite" class="form-control" readonly  id="exam_suite"/>
             </div>
         </div>
     </div>
@@ -69,7 +70,8 @@
         <div class="form-group">
             <label for="fees">Fees</label>
             <div class="form-line">
-                <input type="text" name="fees" id="fees" class="form-control" required placeholder=""/>
+                <input type="hidden" name="fees_val" id="fees_val">
+                <input type="text" name="fees" id="fees" readonly class="form-control" required placeholder=""/>
             </div>
         </div>
     </div>
@@ -103,12 +105,22 @@
                 $("#instrument").selectpicker('refresh');
             },
         });
+    });
+
+    $('#instrument').change(function () {
+        $("#exam_suite").val('');
+        $("#fees").val('');
+        var exam_type_types = $('#exam_type').val();
+        var types = $('#type').val();
+        var instruments = $(this).val();
+        var d_grade = (types == '2' ? 'Diploma' : 'Grade');
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_type_grade'); ?>",
-            data: {exam_type_type: exam_type_types},
+            data: {exam_type_type: types,instrument:instruments},
             dataType: "json",//return type expected as json
             success: function (states) {
+                $("#d_grade").text(d_grade);
                 $("#grade").empty();
                 $("#grade").append('<option value="">-- Please Select Grade--</option>');
                 $.each(states, function (index, key) {
@@ -118,28 +130,6 @@
                 $("#grade").selectpicker('refresh');
             },
         });
-        $.ajax({
-            type: "POST",
-            url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
-            data: {exam_type_type: exam_type_types},
-            dataType: "json",//return type expected as json
-            success: function (states) {
-                // $("#l_type").text(l_type);
-                $("#group_name").selectpicker('refresh');
-                $("#exam_suite").empty();
-                $("#exam_suite").append('<option value="">-- Please Select Exam Suite--</option>');
-                $.each(states, function (index, key) {
-                    $("#exam_suite").append('<option value=' + key.id + '>' + key.name + '</option>');
-
-                });
-            },
-        });
-    });
-
-    $('#instrument').change(function () {
-        $("#exam_suite").val('');
-        $("#fees").val('');
-        $("#grade").selectpicker('refresh');
     });
 
     $('#grade').change(function () {
@@ -148,7 +138,7 @@
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
-            data: {instrument_id: instrument,grade_id:grade},
+            data: {instrument_id: instrument, grade_id: grade},
             dataType: "json",//return type expected as json
             success: function (states) {
                 $("#exam_suite").val(states.suite_name);

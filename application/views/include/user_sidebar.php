@@ -37,9 +37,13 @@
           <span>Register for Exam</span>
         </a>
         <ul class="ml-menu">
+            <li id="exam_list">
+                <a href="<?= base_url('user/exam_registration'); ?>">Registered Exam List</a>
+            </li>
             <li id="add_exam">
                 <a href="<?= base_url('user/exam_registration/add_exam');?>">Add New</a>
             </li>
+
           <li id="basic">
             <a href="<?= base_url('user/forms/basic');?>">Basic Form Elements</a>
           </li>
