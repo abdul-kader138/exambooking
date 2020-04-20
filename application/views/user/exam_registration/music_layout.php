@@ -70,7 +70,6 @@
         <div class="form-group">
             <label for="fees">Fees</label>
             <div class="form-line">
-                <input type="hidden" name="fees_val" id="fees_val">
                 <input type="text" name="fees" id="fees" class="form-control" readonly required placeholder=""/>
             </div>
         </div>

@@ -90,6 +90,7 @@ class Exam_registration_model extends CI_Model
         return false;
     }
 
+
     //---------------------------------------------------
     // Get Exam Type Types Details
     public function get_instrument_by_exam_id($exam_type_id = null, $exam_type_types_id = null)
@@ -126,9 +127,13 @@ class Exam_registration_model extends CI_Model
     //---------------------------------------------------
     public function get_user_exam_details_by_id($id)
     {
-        $this->db->select('ci_user_exam_details.id,ci_user_exam_details.dob,ci_user_exam_details.gender,ci_user_exam_details.group_name,concat(ci_user_exam_details.first_name," ", ci_user_exam_details.last_name) full_name,
-		ci_time_venue.time_venue, ci_exam_type.name type_name,ci_exam_type_types.name type_type,ci_exam_instrument_product.instrument_name,ci_exam_grade_diploma.grade_name,
-		ci_user_exam_details.exam_suite,ci_user_exam_details.voucher_code,ci_user_exam_details.fees,ci_user_exam_details.school_name,ci_user_exam_details.ic_no')
+        $this->db->select('ci_user_exam_details.id,ci_user_exam_details.dob,ci_user_exam_details.gender,
+        ci_user_exam_details.group_name,ci_user_exam_details.first_name,ci_user_exam_details.last_name,
+		ci_time_venue.time_venue,ci_time_venue.id venue_id,ci_exam_type.id exam_type_id,ci_exam_type.name type_name,
+		ci_exam_type_types.id type_types_id,ci_exam_type_types.name type_type,ci_exam_instrument_product.id instrument_id,
+		ci_exam_instrument_product.instrument_name,ci_exam_grade_diploma.grade_name,ci_exam_grade_diploma.id grade_id,
+		ci_user_exam_details.exam_suite,ci_user_exam_details.voucher_code,ci_user_exam_details.fees,
+		ci_user_exam_details.school_name,ci_user_exam_details.ic_no')
             ->join('ci_time_venue', 'ci_user_exam_details.time_venue=ci_time_venue.id', 'inner')
         ->join('ci_exam_type', 'ci_user_exam_details.exam_type=ci_exam_type.id', 'inner')
         ->join('ci_exam_type_types', 'ci_user_exam_details.type=ci_exam_type_types.id', 'inner')

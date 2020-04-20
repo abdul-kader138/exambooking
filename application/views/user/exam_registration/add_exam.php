@@ -99,8 +99,6 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="fees_val" name="fees_val">
-                        <input type="hidden" id="suite_val" name="suite_val">
                     </div>
                     <div id="template"></div>
                     <button id="submit_info" class="btn btn-primary waves-effect hide_content" type="submit">ADD

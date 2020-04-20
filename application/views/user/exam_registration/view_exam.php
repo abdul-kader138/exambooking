@@ -18,7 +18,7 @@
                             <tbody>
                             <tr>
                                 <td>Full Name :</td>
-                                <td><?=$records->full_name?></td>
+                                <td><?=$records->first_name." ".$records->last_name?></td>
                                 <td>|</td>
                                 <td>Date Of Birth :</td>
                                 <td><?=$records->dob?></td>
