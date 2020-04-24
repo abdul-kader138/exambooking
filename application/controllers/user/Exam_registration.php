@@ -89,7 +89,7 @@ class Exam_registration extends UR_Controller
         $exam_type_id = $this->input->post('exam_type');
         $exam_type = $this->exam_registration_model->get_exam_type_by_id($exam_type_id);
         $exam_type_types = $this->exam_registration_model->get_exam_type_types_by_id($exam_type_id);
-        $time_venues = $this->exam_registration_model->get_time_venue();
+        $time_venues = $this->exam_registration_model->get_time_venue($exam_type_id);
         $view_name = isset($exam_type) ? strtolower($exam_type['name']) : '';
 
         $html = $this->load->view('user/exam_registration/' . $view_name . '_layout',
@@ -100,13 +100,20 @@ class Exam_registration extends UR_Controller
         exit;
     }
 
-    public function get_exam_suite()
+    public function get_types_by_exam_type_id()
     {
-        $grade_id = $this->input->post('grade_id');
-        $instrument_id = $this->input->post('instrument_id');
-        $exam_suites = $this->exam_registration_model->get_suite_by_exam_id($grade_id, $instrument_id);
+        $exam_type_id = $this->input->post('exam_type');
+        $exam_suites = $this->exam_registration_model->get_types_by_exam_type_id($exam_type_id);
         echo json_encode($exam_suites);
     }
+
+    public function get_venues_by_exam_type_id()
+    {
+        $exam_type_id = $this->input->post('exam_type');
+        $time_venues = $this->exam_registration_model->get_time_venue($exam_type_id);
+        echo json_encode($time_venues);
+    }
+
 
     public function get_exam_type_grade()
     {
@@ -124,12 +131,20 @@ class Exam_registration extends UR_Controller
         echo json_encode($exam_instruments);
     }
 
+    public function get_exam_suite()
+    {
+        $grade_id = $this->input->post('grade_id');
+        $instrument_id = $this->input->post('instrument_id');
+        $exam_suites = $this->exam_registration_model->get_suite_by_exam_id($grade_id, $instrument_id);
+        echo json_encode($exam_suites);
+    }
     public function add_exam()
     {
 
         $this->form_validation->set_rules('exam_type', "Exam Type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('first_name', "First Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
         $this->form_validation->set_rules('last_name', "Last Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
+        $this->form_validation->set_rules('dob', "Date of Birth", 'xss_clean|trim|required');
 //        $this->form_validation->set_rules('dob', "exam_type", 'xss_clean|trim|required|regex_match[/^(0[1-9]|1[012])([- /.])(0[1-9]|[12][0-9]|3[01])\2(19|20)\d\d/]');
         $this->form_validation->set_rules('gender', "Gender", 'xss_clean|trim|required');
         $this->form_validation->set_rules('ic_no', "IC No", 'xss_clean|trim|required');
@@ -220,13 +235,13 @@ class Exam_registration extends UR_Controller
                 'exam_suite' => $this->input->post('exam_suite'),
                 'voucher_code' => $this->input->post('voucher_code'),
                 'group_name' => $this->input->post('group_name'),
-                'created_date' => date('Y-m-d : h:m:s'),
-                'created_by' => $this->session->userdata('user_id'),
+                'updated_date' => date('Y-m-d : h:m:s'),
+                'updated_by' => $this->session->userdata('user_id'),
 
             );
         }
-        if ($this->form_validation->run() == true && $this->exam_registration_model->add_exam($data)) {
-            $this->session->set_flashdata('msg', 'Exam information has been added successfully!');
+        if ($this->form_validation->run() == true && $this->exam_registration_model->update_exam($data,$id)) {
+            $this->session->set_flashdata('msg', 'Exam information has been updated successfully!');
             redirect(base_url('user/exam_registration'));
         }else{
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
@@ -234,7 +249,7 @@ class Exam_registration extends UR_Controller
             $data['records'] =$records;
             $data['exam_types'] = $this->exam_registration_model->get_exam_types();
             $data['exam_type_types'] = $this->exam_registration_model->get_exam_type_types_by_id($records->exam_type_id);
-            $data['time_venues'] = $this->exam_registration_model->get_time_venue();
+            $data['time_venues'] = $this->exam_registration_model->get_time_venue($records->exam_type_id);
             $data['grade_lists'] = $this->exam_registration_model->get_grade_by_exam_id($records->type_types_id,$records->instrument_id);
             $data['instrument_lists'] = $this->exam_registration_model->get_instrument_by_exam_id($records->exam_type_id, $records->type_types_id);
 

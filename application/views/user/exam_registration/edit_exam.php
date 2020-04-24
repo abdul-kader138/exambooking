@@ -12,12 +12,12 @@
     }
 </style>
 <div class="container-fluid">
-    <?php echo form_open(base_url('user/exam_registration/edit_exam'), 'class="form-horizontal"'); ?>
+     <?php echo form_open(base_url('user/exam_registration/edit_exam/' . $records->id), 'class="form-horizontal"'); ?>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <h2>Add New Exam</h2>
+                    <h2>Edit Exam</h2>
                     <a href="<?= base_url('user/exam_registration/'); ?>"
                        class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Registered
                         Exam List</a>
@@ -68,7 +68,7 @@
                                         <i class="material-icons">date_range</i>
                                     </span>
                                     <div class="form-line">
-                                        <?php echo form_input('dob', $records->dob, 'class="form-control input-tip" 
+                                        <?php echo form_input('dob', $this->functions->reformatDate($records->dob), 'class="form-control input-tip" 
                                       placeholder="Ex: 30/07/1998" required="required" id="dob"'); ?>
                                     </div>
                                 </div>
@@ -135,17 +135,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row clearfix">
+                    <div class="row clearfix" id="group_name_show">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <?php if ($records->exam_type_id == 2) { ?>
+<!--                                --><?php //if ($records->exam_type_id == 2) { ?>
                                     <label for="group_name">Group name</label>
                                     <div class="form-line">
                                         <?php echo form_input('group_name', $records->group_name, 'class="form-control input-tip" 
                                        placeholder="please enter group name"  id="group_name"'); ?>
                                     </div>
                                     <br>
-                                <?php } ?>
+<!--                                --><?php //} ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label for="type" id="d_type">Instrument/Product/Categories</label>
                                 <div class="form-line">
                                     <?php
@@ -171,12 +177,6 @@
                                     echo form_dropdown('grade', $grade_list, $records->grade_id, 'id="grade" class="form-control show-tick select"  required="required" ');
                                     ?>
                                 </div>
-                                <br>
-                                <label for="last_name">Exam Suite</label>
-                                <div class="form-line">
-                                    <?php echo form_input('exam_suite', $records->exam_suite, 'class="form-control readonly input-tip" 
-                                         id="exam_suite"'); ?>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,13 +184,28 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label for="last_name">Exam Suite</label>
+                                <div class="form-line">
+                                    <?php
+                                    $att = array('name' => 'exam_suite', 'type' => 'text', 'readonly' => 'readonly');
+                                    echo form_input($att, $records->exam_suite, 'class="form-control readonly input-tip" 
+                                         id="exam_suite"'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label for="fees">Fees</label>
                                 <div class="form-line">
-                                    <?php echo form_input('fees', $records->fees, 'class="form-control readonly input-tip" 
+                                    <?php
+                                    $att = array('name' => 'fees', 'type' => 'text', 'readonly' => 'readonly');
+                                    echo form_input($att, $records->fees, 'class="form-control input-tip" 
                                          id="fees"'); ?>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="voucher_code">Voucher Code</label>
@@ -203,7 +218,7 @@
                     </div>
 
                     <div id="template"></div>
-                    <button id="submit_info" class="btn btn-primary waves-effect hide_content" type="submit">ADD
+                    <button id="submit_info" class="btn btn-primary waves-effect" type="submit">Edit
                     </button>
                 </div>
             </div>
@@ -220,32 +235,115 @@
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            $('#dob').inputmask({mask: "99-99-9999"});
-            // $('.common').hide();
+            $('#dob').inputmask({ mask: "99-99-9999"});
+            var exam_types = $('#exam_type').val();
+            if (exam_types == '2') $('#group_name_show').show();
+            else $('#group_name_show').hide();
+
             $('#exam_type').change(function () {
-                $('.common').hide();
                 var exam_types = $(this).val();
+                if (exam_types == '2') $('#group_name_show').show();
+                else $('#group_name_show').hide();
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo site_url('user/exam_registration/get_exam_details'); ?>",
+                    url: "<?php echo site_url('user/exam_registration/get_types_by_exam_type_id'); ?>",
                     data: {exam_type: exam_types},
                     dataType: "json",//return type expected as json
                     success: function (states) {
-                        $('.common').show();
+                        $("#exam_suite").val('');
+                        $("#fees").val('');
+                        $("#group_name").val('');
+                        $('#instrument').empty();
+                        $('#grade').empty();
+                        $('#type').empty();
+                        $("#type").append('<option value="">-- Please Select Type--</option>');
+                        $.each(states, function (index, key) {
+                            $("#type").append('<option value=' + key.id + '>' + key.name + '</option>');
 
-                        // refreh all option
-                        $('#template').empty();
-                        $('#template').append(states.html);
+                        });
                         $("#time_venue").selectpicker('refresh');
                         $("#type").selectpicker('refresh');
                         $("#instrument").selectpicker('refresh');
                         $("#grade").selectpicker('refresh');
-                        $("#exam_suite").selectpicker('refresh');
-                        $("#submit_info").show();
+                    },
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo site_url('user/exam_registration/get_venues_by_exam_type_id'); ?>",
+                    data: {exam_type: exam_types},
+                    dataType: "json",//return type expected as json
+                    success: function (states) {
+                        $('#time_venue').empty();
+                        $("#time_venue").append('<option value="">-- Please Select Time & Venue--</option>');
+                        $.each(states, function (index, key) {
+                            $("#time_venue").append('<option value=' + key.id + '>' + key.time_venue + '</option>');
+
+                        });
+                        $("#time_venue").selectpicker('refresh');
                     },
                 });
             });
 
+            $('#type').change(function () {
+                var exam_types = $('#exam_type').val();
+                var exam_type_types = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo site_url('user/exam_registration/get_exam_type_types'); ?>",
+                    data: {exam_type: exam_types, exam_type_type: exam_type_types},
+                    dataType: "json",//return type expected as json
+                    success: function (states) {
+                        $("#instrument").empty();
+                        $("#grade").empty();
+                        $("#instrument").append('<option value="">-- Please select Instrument--</option>');
+                        $.each(states, function (index, key) {
+                            $("#instrument").append('<option value=' + key.id + '>' + key.instrument_name + '</option>');
+
+                        });
+                        $("#instrument").selectpicker('refresh');
+                        $("#grade").selectpicker('refresh');
+                        $("#exam_suite").val('');
+                        $("#fees").val('');
+                    },
+                });
+            });
+            $('#instrument').change(function () {
+                $("#exam_suite").val('');
+                $("#fees").val('');
+                var types = $('#type').val();
+                var instruments = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo site_url('user/exam_registration/get_exam_type_grade'); ?>",
+                    data: {exam_type_type: types, instrument: instruments},
+                    dataType: "json",//return type expected as json
+                    success: function (states) {
+                        // $("#d_grade").text(d_grade);
+                        $("#grade").empty();
+                        $("#grade").append('<option value="">-- Please Select Grade--</option>');
+                        $.each(states, function (index, key) {
+                            $("#grade").append('<option value=' + key.id + '>' + key.grade_name + '</option>');
+
+                        });
+                        $("#grade").selectpicker('refresh');
+                    },
+                });
+            });
+
+            $('#grade').change(function () {
+                var instrument = $('#instrument').val();
+                var grade = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo site_url('user/exam_registration/get_exam_suite'); ?>",
+                    data: {instrument_id: instrument, grade_id: grade},
+                    dataType: "json",//return type expected as json
+                    success: function (states) {
+                        $("#exam_suite").val(states.suite_name);
+                        $("#fees").val(states.fees);
+                    },
+                });
+            });
         });
 
     </script>

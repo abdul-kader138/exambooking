@@ -1,6 +1,5 @@
 <div class="container-fluid">
     <!-- Basic Table -->
-    <? var_dump($records);?>
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card">
@@ -21,7 +20,7 @@
                                 <td><?=$records->first_name." ".$records->last_name?></td>
                                 <td>|</td>
                                 <td>Date Of Birth :</td>
-                                <td><?=$records->dob?></td>
+                                <td><?=$this->functions->reformatDate($records->dob)?></td>
                             </tr>
                             <tr>
                                 <td>Gender :</td>
@@ -48,7 +47,7 @@
                                 <td>Instrument/Product/Category :</td>
                                 <td><?=$records->instrument_name?></td>
                                 <td>|</td>
-                                <td>Grade :</td>
+                                <td>Grade/Diploma :</td>
                                 <td><?=$records->grade_name?></td>
                             </tr>
                             <tr>

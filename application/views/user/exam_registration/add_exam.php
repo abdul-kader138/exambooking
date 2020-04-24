@@ -118,7 +118,7 @@
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            $('#dob').inputmask({ mask: "99-99-9999"});
+            $('#dob').inputmask("99/99/9999");
             $('.common').hide();
             $('#exam_type').change(function () {
                 $('.common').hide();
