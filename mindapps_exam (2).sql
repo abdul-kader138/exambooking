@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2020 at 09:14 PM
+-- Generation Time: Apr 24, 2020 at 08:27 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -373,7 +373,26 @@ INSERT INTO `ci_activity_log` (`id`, `activity_id`, `user_id`, `created_at`) VAL
 (335, 4, 54, '2020-04-16 08:08:12'),
 (336, 4, 57, '2020-04-16 08:11:20'),
 (337, 4, 57, '2020-04-16 15:03:35'),
-(338, 4, 57, '2020-04-16 20:43:06');
+(338, 4, 57, '2020-04-16 20:43:06'),
+(339, 4, 57, '2020-04-18 12:45:44'),
+(340, 4, 57, '2020-04-19 10:52:12'),
+(341, 5, 57, '2020-04-19 11:08:08'),
+(342, 4, 54, '2020-04-19 11:08:28'),
+(343, 5, 54, '2020-04-19 11:12:34'),
+(344, 4, 57, '2020-04-19 11:12:50'),
+(345, 5, 57, '2020-04-19 12:40:02'),
+(346, 5, 57, '2020-04-19 12:40:02'),
+(347, 4, 54, '2020-04-19 12:40:14'),
+(348, 5, 54, '2020-04-19 12:43:02'),
+(349, 4, 57, '2020-04-19 12:43:15'),
+(350, 5, 57, '2020-04-19 16:15:46'),
+(351, 4, 57, '2020-04-19 16:16:03'),
+(352, 5, 57, '2020-04-19 16:16:14'),
+(353, 4, 54, '2020-04-19 16:16:37'),
+(354, 5, 54, '2020-04-19 16:28:21'),
+(355, 4, 57, '2020-04-19 16:28:37'),
+(356, 4, 57, '2020-04-19 20:43:18'),
+(357, 4, 57, '2020-04-20 10:59:58');
 
 -- --------------------------------------------------------
 
@@ -54905,28 +54924,34 @@ CREATE TABLE `ci_time_venue` (
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL
+  `updated_date` datetime DEFAULT NULL,
+  `exam_type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ci_time_venue`
 --
 
-INSERT INTO `ci_time_venue` (`id`, `time_venue`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
-(1, 'Kajang: 18 May - 22 May\r\n', NULL, NULL, NULL, NULL),
-(2, 'Klang: 22 Jun - 26 Jun', NULL, NULL, NULL, NULL),
-(3, 'Kota Kinabalu: 4 May - 8 May', 0, 0, NULL, NULL),
-(4, 'Kuala Lumpur 11 May - 22 May', 0, 0, NULL, NULL),
-(5, 'Petaling Jaya 1 Jun - 30 Jun', 0, 0, NULL, NULL),
-(6, 'Petaling Jaya: 1 July - 10 July', 0, 0, NULL, NULL),
-(7, 'Sandakan 11 May - 13 May', 0, 0, NULL, NULL),
-(8, 'Seremban: 22 Jun - 30 Jun', 0, 0, NULL, NULL),
-(9, 'Tawau: May', 0, 0, NULL, NULL),
-(10, 'Bentong', 0, 0, NULL, NULL),
-(11, 'Jerantut', 0, 0, NULL, NULL),
-(12, 'Kuantan', 0, 0, NULL, NULL),
-(13, 'Raub', 0, 0, NULL, NULL),
-(14, 'Others', 0, 0, NULL, NULL);
+INSERT INTO `ci_time_venue` (`id`, `time_venue`, `created_by`, `updated_by`, `created_date`, `updated_date`, `exam_type_id`) VALUES
+(1, 'Kajang: 18 May - 22 May\r\n', NULL, NULL, NULL, NULL, 1),
+(2, 'Klang: 22 Jun - 26 Jun', NULL, NULL, NULL, NULL, 1),
+(3, 'Kota Kinabalu: 4 May - 8 May', 0, 0, NULL, NULL, 1),
+(4, 'Kuala Lumpur 11 May - 22 May', 0, 0, NULL, NULL, 1),
+(5, 'Petaling Jaya 1 Jun - 30 Jun', 0, 0, NULL, NULL, 1),
+(6, 'Petaling Jaya: 1 July - 10 July', 0, 0, NULL, NULL, 1),
+(7, 'Sandakan 11 May - 13 May', 0, 0, NULL, NULL, 1),
+(8, 'Seremban: 22 Jun - 30 Jun', 0, 0, NULL, NULL, 1),
+(9, 'Tawau: May', 0, 0, NULL, NULL, 1),
+(10, 'Bentong', 0, 0, NULL, NULL, 1),
+(11, 'Jerantut', 0, 0, NULL, NULL, 1),
+(12, 'Kuantan', 0, 0, NULL, NULL, 1),
+(13, 'Raub', 0, 0, NULL, NULL, 1),
+(14, 'Others', 0, 0, NULL, NULL, 1),
+(15, 'Trinity National Office: 27 July - 5 Aug', NULL, NULL, NULL, NULL, 2),
+(16, 'Others', NULL, NULL, NULL, NULL, 2),
+(17, 'Trinity National Office: 27 July - 5 Aug', NULL, NULL, NULL, NULL, 3),
+(18, 'Trinity National Office: 6 Aug - 7 Aug', NULL, NULL, NULL, NULL, 3),
+(19, 'Others', NULL, NULL, NULL, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -54990,6 +55015,46 @@ INSERT INTO `ci_users` (`id`, `username`, `firstname`, `lastname`, `email`, `mob
 (60, '', 'Bond-007', 'Kader', 'y@y.com', '01781870371', '$2y$10$L4j/qbhXniM4dGFk/HUNPu5NAA6mMws0Lgbzk7NkeIOKZqEOt882a', '', 1, 1, 1, 0, '', '', '', '2020-03-31 00:00:00', '2020-03-31 00:00:00', 1, 18),
 (61, '', 'ZZZ', 'XXX', 'v@v.com', '01819104914', '$2y$10$TdsAEChU8A3sGJuk.4dwAOR/BELFapNoU5BVm1LOwpljh20Gz3Ldq', '111,Tejgaon I/A-Dhaka-1206', 1, 1, 1, 0, '', '', '', '2020-04-01 00:00:00', '2020-04-01 00:00:00', 1, 17),
 (62, '', 'SSS', 'DDD', 'g@g.com', '01787688674', '$2y$10$2BzT5a7xvI27YbO6XK78R.6z13.nVasxmQgAeuWx1AbFxHhMEdOZC', '05,Mohakhali C/A,Dhaka-1212', 1, 1, 1, 0, '', '', '', '2020-04-01 00:00:00', '2020-04-01 00:00:00', 1, 17);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ci_user_exam_details`
+--
+
+CREATE TABLE `ci_user_exam_details` (
+  `id` int(11) NOT NULL,
+  `exam_type` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `dob` date NOT NULL,
+  `gender` varchar(50) NOT NULL,
+  `ic_no` varchar(50) NOT NULL,
+  `school_name` varchar(50) NOT NULL,
+  `type` int(11) NOT NULL,
+  `instrument` int(11) NOT NULL,
+  `grade` int(11) NOT NULL,
+  `exam_suite` varchar(50) DEFAULT NULL,
+  `group_name` varchar(50) DEFAULT NULL,
+  `fees` varchar(10) NOT NULL,
+  `time_venue` varchar(50) NOT NULL,
+  `voucher_code` varchar(50) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ci_user_exam_details`
+--
+
+INSERT INTO `ci_user_exam_details` (`id`, `exam_type`, `first_name`, `last_name`, `dob`, `gender`, `ic_no`, `school_name`, `type`, `instrument`, `grade`, `exam_suite`, `group_name`, `fees`, `time_venue`, `voucher_code`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
+(23, 2, 'Abdul', 'Kader', '1985-01-01', 'Male', '457812223', 'Testing.....', 6, 140, 43, 'Performing Diplomas', 'Admin_User', '1505', '15', '12455556', 57, 57, '2020-04-20 00:00:00', '2020-04-21 00:00:00'),
+(24, 3, 'Redwan', 'Alif', '1998-01-02', 'Male', '651247893', 'Testing', 7, 170, 50, 'GESE', NULL, '360', '6', '', 57, NULL, '2020-04-20 00:00:00', NULL),
+(25, 2, 'Paragon Agro Ltd', 'Process', '0000-00-00', 'Male', '45781222', 'Testing', 5, 106, 34, 'Acting and Speaking', 'Admin_User', '596', '15', '', 57, NULL, '2020-04-21 00:00:00', NULL),
+(26, 1, 'Tanveer', 'Ltd', '0000-00-00', 'Female', '45781222', 'Test', 1, 5, 7, 'Brass', NULL, '520', '2', '', 57, NULL, '2020-04-21 00:00:00', NULL),
+(27, 1, 'Tanveer', 'Ltd', '1986-01-18', 'Male', '45781222', 'Testing', 3, 91, 57, 'Theory', NULL, '170', '7', '', 57, NULL, '2020-04-21 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -55128,7 +55193,7 @@ ALTER TABLE `ci_states`
 --
 ALTER TABLE `ci_time_venue`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `time_venu` (`time_venue`);
+  ADD UNIQUE KEY `time_venue` (`time_venue`,`exam_type_id`);
 
 --
 -- Indexes for table `ci_uploaded_files`
@@ -55140,6 +55205,12 @@ ALTER TABLE `ci_uploaded_files`
 -- Indexes for table `ci_users`
 --
 ALTER TABLE `ci_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ci_user_exam_details`
+--
+ALTER TABLE `ci_user_exam_details`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -55156,7 +55227,7 @@ ALTER TABLE `ci_user_groups`
 -- AUTO_INCREMENT for table `ci_activity_log`
 --
 ALTER TABLE `ci_activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=339;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
 --
 -- AUTO_INCREMENT for table `ci_activity_status`
 --
@@ -55236,7 +55307,7 @@ ALTER TABLE `ci_states`
 -- AUTO_INCREMENT for table `ci_time_venue`
 --
 ALTER TABLE `ci_time_venue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `ci_uploaded_files`
 --
@@ -55247,6 +55318,11 @@ ALTER TABLE `ci_uploaded_files`
 --
 ALTER TABLE `ci_users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+--
+-- AUTO_INCREMENT for table `ci_user_exam_details`
+--
+ALTER TABLE `ci_user_exam_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `ci_user_groups`
 --
