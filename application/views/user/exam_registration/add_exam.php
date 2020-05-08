@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="header">
                     <h2>Add New Exam</h2>
-                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Registered Exam List</a>
+                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
                 </div>
                 <div class="body">
                     <div class="row clearfix">
@@ -38,7 +38,7 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="first_name">First Name</label>
+                                <label for="first_name">First Name (eg. Abdullah, Carol Lim)</label>
                                 <div class="form-line">
                                     <input type="text" name="first_name" class="form-control" required
                                            placeholder="Please enter first name" pattern="[a-z A-Z]+" />
@@ -47,10 +47,10 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="last_name">Last Name</label>
+                                <label for="last_name">Second Name (eg. Bin Musa, Shi Ting)</label>
                                 <div class="form-line">
                                     <input type="text" name="last_name" class="form-control" required
-                                           placeholder="Please enter first name" pattern="[a-z A-Z]+" />
+                                           placeholder="Please enter second name" pattern="[a-z A-Z]+" />
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                         <i class="material-icons">date_range</i>
                                     </span>
                                     <div class="form-line">
-                                        <input type="text" class="form-control date" id="dob" name="dob" placeholder="Ex: 30/07/1998">
+                                        <input class="form-control col-md-3" data-inputmask-alias="dd/mm/yyyy" data-inputmask="'yearrange': { 'minyear': '1917', 'maxyear': '2019' }" data-val="true" data-val-required="Required" id="dob" name="dob" placeholder="Ex: 30/07/1998" type="text" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -83,18 +83,9 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="ic_no">IC No.</label>
-                                <div class="form-line">
-                                    <input type="text" name="ic_no" required class="form-control"
-                                           placeholder="Please enter ic no"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
                                 <label for="school_name">School Name</label>
                                 <div class="form-line">
-                                    <input type="text" name="school_name" required class="form-control"
+                                    <input type="text" name="school_name" class="form-control"
                                            placeholder="Please enter school name"/>
                                 </div>
                             </div>

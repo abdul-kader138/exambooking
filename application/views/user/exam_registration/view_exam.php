@@ -7,7 +7,7 @@
                     <h2>
                         Exam Details (ID- <?=$records->id ?>)
                     </h2>
-                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Registered Exam List</a>
+                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates </a>
 
                 </div>
                 <div class="body table-responsive">
@@ -26,8 +26,8 @@
                                 <td>Gender :</td>
                                 <td><?=$records->gender?></td>
                                 <td>|</td>
-                                <td>IC No :</td>
-                                <td><?=$records->ic_no?></td>
+                                <td>Voucher Code</td>
+                                <td><?=$records->voucher_code?></td>
                             </tr>
                             <tr>
                                 <td>School Name :</td>
@@ -61,8 +61,8 @@
                                 <td>Fees :</td>
                                 <td><?=$records->fees?></td>
                                 <td>|</td>
-                                <td>Voucher Code</td>
-                                <td><?=$records->voucher_code?></td>
+                                <td>Submitted :</td>
+                                <td><?=$records->submitted?></td>
                             </tr>
                             </tbody>
                         </table>

@@ -9,9 +9,10 @@
         <div class="card">
             <div class="header">
                 <h2 style="display: inline-block;">
-                    Registered Exam List
+                    Candidates
                 </h2>
-                <a href="<?= base_url('user/exam_registration/add_exam'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i
+                <a href="<?= base_url('user/exam_registration/add_exam'); ?>"
+                   class="btn bg-deep-orange waves-effect pull-right"><i
                             class="material-icons">view_list</i> ADD New Exam</a>
             </div>
             <div class="body">
@@ -20,37 +21,41 @@
                         <thead>
                         <tr>
                             <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Second Name</th>
                             <th>School Name</th>
-                            <th>IC No</th>
                             <th>Venue</th>
                             <th>Type</th>
                             <th>Exam Type</th>
                             <th>Instrument/Product</br>/Category</th>
                             <th>Grade</th>
-                            <th>Exam Suite</th>
                             <th>Fees</th>
+                            <th>Submitted</th>
                             <th width="200" class="text-right">Action</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Second Name</th>
                             <th>School Name</th>
-                            <th>IC No</th>
                             <th>Venue</th>
                             <th>Type</th>
                             <th>Exam Type</th>
                             <th>Instrument/Product</br>/Category</th>
                             <th>Grade</th>
-                            <th>Exam Suite</th>
                             <th>Fees</th>
+                            <th>Submitted</th>
                             <th style="width: 150px;" class="text-right">Action</th>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
+                <?php if (!empty($user_exam_details)) { ?>
+                    <div style="margin-top: 20px;">
+                        <a href="<?= base_url('user/exam_submission/submit_exam'); ?>"
+                           class="btn bg-pink waves-effect pull-left"> Submit</a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -86,20 +91,19 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('user/exam_registration/datatable_json')?>",
-        "order": [[2, 'desc']],
+        "order": [[9, 'asc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_user_exam_details.first_name", 'searchable': true, 'orderable': true},
             {"targets": 1, "name": "ci_user_exam_details.last_name", 'searchable': true, 'orderable': true},
             {"targets": 2, "name": "ci_user_exam_details.school_name", 'searchable': true, 'orderable': true},
-            {"targets": 3, "name": "ci_user_exam_details.ic_no", 'searchable': true, 'orderable': true},
-            {"targets": 4, "name": "ci_time_venue.time_venue", 'searchable': true, 'orderable': true},
-            {"targets": 5, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
-            {"targets": 6, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
-            {"targets": 7, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},
-            {"targets": 8, "name": "ci_exam_grade_diploma.grade_name", 'searchable': true, 'orderable': true},
-            {"targets": 9, "name": "ci_user_exam_details.exam_suite", 'searchable': true, 'orderable': true},
-            {"targets": 10, "name": "ci_user_exam_details.fees", 'searchable': true, 'orderable': true},
-            {"targets": 11, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
+            {"targets": 3, "name": "ci_time_venue.time_venue", 'searchable': true, 'orderable': true},
+            {"targets": 4, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
+            {"targets": 5, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
+            {"targets": 6, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},
+            {"targets": 7, "name": "ci_exam_grade_diploma.grade_name", 'searchable': true, 'orderable': true},
+            {"targets": 8, "name": "ci_user_exam_details.fees", 'searchable': true, 'orderable': true},
+            {"targets": 9, "name": "ci_user_exam_details.submitted", 'searchable': true, 'orderable': true},
+            {"targets": 10, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });
 </script>

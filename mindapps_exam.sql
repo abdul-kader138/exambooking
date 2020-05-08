@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.9.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 24, 2020 at 08:27 PM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 5.6.31
+-- Host: localhost:3306
+-- Generation Time: May 09, 2020 at 02:01 AM
+-- Server version: 5.7.30
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -392,7 +392,101 @@ INSERT INTO `ci_activity_log` (`id`, `activity_id`, `user_id`, `created_at`) VAL
 (354, 5, 54, '2020-04-19 16:28:21'),
 (355, 4, 57, '2020-04-19 16:28:37'),
 (356, 4, 57, '2020-04-19 20:43:18'),
-(357, 4, 57, '2020-04-20 10:59:58');
+(357, 4, 38, '2020-04-19 19:58:33'),
+(358, 4, 50, '2020-04-20 09:54:40'),
+(359, 5, 50, '2020-04-20 09:56:15'),
+(360, 4, 3, '2020-04-20 09:56:27'),
+(361, 5, 3, '2020-04-20 09:57:34'),
+(362, 4, 50, '2020-04-20 09:57:53'),
+(363, 5, 50, '2020-04-20 09:58:45'),
+(364, 4, 3, '2020-04-20 09:59:07'),
+(365, 2, 3, '2020-04-20 18:00:17'),
+(366, 5, 3, '2020-04-20 10:00:27'),
+(367, 4, 3, '2020-04-20 10:02:04'),
+(368, 3, 3, '2020-04-20 18:02:57'),
+(369, 3, 3, '2020-04-20 18:03:02'),
+(370, 5, 3, '2020-04-20 10:03:17'),
+(371, 4, 67, '2020-04-20 10:08:40'),
+(372, 4, 38, '2020-04-20 17:49:16'),
+(373, 4, 38, '2020-04-20 19:21:27'),
+(374, 5, 38, '2020-04-20 19:25:32'),
+(375, 4, 38, '2020-04-20 19:29:03'),
+(376, 5, 38, '2020-04-20 19:30:38'),
+(377, 4, 3, '2020-04-21 16:23:38'),
+(378, 2, 3, '2020-04-22 00:25:13'),
+(379, 5, 3, '2020-04-21 16:25:20'),
+(380, 4, 50, '2020-04-21 16:25:32'),
+(381, 4, 50, '2020-04-22 07:17:07'),
+(382, 5, 50, '2020-04-22 08:12:54'),
+(383, 4, 50, '2020-04-22 08:13:51'),
+(384, 5, 50, '2020-04-22 08:45:35'),
+(385, 4, 3, '2020-04-22 08:45:47'),
+(386, 4, 38, '2020-04-22 08:51:26'),
+(387, 5, 3, '2020-04-22 08:51:45'),
+(388, 4, 50, '2020-04-22 08:51:58'),
+(389, 5, 50, '2020-04-22 08:53:37'),
+(390, 5, 38, '2020-04-22 08:53:56'),
+(391, 4, 53, '2020-04-22 08:54:17'),
+(392, 4, 3, '2020-04-22 08:55:22'),
+(393, 5, 3, '2020-04-22 08:55:28'),
+(394, 4, 50, '2020-04-22 08:55:39'),
+(395, 5, 53, '2020-04-22 08:56:16'),
+(396, 5, 50, '2020-04-22 09:01:34'),
+(397, 4, 3, '2020-04-22 10:56:44'),
+(398, 4, 68, '2020-04-23 14:07:05'),
+(399, 5, 68, '2020-04-23 14:17:45'),
+(400, 4, 69, '2020-04-24 01:24:05'),
+(401, 5, 69, '2020-04-24 03:19:39'),
+(402, 4, 68, '2020-04-27 02:22:15'),
+(403, 4, 50, '2020-04-29 15:37:12'),
+(404, 4, 50, '2020-04-30 03:16:54'),
+(405, 4, 38, '2020-04-30 18:16:30'),
+(406, 4, 50, '2020-05-01 05:42:19'),
+(407, 4, 50, '2020-05-01 06:43:43'),
+(408, 4, 38, '2020-05-01 07:34:56'),
+(409, 4, 3, '2020-05-01 09:04:53'),
+(410, 5, 3, '2020-05-01 09:09:39'),
+(411, 4, 50, '2020-05-01 09:09:52'),
+(412, 4, 50, '2020-05-01 09:18:02'),
+(413, 5, 50, '2020-05-01 10:51:10'),
+(414, 4, 38, '2020-05-07 19:32:38'),
+(415, 4, 38, '2020-05-07 19:33:37'),
+(416, 4, 50, '2020-05-08 00:48:59'),
+(417, 4, 38, '2020-05-08 04:26:05'),
+(418, 5, 38, '2020-05-08 04:49:26'),
+(419, 4, 53, '2020-05-08 04:49:40'),
+(420, 5, 53, '2020-05-08 04:58:54'),
+(421, 4, 38, '2020-05-08 04:59:02'),
+(422, 4, 50, '2020-05-08 06:06:32'),
+(423, 5, 50, '2020-05-08 06:15:23'),
+(424, 5, 38, '2020-05-08 07:30:56'),
+(425, 4, 53, '2020-05-08 07:31:04'),
+(426, 4, 38, '2020-05-08 09:36:21'),
+(427, 5, 38, '2020-05-08 09:36:55'),
+(428, 4, 3, '2020-05-08 09:43:03'),
+(429, 5, 3, '2020-05-08 09:43:47'),
+(430, 4, 50, '2020-05-08 09:45:03'),
+(431, 5, 50, '2020-05-08 09:52:48'),
+(432, 4, 3, '2020-05-08 09:53:07'),
+(433, 1, 3, '2020-05-08 17:57:18'),
+(434, 5, 3, '2020-05-08 09:58:03'),
+(435, 4, 50, '2020-05-08 09:58:14'),
+(436, 5, 50, '2020-05-08 10:04:14'),
+(437, 4, 3, '2020-05-08 10:04:26'),
+(438, 5, 3, '2020-05-08 10:10:42'),
+(439, 4, 50, '2020-05-08 10:11:01'),
+(440, 5, 50, '2020-05-08 10:11:32'),
+(441, 4, 3, '2020-05-08 10:11:44'),
+(442, 5, 3, '2020-05-08 10:26:37'),
+(443, 4, 3, '2020-05-08 10:27:56'),
+(444, 2, 3, '2020-05-08 18:32:20'),
+(445, 5, 3, '2020-05-08 10:32:25'),
+(446, 4, 48, '2020-05-08 10:33:02'),
+(447, 4, 53, '2020-05-08 10:40:21'),
+(448, 4, 50, '2020-05-08 15:12:19'),
+(449, 5, 50, '2020-05-08 15:17:05'),
+(450, 4, 3, '2020-05-08 15:22:25'),
+(451, 4, 38, '2020-05-08 17:20:57');
 
 -- --------------------------------------------------------
 
@@ -49006,43 +49100,43 @@ INSERT INTO `ci_exam_instrument_product` (`id`, `instrument_name`, `created_by`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ci_exam_suite`
+-- Table structure for table `ci_exam_submission_details`
 --
 
-CREATE TABLE `ci_exam_suite` (
+CREATE TABLE `ci_exam_submission_details` (
   `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `last_name` varchar(25) NOT NULL,
+  `first_name` varchar(25) NOT NULL,
+  `ref_no` varchar(50) NOT NULL,
+  `venue` varchar(100) NOT NULL,
+  `exam_types` varchar(50) NOT NULL,
+  `type_types` varchar(50) NOT NULL,
+  `grade` varchar(100) NOT NULL,
+  `instrument` varchar(100) NOT NULL,
+  `exam_suite` varchar(100) DEFAULT NULL,
+  `fees` varchar(10) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL,
-  `type_types_id` int(11) NOT NULL
+  `created_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ci_exam_suite`
+-- Dumping data for table `ci_exam_submission_details`
 --
 
-INSERT INTO `ci_exam_suite` (`id`, `name`, `created_by`, `updated_by`, `created_date`, `updated_date`, `type_types_id`) VALUES
-(1, 'Guitar\r\n', NULL, NULL, NULL, NULL, 1),
-(2, 'Brass', NULL, NULL, NULL, NULL, 1),
-(3, 'Woodwind', NULL, NULL, NULL, NULL, 1),
-(4, 'Strings', NULL, NULL, NULL, NULL, 1),
-(5, 'Percussion', NULL, NULL, NULL, NULL, 1),
-(6, 'Keyboard', NULL, NULL, NULL, NULL, 1),
-(7, 'Organ', NULL, NULL, NULL, NULL, 1),
-(8, 'Piano', NULL, NULL, NULL, NULL, 1),
-(9, 'Singing', NULL, NULL, NULL, NULL, 1),
-(10, 'Yamaha', NULL, NULL, NULL, NULL, 1),
-(11, 'ATCL Diplomas', NULL, NULL, NULL, NULL, 2),
-(12, 'LTCL Diplomas', NULL, NULL, NULL, NULL, 2),
-(13, 'FTCL Diplomas', NULL, NULL, NULL, NULL, 2),
-(14, 'Theory\r\n', NULL, NULL, NULL, NULL, 3),
-(15, 'Rock and Pop Bass', NULL, NULL, NULL, NULL, 4),
-(16, 'Rock and Pop Drums', NULL, NULL, NULL, NULL, 4),
-(17, 'Rock and Pop Guitar', NULL, NULL, NULL, NULL, 4),
-(18, 'Rock and Pop Keyboards', 0, NULL, NULL, NULL, 4),
-(19, 'Rock and Pop Vocals', 0, NULL, NULL, NULL, 4);
+INSERT INTO `ci_exam_submission_details` (`id`, `exam_id`, `last_name`, `first_name`, `ref_no`, `venue`, `exam_types`, `type_types`, `grade`, `instrument`, `exam_suite`, `fees`, `created_by`, `created_date`) VALUES
+(125, 35, 'Kam', 'Sam Hin', 'S-1588899230', 'Trinity National Office: 27 July - 5 Aug', 'Drama', 'Graded', 'Grade 1', 'Acting in Pairs', 'Acting and Speaking', '489', 50, '2020-05-08 08:53:50'),
+(126, 41, 'kam', 'ck', 'S-1588899230', 'Sandakan 11 May - 13 May', 'Music', 'Graded', 'Grade 1 ', 'Cello', 'Strings', '290', 50, '2020-05-08 08:53:50'),
+(127, 42, 'Chee Kin', 'Kam', 'S-1588899230', 'Trinity National Office: 27 July - 5 Aug', 'Drama', 'Diploma', 'LTCL ', 'Performing (MT) U2 Reflective Practice', 'Performing Diplomas', '836', 50, '2020-05-08 08:53:50'),
+(128, 43, 'Sam Hin', 'Kam', 'S-1588899230', 'Kuantan', 'Music', 'Graded', 'Foundation Certificate', 'E flat Tenor Horn', 'Brass', '500', 50, '2020-05-08 08:53:50'),
+(129, 44, 'Kam', 'Chee Kin', 'S-1588899230', 'Kuantan', 'Music', 'Graded', 'Foundation Certificate', 'E flat Tenor Horn', 'Brass', '500', 50, '2020-05-08 08:53:50'),
+(140, 33, 'Kader', 'Abdul', 'S-1588930596', 'Trinity National Office: 27 July - 5 Aug', 'Drama', 'Graded', 'Grade 6', 'Group Drama - Scripts', 'Acting and Speaking', '596', 38, '2020-05-08 17:36:36'),
+(141, 40, 'Ltd', 'Abdul', 'S-1588930596', 'Kajang: 18 May - 22 May\r\n', 'Music', 'Theory', 'Theory', 'Theory (new syllabus) Grade 5', 'Theory', '260', 38, '2020-05-08 17:36:36'),
+(142, 45, 'Sam Yung', 'Kam', 'S-1588931353', 'Kajang: 18 May - 22 May\r\n', 'Music', 'Graded', 'Initial', 'Violin', 'Violin', '270', 50, '2020-05-08 17:49:13'),
+(143, 46, 'Sam Kin', 'Kam', 'S-1588931969', 'Trinity National Office: 6 Aug - 7 Aug', 'Language', 'Language', 'Grade 1', 'GESE\r\n', 'GESE', '200', 50, '2020-05-08 17:59:29'),
+(144, 47, 'Sam Hin', 'Kam', 'S-1588950838', 'Trinity National Office: 27 July - 5 Aug', 'Drama', 'Graded', 'Grade 1', 'Group Drama - Devised', 'Acting and Speaking', '326', 50, '2020-05-08 23:13:58'),
+(145, 49, 'test', 'Test', 'S-1588960540', 'Trinity National Office: 27 July - 5 Aug', 'Language', 'Language', 'Grade 8', 'GESE\r\n', 'GESE', '515', 38, '2020-05-09 01:55:40'),
+(146, 50, 'test', 'teste', 'S-1588960540', 'Kajang: 18 May - 22 May\r\n', 'Music', 'Graded', 'Grade 7', 'Cello', 'Strings', '610', 38, '2020-05-09 01:55:40');
 
 -- --------------------------------------------------------
 
@@ -50648,155 +50742,6 @@ CREATE TABLE `ci_general_settings` (
 
 INSERT INTO `ci_general_settings` (`id`, `favicon`, `logo`, `application_name`, `timezone`, `currency`, `copyright`, `email_from`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `facebook_link`, `twitter_link`, `google_link`, `youtube_link`, `linkedin_link`, `instagram_link`, `recaptcha_status`, `recaptcha_secret_key`, `recaptcha_site_key`, `recaptcha_lang`, `paypal_is_sandbox`, `paypal_sandbox_url`, `paypal_live_url`, `paypal_email`, `paypal_cur_code`, `stripe_secret_key`, `stripe_publish_key`, `default_language`, `created_date`, `updated_date`) VALUES
 (1, 'public/images/877e94d5a62773345a4416181dbe7908.png', 'public/images/3253f7656ae3ee19d49ca1e1628f5674.png', 'Trinity Malaysia Exam Booking', 'Asia/Kuala_Lumpur', 'MYR', 'Copyright © 2020 Trinity Malaysia', 'no-reply@mindyourapp.com.my', 'mail.mindyourapp.com.my', 587, 'no-reply@mindyourapp.com.my', '0Orj)RAXH4(7', 'https://facebook.com', 'https://twitter.com', 'https://google.com', 'https://youtube.com', 'https://linkedin.com', 'https://instagram.com', 0, '6Lfc9d0UAAAAABeXL29hAuAdML4et87lj6zxTEHf', '6Lfc9d0UAAAAADaIIjYDVfOd7qJGz7QkYc4g-5ZH', 'en', 0, '', '', '', '', '', '', 'english', '2020-03-08 04:03:19', '2020-03-08 04:03:19');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ci_music_diploma_fees`
---
-
-CREATE TABLE `ci_music_diploma_fees` (
-  `id` int(11) NOT NULL,
-  `atcl_recital_(2019)` varchar(20) DEFAULT NULL,
-  `atcl_unit_1` varchar(20) DEFAULT NULL,
-  `atcl_unit_2` varchar(20) DEFAULT NULL,
-  `ltcl_recital_(2019)` varchar(20) DEFAULT NULL,
-  `ltcl_unit_1` varchar(20) DEFAULT NULL,
-  `ltcl_unit_2` varchar(20) DEFAULT NULL,
-  `ftcl_recita` varchar(20) DEFAULT NULL,
-  `instrument_product_id` int(11) NOT NULL,
-  `created_by` int(7) DEFAULT NULL,
-  `updated_by` int(7) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ci_music_diploma_fees`
---
-
-INSERT INTO `ci_music_diploma_fees` (`id`, `atcl_recital_(2019)`, `atcl_unit_1`, `atcl_unit_2`, `ltcl_recital_(2019)`, `ltcl_unit_1`, `ltcl_unit_2`, `ftcl_recita`, `instrument_product_id`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
-(1, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 59, NULL, NULL, NULL, NULL),
-(2, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 60, NULL, NULL, NULL, NULL),
-(3, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 61, NULL, NULL, NULL, NULL),
-(4, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 62, NULL, NULL, NULL, NULL),
-(5, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 63, NULL, NULL, NULL, NULL),
-(6, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 64, NULL, NULL, NULL, NULL),
-(7, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 65, NULL, NULL, NULL, NULL),
-(8, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 66, NULL, NULL, NULL, NULL),
-(9, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 67, NULL, NULL, NULL, NULL),
-(10, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 68, NULL, NULL, NULL, NULL),
-(11, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 69, NULL, NULL, NULL, NULL),
-(12, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 70, NULL, NULL, NULL, NULL),
-(13, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 71, NULL, NULL, NULL, NULL),
-(14, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 72, NULL, NULL, NULL, NULL),
-(15, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 73, NULL, NULL, NULL, NULL),
-(16, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 74, NULL, NULL, NULL, NULL),
-(17, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 76, NULL, NULL, NULL, NULL),
-(18, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 77, NULL, NULL, NULL, NULL),
-(19, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 78, NULL, NULL, NULL, NULL),
-(20, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 79, NULL, NULL, NULL, NULL),
-(21, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 80, NULL, NULL, NULL, NULL),
-(22, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 81, NULL, NULL, NULL, NULL),
-(23, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 82, NULL, NULL, NULL, NULL),
-(24, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 83, NULL, NULL, NULL, NULL),
-(25, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 84, NULL, NULL, NULL, NULL),
-(26, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 85, NULL, NULL, NULL, NULL),
-(27, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 86, NULL, NULL, NULL, NULL),
-(28, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 87, NULL, NULL, NULL, NULL),
-(29, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 89, NULL, NULL, NULL, NULL),
-(30, '1680', NULL, NULL, '2135', NULL, NULL, '3250', 90, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ci_music_graded_fees`
---
-
-CREATE TABLE `ci_music_graded_fees` (
-  `id` int(11) NOT NULL,
-  `initial` varchar(20) DEFAULT NULL,
-  `grade_1` varchar(20) DEFAULT NULL,
-  `grade_2` varchar(20) DEFAULT NULL,
-  `grade_3` varchar(20) DEFAULT NULL,
-  `grade_4` varchar(20) DEFAULT NULL,
-  `grade_5` varchar(20) DEFAULT NULL,
-  `grade_6` varchar(20) DEFAULT NULL,
-  `grade_7` varchar(20) DEFAULT NULL,
-  `grade_8` varchar(20) DEFAULT NULL,
-  `foundation_certificate` varchar(20) DEFAULT NULL,
-  `intermediate_certificate` varchar(20) DEFAULT NULL,
-  `advanced_certificate` varchar(20) DEFAULT NULL,
-  `instrument_product_id` int(11) NOT NULL,
-  `created_by` int(7) DEFAULT NULL,
-  `updated_by` int(7) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL,
-  `exam_suite` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `ci_music_graded_fees`
---
-
-INSERT INTO `ci_music_graded_fees` (`id`, `initial`, `grade_1`, `grade_2`, `grade_3`, `grade_4`, `grade_5`, `grade_6`, `grade_7`, `grade_8`, `foundation_certificate`, `intermediate_certificate`, `advanced_certificate`, `instrument_product_id`, `created_by`, `updated_by`, `created_date`, `updated_date`, `exam_suite`) VALUES
-(1, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 1, NULL, NULL, NULL, NULL, 'Guitar'),
-(2, '270', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 2, NULL, NULL, NULL, NULL, 'Brass'),
-(3, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 4, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(4, '', '', '', '', '', '', '520', '610', '650', '', '', '880', 5, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(5, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 6, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(6, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 7, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(7, '', '', '', '', '', '', '', '', '', '2080', '2600', '3110', 8, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Singing'),
-(8, '', '', '', '', '', '', '', '', '', '0', '0', '0', 9, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Singing'),
-(9, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 10, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(10, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 11, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Guitar'),
-(11, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 12, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(12, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 13, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'String'),
-(13, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 14, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Percussion'),
-(14, '270', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 15, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(15, '', '', '', '', '', '', '', '', '', '', '', '880', 16, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(16, '', '', '', '', '', '', '', '', '', '500', '660', '880', 17, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(17, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 18, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Keyboard'),
-(18, '', '', '', '', '', '', '', '', '', '500', '660', '880', 19, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Ensemble'),
-(19, '', '', '', '', '', '', '', '', '', '63', '63', '63', 20, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Ensemble'),
-(20, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 21, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(21, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 22, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(22, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 23, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(23, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 24, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(24, '', '', '', '', '', '', '', '', '', '500', '', '', 25, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(25, '270', '290', '380', '415', '', '', '', '', '', '', '', '', 26, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'strings'),
-(26, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 27, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(27, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 28, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(28, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 29, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(29, '', '', '', '', '', '', '', '', '', '', '660', '880', 30, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(30, '', '', '', '', '450', '470', '520', '610', '650', '', '', '', 31, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(31, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 32, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(32, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 33, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Percussion'),
-(33, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 34, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Organ'),
-(34, '', '', '', '', '', '', '', '', '', '', '660', '880', 35, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(35, '', '', '', '', '450', '470', '520', '610', '650', '', '', '', 36, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(36, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 37, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(37, '', '', '', '', '', '', '', '', '', '500', '660', '880', 38, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(38, '', '', '', '', '', '', '', '', '', '63', '63', '63', 39, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(39, '', '', '', '', '', '470', '520', '610', '650', '', '660', '880', 40, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(40, '', '', '', '', '', '', '', '', '', '750', '990', '1320', 41, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(41, '', '', '', '', '', '', '', '', '', '0', '0', '0', 42, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Piano'),
-(42, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 43, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Guitar'),
-(43, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 44, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(44, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 45, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Woodwind'),
-(45, '270', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 46, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(46, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 47, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Singing'),
-(47, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 48, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Percussion'),
-(48, '', '', '', '', '', '', '520', '610', '650', '', '', '', 49, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(49, '270', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 50, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(50, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 51, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Percussion'),
-(51, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 52, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(52, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 53, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Trumpet'),
-(53, '270', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 54, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Brass'),
-(54, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 55, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Percussion'),
-(55, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 56, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Strings'),
-(56, '270', '290', '380', '415', '450', '470', '520', '610', '650', '500', '660', '880', 57, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Violin'),
-(57, '', '290', '380', '415', '450', '470', '520', '610', '650', '', '', '', 58, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Yamaha');
 
 -- --------------------------------------------------------
 
@@ -54999,22 +54944,18 @@ CREATE TABLE `ci_users` (
 
 INSERT INTO `ci_users` (`id`, `username`, `firstname`, `lastname`, `email`, `mobile_no`, `password`, `address`, `role`, `is_active`, `is_verify`, `is_admin`, `token`, `password_reset_code`, `last_ip`, `created_at`, `updated_at`, `admin_type`, `branch_id`) VALUES
 (3, 'kam', 'Chee Kin', 'Kam', 'kam@mindyourweb.com.my', '', '$2y$10$V7xUDBFhj3hO4QEtqthuEe/4h6VJUPVTLT/iZVbPOU3wGltvH4oDa', '', 1, 1, 1, 1, '', '48b454e539ea33c2028f007fd948336c', '', '2017-09-29 10:09:44', '2020-03-02 04:03:00', 2, 0),
-(53, 'codelover', 'code', 'lover', 'codelover@gmail.com', '', '$2y$10$YLjFpCkxrxk4TlqI0uMMj.48Nw2wfaIzecQXMz.azeysWIu.KRy0e', '', 1, 1, 1, 1, '', '48b454e539ea33c2028f007fd948336c', '', '2017-09-29 10:09:44', '2020-03-02 04:03:00', 2, 0),
-(35, 'nauman', 'nauman', 'ahmed', 'naumanahmedcs@gmail.com', '44876666655', '$2y$10$Vs8oLdjx0S8guZOKgT02PuTYD8fZoG/QVEGKQkjmmlpNLJvcvcDqK', '', 1, 0, 0, 0, 'a86c450b76fb8c371afead6410d55534', '', '', '2018-04-18 09:04:18', '2018-04-19 08:04:34', 1, 0),
-(38, 'naumanit', 'nauman', 'ahmed', 'codeglamour1@gmail.com', '', '$2y$10$YFRA1t5txkA9DZu4RDOOsOpjkS36tXkERzMCIIgOdmHNXezjRvrYm', '', 1, 0, 1, 0, '', '', '', '2018-04-20 07:04:23', '2018-04-20 07:04:55', 1, 0),
+(53, 'codelover138', 'code', 'lover', 'codelover@codelover138.com', '', '$2y$10$4IHWZuVXEXZ6mexRa4JkXOdxgg5J8qVDjpx8ExskNA0JPiQSjuzLS', '', 1, 1, 1, 1, '', '48b454e539ea33c2028f007fd948336c', '', '2017-09-29 10:09:44', '2020-03-02 04:03:00', 2, 0),
+(38, 'naumanit', 'Bond-007', 'ahmed', 'codelover138@gmail.com', '01781870371', '$2y$10$mJtTd17aYYaq/ICRP4wjLe0envvET.efQTMYk00kM9UwQV.eSFl/6', 'Mohakhali,', 1, 1, 1, 0, '', '', '', '2018-04-20 07:04:23', '2020-04-01 08:04:41', 1, 11),
 (39, 'nomi', 'Muhammad', 'Noman', 'mnomannaveed007@gmail.com', '1234565844', '$2y$10$ZiCesxd56bw/oUtVK7aub.zezK37GOo92DS8F.EHck5UujUY5ngPa', '', 1, 1, 1, 0, '', '', '', '2018-04-21 05:04:52', '2019-01-29 08:01:08', 1, 0),
 (42, 'zainkhan', 'Zain', 'ul Abideen', 'officialarea423@gmail.com', '03002145002', '$2y$10$vq7.2lhhr5BeqModAw9oj.MKuu3zu3PwRZjZ9VQy5ViSpM9YnB7m6', 'Lahore', 1, 1, 1, 0, '', '', '', '2019-11-29 00:00:00', '2019-11-30 00:00:00', 1, 0),
-(51, '', 'Chee Kin', 'Kam', 'kamcheekin@yahoo.com', '', '$2y$10$dkf1yVqMAZqEzK00CHWTquGDol7HSdXJCqvOuCxO1y7MPWMvaLnHu', '', 1, 1, 1, 0, '', '', '', '2020-03-29 04:03:12', '2020-03-29 04:03:12', 1, 0),
-(50, '', 'Chee Kin', 'Kam', 'ckkam@hotmail.com', '', '$2y$10$4MRXq6HCQYeJBg0JXytUsuKr9iIAGZzpNV8wA/16wMyx6YNQKz9RG', '', 1, 1, 1, 0, '', '', '', '2020-03-29 04:03:45', '2020-03-29 04:03:45', 1, 0),
-(52, '', 'Chee Kin', 'Kam', 'kamcheekin@gmail.com', '', '$2y$10$WD6qqkiBI/wJeIKMI4yEjOoxzxJLAZLAXaL8RQmJvQLI2V0dgxESW', '', 1, 1, 0, 0, 'f73b76ce8949fe29bf2a537cfa420e8f', '', '', '2020-03-29 05:03:13', '2020-03-29 05:03:13', 1, 0),
-(48, 'admin', 'Trinity', 'Malaysia', 'admin@mindyourapp.com.my', '0162740533(', '$2y$10$gTTanRs4VN8Mua/HdCN/CuwxDN840M/9rXRVxzxRdgTMC.X5bgspq', 'M1-12-01, 8trium, Jalan Cempaka SD 12/5, Bandar Sri Damansaransara', 1, 1, 1, 1, '', '', '', '2020-03-08 11:03:30', '2020-04-01 00:00:00', 2, 0),
-(54, '', 'Abdul', 'Kader', 'b@b.com', '', '$2y$10$7gYFTKgFq4rKLTUPTlNMKel0rXjhnU.wo5Aj3jt4Xh1189XC6/lPy', '', 1, 1, 1, 1, 'ffeabd223de0d4eacb9a3e6e53e5448d', '', '', '2020-03-29 00:00:00', '2020-04-01 00:00:00', 2, 0),
-(56, '', 'AAA', 'BBB', 'c@c.com', '01781870371', '$2y$10$YPXtx3jB6vlfFGhpQ076cOksa/EbB3lfeabMzi9CbP75eOopsH4Mm', 'Mohakhali,', 1, 1, 1, 1, '', '', '', '2020-03-31 00:00:00', '2020-04-01 00:00:00', 3, 17),
-(57, '', 'CCCC', 'DDDD', 'd@d.com', '+(11111)-(5555)', '$2y$10$DODAOC4QB7MpTcCgcZCUwO3eaDXSoeKv9SK.rZr2yXkVAhmXMkKTW', 'Mohakhali,', 1, 1, 1, 0, '', '', '', '2020-03-31 00:00:00', '2020-04-01 00:00:00', 1, 17),
-(59, '', 'bond', '0007', 'z@z.com', '', '$2y$10$m0KXGcRG6vMzpYsWlEuHoO0KK.J9WEgR80U95AwJ/j8Tkr3fCtlwm', '', 1, 1, 0, 0, '9c01802ddb981e6bcfbec0f0516b8e35', '', '', '2020-03-31 00:00:00', '2020-03-31 00:00:00', 1, 17),
-(60, '', 'Bond-007', 'Kader', 'y@y.com', '01781870371', '$2y$10$L4j/qbhXniM4dGFk/HUNPu5NAA6mMws0Lgbzk7NkeIOKZqEOt882a', '', 1, 1, 1, 0, '', '', '', '2020-03-31 00:00:00', '2020-03-31 00:00:00', 1, 18),
-(61, '', 'ZZZ', 'XXX', 'v@v.com', '01819104914', '$2y$10$TdsAEChU8A3sGJuk.4dwAOR/BELFapNoU5BVm1LOwpljh20Gz3Ldq', '111,Tejgaon I/A-Dhaka-1206', 1, 1, 1, 0, '', '', '', '2020-04-01 00:00:00', '2020-04-01 00:00:00', 1, 17),
-(62, '', 'SSS', 'DDD', 'g@g.com', '01787688674', '$2y$10$2BzT5a7xvI27YbO6XK78R.6z13.nVasxmQgAeuWx1AbFxHhMEdOZC', '05,Mohakhali C/A,Dhaka-1212', 1, 1, 1, 0, '', '', '', '2020-04-01 00:00:00', '2020-04-01 00:00:00', 1, 17);
+(67, '', 'Chee Kin', 'kam', 'kamcheekin@gmail.com', '0162740533', '$2y$10$eu7vrx/Rm9AXFNUOHRJQR.hcE/RrncRMM7OjeGymEzwt92wKTVxSS', '2-3-B, Persiaran Meranti, SD Apartment, Bandar Sri Damansara', 1, 1, 1, 0, '', '', '', '2020-04-20 10:04:45', '2020-04-20 06:04:38', 1, 17),
+(50, '', 'CK', 'Kam', 'ckkam@hotmail.com', '0162740533', '$2y$10$jjLCrhDiUrUU78jpdEomd.Om2a9adA.c26Gf9ac2fhb59eI3/N/WG', '2-3-B, Persiaran Meranti, SD Apartment, Bandar Sri Damansara', 1, 1, 1, 0, '', '', '', '2020-03-29 04:03:45', '2020-04-22 12:04:13', 1, 17),
+(48, 'admin', 'Trinity', 'Malaysia', 'admin@mindyourapp.com.my', '0162740533', '$2y$10$qKuMW5U5PgFa5mGN4Uye7O35Xs7LgcADcv5C345NbrBF6dMVm7Yw.', 'M1-12-01, 8trium, Jalan Cempaka SD 12/5, Bandar Sri Damansaransara', 1, 1, 1, 1, '', '', '', '2020-03-08 11:03:30', '2020-05-08 06:05:20', 2, 0),
+(66, '', 'Bond-007', 'Kader', 'b1@b.com', '01781870371', '$2y$10$/UZsEshJpKruDFcnStn.z.zVOVhLIlVKd64Z7I3cqWLHef152hNjm', 'Mohakhali,', 1, 1, 1, 1, '', '', '', '2020-04-01 08:04:20', '2020-04-01 08:04:20', 3, 12),
+(65, '', 'Chee', 'Kam', 'kam@mind-interactive.com', '0162740533', '$2y$10$IzvCgCiJkwJrHhB4ATAlLOvCQcbOjl2mCkedDFsesfPYnHsKAQlre', '2-3-B, Persiaran Meranti, SD Apartment, Bandar Sri Damansara', 1, 1, 1, 0, '', '', '', '2020-04-01 07:04:46', '2020-04-01 07:04:46', 1, 11),
+(68, '', 'Kim', 'Wong', 'kimcharming@yahoo.com', '0364198688', '$2y$10$t7t/g62.xuoDtfC2/59XCujbG8o.giGwvA6z1PMkH2WJBiV38T5a2', 'G-2, Arcoris, No.10, Jalan Kiara', 1, 1, 1, 0, '', '', '', '2020-04-23 02:04:02', '2020-04-23 10:04:30', 1, 17),
+(69, '', 'Keat Shuang', 'Tan', 'desireeshuang@hotmail.com', '0163076504', '$2y$10$y6.DlxPWkBFbJJECw3iVs.3XpBYgtutmqloQdBVB1vM8ksQASsTI6', 'E-11-08, Plaza Mont Kiara', 1, 1, 1, 0, '', '', '', '2020-04-24 01:04:52', '2020-04-24 09:04:07', 1, 11),
+(70, '', 'ck', 'kam', 'kamcheekin@yahoo.com', '0162740533', '$2y$10$8Z7eexd.2j5oayOinPgFceYtfDoD8sC0rGonCbSZoMryIew9poCYe', '2-3-B, Persiaran Meranti, SD Apartment, Bandar Sri Damansara', 1, 1, 1, 1, '', '', '', '2020-05-08 05:05:18', '2020-05-08 05:05:18', 3, 17);
 
 -- --------------------------------------------------------
 
@@ -55029,7 +54970,7 @@ CREATE TABLE `ci_user_exam_details` (
   `last_name` varchar(50) NOT NULL,
   `dob` date NOT NULL,
   `gender` varchar(50) NOT NULL,
-  `ic_no` varchar(50) NOT NULL,
+  `ic_no` varchar(50) DEFAULT NULL,
   `school_name` varchar(50) NOT NULL,
   `type` int(11) NOT NULL,
   `instrument` int(11) NOT NULL,
@@ -55039,6 +54980,7 @@ CREATE TABLE `ci_user_exam_details` (
   `fees` varchar(10) NOT NULL,
   `time_venue` varchar(50) NOT NULL,
   `voucher_code` varchar(50) DEFAULT NULL,
+  `submitted` varchar(3) NOT NULL DEFAULT 'No',
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
@@ -55049,12 +54991,23 @@ CREATE TABLE `ci_user_exam_details` (
 -- Dumping data for table `ci_user_exam_details`
 --
 
-INSERT INTO `ci_user_exam_details` (`id`, `exam_type`, `first_name`, `last_name`, `dob`, `gender`, `ic_no`, `school_name`, `type`, `instrument`, `grade`, `exam_suite`, `group_name`, `fees`, `time_venue`, `voucher_code`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
-(23, 2, 'Abdul', 'Kader', '1985-01-01', 'Male', '457812223', 'Testing.....', 6, 140, 43, 'Performing Diplomas', 'Admin_User', '1505', '15', '12455556', 57, 57, '2020-04-20 00:00:00', '2020-04-21 00:00:00'),
-(24, 3, 'Redwan', 'Alif', '1998-01-02', 'Male', '651247893', 'Testing', 7, 170, 50, 'GESE', NULL, '360', '6', '', 57, NULL, '2020-04-20 00:00:00', NULL),
-(25, 2, 'Paragon Agro Ltd', 'Process', '0000-00-00', 'Male', '45781222', 'Testing', 5, 106, 34, 'Acting and Speaking', 'Admin_User', '596', '15', '', 57, NULL, '2020-04-21 00:00:00', NULL),
-(26, 1, 'Tanveer', 'Ltd', '0000-00-00', 'Female', '45781222', 'Test', 1, 5, 7, 'Brass', NULL, '520', '2', '', 57, NULL, '2020-04-21 00:00:00', NULL),
-(27, 1, 'Tanveer', 'Ltd', '1986-01-18', 'Male', '45781222', 'Testing', 3, 91, 57, 'Theory', NULL, '170', '7', '', 57, NULL, '2020-04-21 00:00:00', NULL);
+INSERT INTO `ci_user_exam_details` (`id`, `exam_type`, `first_name`, `last_name`, `dob`, `gender`, `ic_no`, `school_name`, `type`, `instrument`, `grade`, `exam_suite`, `group_name`, `fees`, `time_venue`, `voucher_code`, `submitted`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
+(33, 2, 'Abdul', 'Kader', '1986-11-20', 'Male', '45781222', '', 5, 114, 34, 'Acting and Speaking', '', '596', '15', '24578931', 'Yes', 38, 38, '2020-04-21 03:04:44', '2020-05-01 02:05:06'),
+(35, 2, 'Sam Hin', 'Kam', '2001-03-20', 'Female', '545453454353', 'Kampar School 1', 5, 107, 29, 'Acting and Speaking', 'Fun Galaxy', '489', '15', '', 'Yes', 50, 50, '2020-04-22 12:04:50', '2020-05-08 08:52:38'),
+(36, 1, 'lisa', 'Lim', '2001-09-08', 'Male', 'gfsgs', 'The Music Academy', 1, 56, 6, 'Strings', NULL, '470', '12', '', 'No', 68, NULL, '2020-04-23 10:04:46', NULL),
+(37, 2, 'Harvey', 'Norman', '2003-02-01', 'Male', '3456', 'The Music Academy', 5, 131, 31, 'Acting and Speaking', 'Ensemble', '416', '16', '', 'No', 68, NULL, '2020-04-23 10:04:45', NULL),
+(38, 3, 'Peter', 'Kang', '2012-07-08', 'Male', '3243545', 'The Language House', 7, 170, 48, 'GESE', NULL, '360', '17', '', 'No', 68, NULL, '2020-04-23 10:04:00', NULL),
+(39, 1, 'Keat Shuang', 'Tan', '2008-03-01', 'Female', '080301146688', '123', 1, 7, 7, 'Strings', NULL, '520', '4', '', 'No', 69, NULL, '2020-04-24 09:04:40', NULL),
+(40, 1, 'Abdul', 'Ltd', '2001-11-01', 'Male', NULL, '', 3, 95, 57, 'Theory', NULL, '260', '1', '', 'Yes', 38, NULL, '2020-05-01 02:05:30', NULL),
+(41, 1, 'ck', 'kam', '0000-00-00', 'Male', NULL, 'Kampar School', 1, 7, 2, 'Strings', NULL, '290', '7', '', 'Yes', 50, NULL, '2020-05-01 01:05:26', NULL),
+(42, 2, 'Kam', 'Chee Kin', '0001-11-30', 'Male', NULL, 'Kampar School', 6, 142, 44, 'Performing Diplomas', 'Fun Galaxy', '836', '15', '', 'Yes', 50, 50, '2020-05-01 01:05:02', '2020-05-01 01:05:55'),
+(43, 1, 'Kam', 'Sam Hin', '1990-04-03', 'Female', NULL, '', 1, 17, 10, 'Brass', '', '500', '12', '', 'Yes', 50, 50, '2020-05-01 01:05:16', '2020-05-01 01:05:43'),
+(44, 1, 'Chee Kin', 'Kam', '2019-03-11', 'Male', NULL, 'Kampar School', 1, 17, 10, 'Brass', NULL, '500', '12', '', 'Yes', 50, NULL, '2020-05-01 05:05:01', NULL),
+(45, 1, 'Kam', 'Sam Yung', '2001-05-25', 'Female', NULL, 'Desa Jaya 2', 1, 57, 1, 'Violin', NULL, '270', '1', '', 'Yes', 50, NULL, '2020-05-08 05:47:07', NULL),
+(46, 3, 'Kam', 'Sam Kin', '2001-04-29', 'Female', NULL, 'Desa Jaya 2', 7, 170, 45, 'GESE', NULL, '200', '18', '', 'Yes', 50, NULL, '2020-05-08 05:59:17', NULL),
+(47, 2, 'Kam', 'Sam Hin', '2001-04-29', 'Female', NULL, 'Desa Jaya 2', 5, 112, 29, 'Acting and Speaking', 'Fun Galaxy', '326', '15', '', 'Yes', 50, NULL, '2020-05-08 11:13:42', NULL),
+(49, 3, 'Test', 'test', '1989-11-01', 'Male', NULL, 'Testing', 7, 170, 52, 'GESE', NULL, '515', '17', '122123', 'Yes', 38, NULL, '2020-05-09 01:51:30', NULL),
+(50, 1, 'teste', 'test', '2001-12-17', 'Male', NULL, '', 1, 7, 8, 'Strings', NULL, '610', '1', '', 'Yes', 38, NULL, '2020-05-09 01:52:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -55132,12 +55085,11 @@ ALTER TABLE `ci_exam_instrument_product`
   ADD KEY `type_types_id` (`type_types_id`);
 
 --
--- Indexes for table `ci_exam_suite`
+-- Indexes for table `ci_exam_submission_details`
 --
-ALTER TABLE `ci_exam_suite`
+ALTER TABLE `ci_exam_submission_details`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`,`type_types_id`),
-  ADD KEY `ci_exam_suite_ibfk_1` (`type_types_id`);
+  ADD UNIQUE KEY `exam_id` (`exam_id`);
 
 --
 -- Indexes for table `ci_exam_suite_fees`
@@ -55167,20 +55119,6 @@ ALTER TABLE `ci_exam_type_types`
 --
 ALTER TABLE `ci_general_settings`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ci_music_diploma_fees`
---
-ALTER TABLE `ci_music_diploma_fees`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `instrument_product_id` (`instrument_product_id`);
-
---
--- Indexes for table `ci_music_graded_fees`
---
-ALTER TABLE `ci_music_graded_fees`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `grade_id` (`instrument_product_id`);
 
 --
 -- Indexes for table `ci_states`
@@ -55227,107 +55165,116 @@ ALTER TABLE `ci_user_groups`
 -- AUTO_INCREMENT for table `ci_activity_log`
 --
 ALTER TABLE `ci_activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=452;
+
 --
 -- AUTO_INCREMENT for table `ci_activity_status`
 --
 ALTER TABLE `ci_activity_status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT for table `ci_admin_types`
 --
 ALTER TABLE `ci_admin_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `ci_branches`
 --
 ALTER TABLE `ci_branches`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
 --
 -- AUTO_INCREMENT for table `ci_cities`
 --
 ALTER TABLE `ci_cities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48357;
+
 --
 -- AUTO_INCREMENT for table `ci_countries`
 --
 ALTER TABLE `ci_countries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
 --
 -- AUTO_INCREMENT for table `ci_exam_grade_diploma`
 --
 ALTER TABLE `ci_exam_grade_diploma`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
 --
 -- AUTO_INCREMENT for table `ci_exam_instrument_product`
 --
 ALTER TABLE `ci_exam_instrument_product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+
 --
--- AUTO_INCREMENT for table `ci_exam_suite`
+-- AUTO_INCREMENT for table `ci_exam_submission_details`
 --
-ALTER TABLE `ci_exam_suite`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+ALTER TABLE `ci_exam_submission_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+
 --
 -- AUTO_INCREMENT for table `ci_exam_suite_fees`
 --
 ALTER TABLE `ci_exam_suite_fees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1480;
+
 --
 -- AUTO_INCREMENT for table `ci_exam_type`
 --
 ALTER TABLE `ci_exam_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `ci_exam_type_types`
 --
 ALTER TABLE `ci_exam_type_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `ci_general_settings`
 --
 ALTER TABLE `ci_general_settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `ci_music_diploma_fees`
---
-ALTER TABLE `ci_music_diploma_fees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
---
--- AUTO_INCREMENT for table `ci_music_graded_fees`
---
-ALTER TABLE `ci_music_graded_fees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
 --
 -- AUTO_INCREMENT for table `ci_states`
 --
 ALTER TABLE `ci_states`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4122;
+
 --
 -- AUTO_INCREMENT for table `ci_time_venue`
 --
 ALTER TABLE `ci_time_venue`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
 --
 -- AUTO_INCREMENT for table `ci_uploaded_files`
 --
 ALTER TABLE `ci_uploaded_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `ci_users`
 --
 ALTER TABLE `ci_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+
 --
 -- AUTO_INCREMENT for table `ci_user_exam_details`
 --
 ALTER TABLE `ci_user_exam_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
 --
 -- AUTO_INCREMENT for table `ci_user_groups`
 --
 ALTER TABLE `ci_user_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- Constraints for dumped tables
 --
@@ -55346,12 +55293,6 @@ ALTER TABLE `ci_exam_instrument_product`
   ADD CONSTRAINT `ci_exam_instrument_product_ibfk_2` FOREIGN KEY (`type_types_id`) REFERENCES `ci_exam_type_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ci_exam_suite`
---
-ALTER TABLE `ci_exam_suite`
-  ADD CONSTRAINT `cci_exam_suite_ibfk_1` FOREIGN KEY (`type_types_id`) REFERENCES `ci_exam_type_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `ci_exam_suite_fees`
 --
 ALTER TABLE `ci_exam_suite_fees`
@@ -55363,18 +55304,6 @@ ALTER TABLE `ci_exam_suite_fees`
 --
 ALTER TABLE `ci_exam_type_types`
   ADD CONSTRAINT `ci_exam_type_types_ibfk_1` FOREIGN KEY (`exam_type_id`) REFERENCES `ci_exam_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `ci_music_diploma_fees`
---
-ALTER TABLE `ci_music_diploma_fees`
-  ADD CONSTRAINT `ci_music_diploma_fees_ibfk_1` FOREIGN KEY (`instrument_product_id`) REFERENCES `ci_exam_instrument_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `ci_music_graded_fees`
---
-ALTER TABLE `ci_music_graded_fees`
-  ADD CONSTRAINT `ci_music_graded_fees_ibfk_1` FOREIGN KEY (`instrument_product_id`) REFERENCES `ci_exam_instrument_product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

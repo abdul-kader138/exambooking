@@ -11,16 +11,44 @@
         display: none;
     }
 </style>
+<?php
+if ($records->type_types_id == '1') {
+    $d_type = 'Instrument';
+    $g_type = 'Grade';
+
+} elseif ($records->type_types_id == '2') {
+    $d_type = 'Instrument';
+    $g_type = 'Diploma';
+
+} elseif ($records->type_types_id == '3') {
+    $d_type = 'Product';
+    $g_type = 'Grade';
+} elseif ($records->type_types_id == '4') {
+    $d_type = 'Instrument';
+    $g_type = 'Grade';
+} elseif ($records->type_types_id == '5') {
+    $d_type = 'Categories';
+    $g_type = 'Grade';
+} elseif ($records->type_types_id == '6') {
+    $d_type = 'Categories';
+    $g_type = 'Grade';
+} elseif ($records->type_types_id == '7') {
+    $d_type = 'Categories';
+    $g_type = 'Grade';
+} else {
+    $d_type = 'Instrument';
+    $g_type = 'Grade';
+}
+?>
 <div class="container-fluid">
-     <?php echo form_open(base_url('user/exam_registration/edit_exam/' . $records->id), 'class="form-horizontal"'); ?>
+    <?php echo form_open(base_url('user/exam_registration/edit_exam/' . $records->id), 'class="form-horizontal"'); ?>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
                     <h2>Edit Exam</h2>
                     <a href="<?= base_url('user/exam_registration/'); ?>"
-                       class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Registered
-                        Exam List</a>
+                       class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
                 </div>
                 <div class="body">
                     <div class="row clearfix">
@@ -28,7 +56,6 @@
                             <label for="exam_type">Type Of Exam</label>
                             <div class="form-group">
                                 <?php
-                                $exam_type_list[''] = '-- Please select Exam Type--';
                                 foreach ($exam_types as $exam_type) {
                                     $exam_type_list[$exam_type->id] = $exam_type->name;
                                 }
@@ -40,7 +67,7 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="first_name">First Name</label>
+                                <label for="first_name">First Name (eg. Abdullah, Carol Lim)</label>
                                 <div class="form-line">
                                     <?php echo form_input('first_name', $records->first_name, 'class="form-control input-tip" 
                                     placeholder="Please enter first name" required="required" id="first_name" pattern="[a-z A-Z]+"'); ?>
@@ -49,11 +76,11 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="last_name">Last Name</label>
+                                <label for="last_name">Second Name (eg. Bin Musa, Shi Ting)</label>
                                 <div class="form-line">
                                     <div class="form-line">
                                         <?php echo form_input('last_name', $records->last_name, 'class="form-control input-tip" 
-                                    placeholder="Please enter last name" required="required" id="last_name" pattern="[a-z A-Z]+"'); ?>
+                                    placeholder="Please enter second name" required="required" id="last_name" pattern="[a-z A-Z]+"'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +95,8 @@
                                         <i class="material-icons">date_range</i>
                                     </span>
                                     <div class="form-line">
-                                        <?php echo form_input('dob', $this->functions->reformatDate($records->dob), 'class="form-control input-tip" 
-                                      placeholder="Ex: 30/07/1998" required="required" id="dob"'); ?>
+                                        <input class="form-control col-md-3" required id="dob" name="dob" placeholder="Ex: 30/07/1998" type="text" value="<?=$this->functions->reformatDate($records->dob)?>" pattern="(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d" />
+
                                     </div>
                                 </div>
                             </div>
@@ -85,19 +112,10 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="ic_no">IC No.</label>
-                                <div class="form-line">
-                                    <?php echo form_input('ic_no', $records->ic_no, 'class="form-control input-tip" 
-                                    placeholder="Please enter ic no" required="required" id="ic_no"'); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
                                 <label for="school_name">School Name</label>
                                 <div class="form-line">
                                     <?php echo form_input('school_name', $records->school_name, 'class="form-control input-tip" 
-                                    placeholder="Please enter school name" required="required" id="school_name"'); ?>
+                                    placeholder="Please enter school name" id="school_name"'); ?>
 
                                 </div>
                             </div>
@@ -138,21 +156,21 @@
                     <div class="row clearfix" id="group_name_show">
                         <div class="col-sm-6">
                             <div class="form-group">
-<!--                                --><?php //if ($records->exam_type_id == 2) { ?>
-                                    <label for="group_name">Group name</label>
-                                    <div class="form-line">
-                                        <?php echo form_input('group_name', $records->group_name, 'class="form-control input-tip" 
+                                <!--                                --><?php //if ($records->exam_type_id == 2) { ?>
+                                <label for="group_name">Group name</label>
+                                <div class="form-line">
+                                    <?php echo form_input('group_name', $records->group_name, 'class="form-control input-tip" 
                                        placeholder="please enter group name"  id="group_name"'); ?>
-                                    </div>
-                                    <br>
-<!--                                --><?php //} ?>
+                                </div>
+                                <br>
+                                <!--                                --><?php //} ?>
                             </div>
                         </div>
                     </div>
                     <div class="row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="type" id="d_type">Instrument/Product/Categories</label>
+                                <label for="type" id="d_type"><?= $d_type ?></label>
                                 <div class="form-line">
                                     <?php
                                     $instrument_list[''] = '-- Please select required Data--';
@@ -167,7 +185,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="type" id="d_grade">Grade/Diploma</label>
+                                <label for="type" id="g_type"><?= $g_type ?></label>
                                 <div class="form-line">
                                     <?php
                                     $grade_list[''] = '-- Please select Grade--';
@@ -235,7 +253,7 @@
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            $('#dob').inputmask({ mask: "99-99-9999"});
+            $('#dob').inputmask({mask: "99-99-9999"});
             var exam_types = $('#exam_type').val();
             if (exam_types == '2') $('#group_name_show').show();
             else $('#group_name_show').hide();
@@ -287,6 +305,22 @@
             $('#type').change(function () {
                 var exam_types = $('#exam_type').val();
                 var exam_type_types = $(this).val();
+                if (exam_type_types == '1') $('#d_type').text('Instrument');
+                else if (exam_type_types == '2') $('#d_type').text('Instrument');
+                else if (exam_type_types == '3') $('#d_type').text('Product');
+                else if (exam_type_types == '4') $('#d_type').text('Instrument');
+                else if (exam_type_types == '5') $('#d_type').text('Categories');
+                else if (exam_type_types == '6') $('#d_type').text('Categories');
+                else if (exam_type_types == '7') $('#d_type').text('Categories');
+                else $('#d_type').text('Instrument');
+                //
+                if (exam_type_types == '1') $('#g_type').text('Grade');
+                else if (exam_type_types == '2') $('#g_type').text('Diploma');
+                else if (exam_type_types == '4') $('#g_type').text('Grade');
+                else if (exam_type_types == '5') $('#g_type').text('Grade');
+                else if (exam_type_types == '6') $('#g_type').text('Grade');
+                else if (exam_type_types == '7') $('#g_type').text('Grade');
+                else $('#g_type').text('Grade');
                 $.ajax({
                     type: "POST",
                     url: "<?php echo site_url('user/exam_registration/get_exam_type_types'); ?>",

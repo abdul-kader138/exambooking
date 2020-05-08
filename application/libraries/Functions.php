@@ -4,7 +4,6 @@ class Functions
 {
     function __construct()
     {
-
         $this->dateFormats = array(
             'js_sdate' => 'dd-mm-yyyy',
             'js_bsdate' => 'dd/mm/yyyy',
@@ -256,7 +255,6 @@ class Functions
             return '0000-00-00 00:00:00';
         }
     }
-
 }
 
 
