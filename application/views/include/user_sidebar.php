@@ -41,7 +41,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li id="exam_list">
-                        <a href="<?= base_url('user/exam_registration'); ?>">Registered Candidates List</a>
+                        <a href="<?= base_url('user/exam_registration'); ?>"> Candidates</a>
                     </li>
                     <li id="add_exam">
                         <a href="<?= base_url('user/exam_registration/add_exam'); ?>">Add New</a>
