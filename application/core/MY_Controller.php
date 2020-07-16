@@ -16,6 +16,11 @@ class MY_Controller extends CI_Controller
         //set timezone
         date_default_timezone_set($this->general_settings['timezone']);
     }
+
+    public function secure_data($field_data = '')
+    {
+        return $this->security->xss_clean(trim($field_data));
+    }
 }
 
 class UR_Controller extends CI_Controller
@@ -26,7 +31,7 @@ class UR_Controller extends CI_Controller
         if (!$this->session->has_userdata('is_user_login')) {
             redirect('auth/login');
         }
-
+        $this->load->helper('security');
 
         //general settings
         $global_data['general_settings'] = $this->setting_model->get_general_settings();
@@ -53,6 +58,8 @@ class UR_Controller extends CI_Controller
             redirect(base_url('user/profile'), 'refresh');
         }
     }
+
+
 }
 
 ?>

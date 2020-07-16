@@ -1,16 +1,8 @@
-﻿<link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+﻿
+<link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
       rel="stylesheet"/>
 <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
 
-<style>
-    .btn {
-        font-size: 14px !important;
-    }
-
-    .hide_content {
-        display: none;
-    }
-</style>
 <div class="container-fluid">
     <?php echo form_open(base_url('user/exam_registration/add_exam'), 'class="form-horizontal"'); ?>
     <div class="row clearfix">
@@ -18,7 +10,8 @@
             <div class="card">
                 <div class="header">
                     <h2>Add New Exam</h2>
-                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
+                    <a href="<?= base_url('user/exam_registration/'); ?>"
+                       class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
                 </div>
                 <div class="body">
                     <div class="row clearfix">
@@ -41,7 +34,7 @@
                                 <label for="first_name">First Name (eg. Abdullah, Carol Lim)</label>
                                 <div class="form-line">
                                     <input type="text" name="first_name" class="form-control" required
-                                           placeholder="Please enter first name" pattern="[a-z A-Z]+" />
+                                           placeholder="Please enter first name" pattern="[a-z A-Z]+"/>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +43,7 @@
                                 <label for="last_name">Second Name (eg. Bin Musa, Shi Ting)</label>
                                 <div class="form-line">
                                     <input type="text" name="last_name" class="form-control" required
-                                           placeholder="Please enter second name" pattern="[a-z A-Z]+" />
+                                           placeholder="Please enter second name" pattern="[a-z A-Z]+"/>
                                 </div>
                             </div>
                         </div>
@@ -61,10 +54,10 @@
                                 <label for="dob">Date Of Birth</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
                                     </span>
                                     <div class="form-line">
-                                        <input class="form-control col-md-3" data-inputmask-alias="dd/mm/yyyy" data-inputmask="'yearrange': { 'minyear': '1917', 'maxyear': '2019' }" data-val="true" data-val-required="Required" id="dob" name="dob" placeholder="Ex: 30/07/1998" type="text" value="" />
+                                        <input type="date" class="datepicker form-control" required id="dob" name="dob"
+                                               data-value="2015-08-01" placeholder="Please Choose DOB">
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +76,7 @@
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="school_name">School Name</label>
+                                <label for="school_name">School Name (only for school name to print on certificate) </label>
                                 <div class="form-line">
                                     <input type="text" name="school_name" class="form-control"
                                            placeholder="Please enter school name"/>
@@ -101,15 +94,14 @@
     <?php echo form_close(); ?>
 </div>
 <div class="container-fluid">
-
     <script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
     <script src="<?= base_url() ?>public/plugins/momentjs/moment.js"></script>
-    <script src="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="<?= base_url() ?>public/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+        <script src="
+    <?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
+
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            $('#dob').inputmask("99/99/9999");
             $('.common').hide();
             $('#exam_type').change(function () {
                 $('.common').hide();

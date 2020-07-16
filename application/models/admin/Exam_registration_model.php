@@ -3,30 +3,7 @@
 class Exam_registration_model extends CI_Model
 {
 
-    public function add_exam($data)
-    {
-        $this->db->trans_strict(TRUE);
-        $this->db->trans_start();
-        $this->db->insert('ci_user_exam_details', $data);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE) return false;
-        return true;
-    }
-
     //---------------------------------------------------
-    public function update_exam($data, $id)
-    {
-        $this->db->trans_strict(TRUE);
-        $this->db->trans_start();
-        $this->db->where('id', $id);
-        $this->db->update('ci_user_exam_details', $data);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE) return false;
-        return true;
-    }
-
-    //---------------------------------------------------
-    // get all user exam for server-side datatable processing (ajax based)
     public function get_all_user_exam_details()
     {
         $wh = array();
@@ -41,7 +18,7 @@ class Exam_registration_model extends CI_Model
                on ci_user_exam_details.grade=ci_exam_grade_diploma.id';
         if ($this->session->userdata('user_id') != '')
             $wh[] = "ci_user_exam_details.submitted='No' and ci_user_exam_details.created_by = '" . $this->session->userdata('user_id') . "'";
-
+        else $wh[] = "ci_user_exam_details.submitted='No'";
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
             return $this->datatable->LoadJson($SQL, $WHERE);
@@ -150,7 +127,8 @@ class Exam_registration_model extends CI_Model
             ->join('ci_exam_type_types', 'ci_user_exam_details.type=ci_exam_type_types.id', 'inner')
             ->join('ci_exam_instrument_product', 'ci_user_exam_details.instrument=ci_exam_instrument_product.id', 'inner')
             ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner');
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id, 'ci_user_exam_details.created_by' => $this->session->userdata('user_id')));
+//        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id, 'ci_user_exam_details.created_by' => $this->session->userdata('user_id')));
+        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id));
         if ($query->num_rows() > 0) {
             return $query->row();
         }
@@ -174,7 +152,8 @@ class Exam_registration_model extends CI_Model
             ->join('ci_exam_instrument_product', 'ci_user_exam_details.instrument=ci_exam_instrument_product.id', 'inner')
             ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner');
 
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.created_by' => $this->session->userdata('user_id'), 'ci_user_exam_details.submitted' => 'No'));
+//        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.created_by' => $this->session->userdata('user_id'), 'ci_user_exam_details.submitted' => 'No'));
+        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.submitted' => 'No'));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;
@@ -214,19 +193,6 @@ class Exam_registration_model extends CI_Model
         return $result = $query->row_array();
     }
 
-    public function add_exam_submission($data)
-    {
-        $this->db->trans_strict(TRUE);
-        $this->db->trans_start();
-        foreach ($data as $obj) {
-            $this->db->where('id', $obj['exam_id']);
-            $this->db->update('ci_user_exam_details', array('submitted' => 'Yes'));
-            $this->db->insert('ci_exam_submission_details', $obj);
-        }
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE) return false;
-        return true;
-    }
 
     //---------------------------------------------------
     public function get_user_all_exam_list()
@@ -266,8 +232,9 @@ class Exam_registration_model extends CI_Model
                 FROM ci_exam_submission_details';
         if ($this->session->userdata('user_id') != '')
             $wh[] = "ci_exam_submission_details.created_by = '" . $this->session->userdata('user_id') . "'";
-
-        $group_by = ' group by ref_no';
+   else $wh[] = "ci_exam_submission_details.exam_id !=''";
+//        $group_by = ' group by ref_no';
+        $group_by = ' ';
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
             return $this->datatable->LoadJson($SQL, $WHERE, $group_by);
@@ -278,7 +245,7 @@ class Exam_registration_model extends CI_Model
 
     public function get_exam_submission_id($ref_id = null)
     {
-        $query = $this->db->get_where('ci_exam_submission_details', array('ref_no' => $ref_id, 'ci_exam_submission_details.created_by' => $this->session->userdata('user_id')));
+        $query = $this->db->get_where('ci_exam_submission_details', array('md5(ref_no)' => $ref_id));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;

@@ -42,7 +42,7 @@ class Exam_registration extends UR_Controller
                 $row['first_name'],
                 $row['last_name'],
                 $row['school_name'],
-                $row['time_venue'],
+                $row['venue_details'],
                 $row['type_name'],
                 $row['type_type'],
                 $row['instrument_name'],
@@ -134,12 +134,17 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('voucher_code', "Voucher Code", 'xss_clean|trim');
 
         if ($this->form_validation->run() == true) {
+            $venue=$this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
+            $venue_details=$venue->time_venue;
+            if(trim($venue->time_venue) == "Others") $venue_details=$this->input->post('time_venue_other');
             $data = array(
                 'exam_type' => $this->input->post('exam_type'),
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'gender' => $this->input->post('gender'),
-                'dob' => $this->functions->fsd($this->input->post('dob')),
+                'venue_details' => $venue_details,
+                'dob' => $this->input->post('dob'),
+                'dob' => $this->input->post('dob'),
                 'school_name' => $this->input->post('school_name'),
                 'type' => $this->input->post('type'),
                 'time_venue' => $this->input->post('time_venue'),
@@ -200,12 +205,16 @@ class Exam_registration extends UR_Controller
         }
 
         if ($this->form_validation->run() == true) {
+            $venue=$this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
+            $venue_details=$venue->time_venue;
+            if(trim($venue->time_venue) == "Others") $venue_details=$this->input->post('time_venue_other');
             $data = array(
                 'exam_type' => $this->input->post('exam_type'),
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'gender' => $this->input->post('gender'),
-                'dob' => $this->functions->fsd($this->input->post('dob')),
+                'dob' => $this->input->post('dob'),
+                'venue_details'=>$venue_details,
                 'school_name' => $this->input->post('school_name'),
                 'type' => $this->input->post('type'),
                 'time_venue' => $this->input->post('time_venue'),
@@ -310,7 +319,7 @@ class Exam_registration extends UR_Controller
 
     public function exam_submission_list()
     {
-        $data['view'] = 'user/exam_registration/exam_submission_list';
+        $data['view'] = 'user/exam_submission/exam_submission_list';
         $this->load->view('layout', $data);
     }
 

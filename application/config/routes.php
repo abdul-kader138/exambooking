@@ -65,5 +65,7 @@ $route['admin/location/city/add'] = 'admin/location/city_add';
 $route['admin/location/city/edit/(:num)'] = 'admin/location/city_edit/$1';
 $route['admin/location/city/del/(:num)'] = 'admin/location/city_del/$1';
 
+$route['admin/exam_suite/exam_suite_edit/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)'] = 'admin/exam_suite/edit/$1/';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;

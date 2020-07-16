@@ -7,7 +7,7 @@
                     <h2>
                         Exam Details (ID- <?=$records->id ?>)
                     </h2>
-                    <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates </a>
+                    <a href="<?= base_url('admin/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> List Candidates </a>
 
                 </div>
                 <div class="body table-responsive">

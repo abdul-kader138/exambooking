@@ -1,8 +1,4 @@
-﻿<style>
-    .btn {
-        font-size: 14px !important;
-    }
-</style>
+﻿
 <div class="container-fluid">
     <?php echo form_open(base_url('user/exam_submission/save_submit_exam'), 'class="form-horizontal"'); ?>
     <?php if (!empty($exam_details) ) { ?>

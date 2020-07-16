@@ -1,12 +1,9 @@
-﻿<link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+﻿﻿
+<link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
       rel="stylesheet"/>
 <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
 
 <style>
-    .btn {
-        font-size: 14px !important;
-    }
-
     .hide_content {
         display: none;
     }
@@ -92,10 +89,11 @@ if ($records->type_types_id == '1') {
                                 <label for="dob">Date Of Birth</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
                                     </span>
                                     <div class="form-line">
-                                        <input class="form-control col-md-3" required id="dob" name="dob" placeholder="Ex: 30/07/1998" type="text" value="<?=$this->functions->reformatDate($records->dob)?>" pattern="(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d" />
+                                        <input type="date" class="datepicker form-control" required id="dob" name="dob"
+                                               data-value="2015-08-01" placeholder="Please Choose DOB"
+                                               value="<?= $records->dob; ?>"/>
 
                                     </div>
                                 </div>
@@ -112,7 +110,8 @@ if ($records->type_types_id == '1') {
                     <div class="common row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="school_name">School Name</label>
+                                <label for="school_name">School Name (only for school name to print on
+                                    certificate) </label>
                                 <div class="form-line">
                                     <?php echo form_input('school_name', $records->school_name, 'class="form-control input-tip" 
                                     placeholder="Please enter school name" id="school_name"'); ?>
@@ -138,16 +137,20 @@ if ($records->type_types_id == '1') {
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="type">Time & Venue</label>
+                                <label for="type">Date & Venue</label>
                                 <div class="form-line">
                                     <div class="form-line">
                                         <?php
-                                        $time_venue_list[''] = '-- Please select Time & Venue--';
+                                        $time_venue_list[''] = '-- Please select Date & Venue--';
                                         foreach ($time_venues as $time_venue_obj) {
                                             $time_venue_list[$time_venue_obj->id] = $time_venue_obj->time_venue;
                                         }
                                         echo form_dropdown('time_venue', $time_venue_list, $records->venue_id, 'id="time_venue" class="form-control show-tick select"  required="required" ');
                                         ?>
+                                    </div>
+                                    <div class="form-line" id="time_venue_other_div">
+                                        <?php echo form_input('time_venue_other', $records->venue_details, 'class="form-control input-tip" 
+                                    placeholder="Please Enter Other Date & Venue" id="time_venue_other"'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -249,11 +252,33 @@ if ($records->type_types_id == '1') {
     <script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
     <script src="<?= base_url() ?>public/plugins/momentjs/moment.js"></script>
     <script src="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="<?= base_url() ?>public/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
     <script type="text/javascript" charset="utf-8">
+
+
         $(document).ready(function () {
-            $('#dob').inputmask({mask: "99-99-9999"});
+            var obj = $("#time_venue option:selected").text();
+            if (obj == 'Others') {
+                $("#time_venue_other_div").show();
+                $('#time_venue_other').attr('required', true);
+            } else {
+                $('#time_venue_other').removeAttr('required');
+                $("#time_venue_other_div").hide();
+            }
+            $('#time_venue').change(function () {
+                var obj = $("#time_venue option:selected").text();
+                if (obj == 'Others') {
+                    $("#time_venue_other_div").show();
+                    $('#time_venue_other').val('');
+                    $('#time_venue_other').attr('required', true);
+                } else {
+                    $('#time_venue_other').removeAttr('required');
+                    $('#time_venue_other').val('');
+                    $("#time_venue_other_div").hide();
+                }
+            });
+
+
             var exam_types = $('#exam_type').val();
             if (exam_types == '2') $('#group_name_show').show();
             else $('#group_name_show').hide();

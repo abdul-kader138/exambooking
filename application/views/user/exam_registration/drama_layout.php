@@ -16,15 +16,18 @@
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="type">Time & Venue</label>
+            <label for="type">Date & Venue</label>
             <div class="form-line">
                 <?php
-                $time_venue_list[''] = '-- Please select Time & Venue--';
+                $time_venue_list[''] = '-- Please select Date & Venue--';
                 foreach ($time_venues as $time_venue_obj) {
                     $time_venue_list[$time_venue_obj->id] = $time_venue_obj->time_venue;
                 }
                 echo form_dropdown('time_venue', $time_venue_list, "", 'id="time_venue" class="form-control show-tick select"  required="required"" ');
                 ?>
+            </div>
+            <div class="form-line" id="time_venue_other_div">
+                <input type="text" name="time_venue_other" id="time_venue_other"  class="form-control" placeholder="Please Enter Others Date & Venue"/>
             </div>
         </div>
     </div>
@@ -35,7 +38,7 @@
         <div class="form-group">
             <label for="group_name">Group name</label>
             <div class="form-line">
-                <input type="text" name="group_name" class="form-control" required
+                <input type="text" name="group_name" class="form-control"
                        placeholder="please enter group name"/>
             </div>
             <br>
@@ -85,6 +88,22 @@
 </div>
 
 <script type="application/javascript">
+    $(document).ready(function () {
+        $("#time_venue_other_div").hide();
+    });
+    $('#time_venue').change(function () {
+        var obj=$("#time_venue option:selected").text();
+        if(obj == 'Others'){
+            $("#time_venue_other_div").show();
+            $('#time_venue_other').val();
+            $('#time_venue_other').attr('required', true);
+        }else {
+            $('#time_venue_other').removeAttr('required');
+            $('#time_venue_other').val();
+            $("#time_venue_other_div").hide();
+        }
+    });
+
     $('#type').change(function () {
 
         var exam_types = $('#exam_type').val();

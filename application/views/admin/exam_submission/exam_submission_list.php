@@ -9,9 +9,9 @@
         <div class="card">
             <div class="header">
                 <h2 style="display: inline-block;">
-                    My Submissions
+                    List Submission
                 </h2>
-                <a href="<?= base_url('user/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i>  Candidates</a>
+                <a href="<?= base_url('admin/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -51,7 +51,7 @@
     var table = $('#na_datatable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "<?=base_url('user/exam_submission/datatable_submission_json')?>",
+        "ajax": "<?=base_url('admin/exam_registration/datatable_submission_json')?>",
         "order": [[0, 'desc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_exam_submission_details.created_date", 'searchable': true, 'orderable': true},

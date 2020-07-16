@@ -36,6 +36,7 @@ class Exam_submission extends UR_Controller
             if (!empty($_POST['val'])) {
                 $user_details = $this->exam_registration_model->get_user_detail();
                 $branch_admin_list = $this->exam_registration_model->get_branch_admin($user_details['branch_id']);
+                $super_admin_list = $this->exam_registration_model->get_super_admin();
                 foreach ($_POST['val'] as $id) {
                     $exam_details = $this->exam_registration_model->get_user_exam_details_by_id($id);
                     $total_fees += $exam_details->fees;
@@ -44,7 +45,7 @@ class Exam_submission extends UR_Controller
                         'first_name' => $exam_details->first_name,
                         'ref_no' => 'S-' . strtotime(date("Y-m-d H:i:s")),
                         'last_name' => $exam_details->last_name,
-                        'venue' => $exam_details->time_venue,
+                        'venue' => $exam_details->venue_details,
                         'exam_types' => $exam_details->type_name,
                         'type_types' => $exam_details->type_type,
                         'grade' => $exam_details->grade_name,
@@ -58,11 +59,15 @@ class Exam_submission extends UR_Controller
                 }
             }
             if (isset($employees) && $this->exam_registration_model->add_exam_submission($employees)) {
-                $this->email_send_admin($employees[0], $total_fees, $user_details, 'kam@mindyourapp.com.my');
                 $this->email_send_user($employees[0], $total_fees, $user_details);
                 if (!empty($branch_admin_list)) {
                     foreach ($branch_admin_list as $admin) {
                         $this->email_send_admin($employees[0], $total_fees, $user_details, $admin->email);
+                    }
+                }
+                if (!empty($super_admin_list)) {
+                    foreach ($super_admin_list as $super_admin) {
+                        $this->email_send_admin($employees[0], $total_fees, $user_details, $super_admin->email);
                     }
                 }
                 $submission_details = $this->exam_registration_model->get_submission_summary($employees[0]['ref_no']);
@@ -88,8 +93,8 @@ class Exam_submission extends UR_Controller
     {
         $data['title'] = 'Exam Submission';
         $data['view'] = 'user/exam_submission/submit_success';
-        $obj =  $this->session->all_userdata();
-        $data['submission_details'] =  $obj['submission_details'];
+        $obj = $this->session->all_userdata();
+        $data['submission_details'] = $obj['submission_details'];
         $this->load->view('layout', $data);
     }
 

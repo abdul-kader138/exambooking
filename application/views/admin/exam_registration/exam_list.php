@@ -9,11 +9,9 @@
         <div class="card">
             <div class="header">
                 <h2 style="display: inline-block;">
-                    Candidates
+                    List Candidates
                 </h2>
-                <a href="<?= base_url('user/exam_registration/add_exam'); ?>"
-                   class="btn bg-deep-orange waves-effect pull-right"><i
-                            class="material-icons">view_list</i> ADD New Exam</a>
+                <a href="<?= base_url('admin/exam_registration/exam_submission_list');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> List Submission</a>
             </div>
             <div class="body">
                 <div class="table-responsive" style="overflow-x:auto;">
@@ -50,12 +48,6 @@
                         </tfoot>
                     </table>
                 </div>
-                <?php if (!empty($user_exam_details)) { ?>
-                    <div style="margin-top: 20px;">
-                        <a href="<?= base_url('user/exam_submission/submit_exam'); ?>"
-                           class="btn bg-pink waves-effect pull-left"> Submit</a>
-                    </div>
-                <?php } ?>
             </div>
         </div>
     </div>
@@ -90,7 +82,7 @@
     var table = $('#na_datatable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "<?=base_url('user/exam_registration/datatable_json')?>",
+        "ajax": "<?=base_url('admin/exam_registration/datatable_json')?>",
         "order": [[9, 'asc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_user_exam_details.first_name", 'searchable': true, 'orderable': true},
