@@ -5,10 +5,10 @@ class Time_venue_model extends CI_Model{
         return true;
     }
     //---------------------------------------------------
-    // get all branch for server-side datatable processing (ajax based)
     public function get_all_time_venue(){
         $wh =array();
-        $SQL ='SELECT ci_time_venue.id,ci_time_venue.time_venue as time_venue,ci_exam_type.name as e_name FROM ci_time_venue left join ci_exam_type on ci_time_venue.exam_type_id=ci_exam_type.id';
+        $SQL ='SELECT ci_time_venue.id,ci_time_venue.time_venue,ci_exam_type.name
+               FROM ci_time_venue left join ci_exam_type on ci_time_venue.exam_type_id=ci_exam_type.id';
         if(count($wh)>0)
         {
             $WHERE = implode(' and ',$wh);
@@ -21,7 +21,6 @@ class Time_venue_model extends CI_Model{
     }
 
     //---------------------------------------------------
-    // get all exam_suite records
     public function get_all_simple_time_venue(){
         $this->db->order_by('created_date', 'desc');
         $query = $this->db->get('ci_time_venue');
@@ -29,13 +28,11 @@ class Time_venue_model extends CI_Model{
     }
 
     //---------------------------------------------------
-    // Count total exam_suite for pagination
     public function count_all_time_venue(){
         return $this->db->count_all('ci_time_venue');
     }
 
     //---------------------------------------------------
-    // Get all exam_suite for pagination
     public function get_all_time_venue_for_pagination($limit, $offset){
         $wh =array();
         $this->db->order_by('created_date', 'desc');
@@ -54,7 +51,6 @@ class Time_venue_model extends CI_Model{
 
 
     //---------------------------------------------------
-    // get all exam_suite for server-side datatable with advanced search
     public function get_all_time_venue_by_advance_search(){
         $wh =array();
         $SQL ='SELECT * FROM ci_time_venue';
@@ -73,10 +69,6 @@ class Time_venue_model extends CI_Model{
         }
     }
 
-
-
-
-
     //---------------------------------------------------
     public function get_time_venue_by_id($id){
         $query = $this->db->get_where('ci_time_venue', array('md5(id)' => $id));
@@ -84,17 +76,10 @@ class Time_venue_model extends CI_Model{
     }
 
     //---------------------------------------------------
-    // Edit exam_suite Record
     public function edit_time_venue($data, $id){
         $this->db->where('md5(id)', $id);
         $this->db->update('ci_time_venue', $data);
         return true;
-    }
-
-    // check exam_suite association from users table by ID
-    public function get_exam_suite_from_exam($id){
-//        $query = $this->db->get_where('ci_user_exam_details', array('exam_suite_id' => $id));
-//        return $result = $query->row_array();
     }
 
     //---------------------------------------------------

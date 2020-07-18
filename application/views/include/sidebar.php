@@ -35,23 +35,22 @@
                     <span>Home</span>
                 </a>
             </li>
+            <li id="exam_registration">
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">people</i>
+                    <span>Candidate Management</span>
+                </a>
+                <ul class="ml-menu">
+                    <li id="exam_submission_list">
+                        <a href="<?= base_url('admin/exam_registration/exam_submission_list'); ?>">List Submission
+                        </a>
+                    </li>
+                    <li id="exam_list">
+                        <a href="<?= base_url('admin/exam_registration'); ?>"> List Candidates</a>
+                    </li>
+                </ul>
+            </li>
             <?php if ($this->session->userdata('admin_type') == '2') { ?>
-                <li id="exam_registration">
-                    <a href="javascript:void(0);" class="menu-toggle">
-                        <i class="material-icons">people</i>
-                        <span>Candidate Management</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li id="exam_submission_list">
-                            <a href="<?= base_url('admin/exam_registration/exam_submission_list'); ?>">List Submission
-                                </a>
-                        </li>
-                        <li id="exam_list">
-                            <a href="<?= base_url('admin/exam_registration'); ?>"> List Candidates</a>
-                        </li>
-                    </ul>
-                </li>
-
                 <li id="fee_management">
                     <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">attach_money</i>

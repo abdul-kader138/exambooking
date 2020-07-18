@@ -110,7 +110,10 @@ class Grade_management extends MY_Controller
         }
         $id = $this->secure_data($id);
         $grade_management = $this->grade_management_model->get_grade_management_by_id($id);
-
+        if (empty($grade_management)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/grade_management'));
+        }
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('grade_name', 'Grade Name', 'trim|required');
             $this->form_validation->set_rules('instrument_id', 'Attribute Name', 'trim|required');

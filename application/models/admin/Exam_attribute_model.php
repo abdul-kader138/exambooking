@@ -8,7 +8,6 @@ class Exam_attribute_model extends CI_Model
         return true;
     }
     //---------------------------------------------------
-    // get all branch for server-side datatable processing (ajax based)
     public function get_all_exam_attribute()
     {
         $wh = array();
@@ -26,7 +25,6 @@ class Exam_attribute_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // get all exam_suite records
     public function get_all_simple_exam_attribute()
     {
         $this->db->order_by('created_date', 'desc');
@@ -59,7 +57,6 @@ class Exam_attribute_model extends CI_Model
 
 
     //---------------------------------------------------
-    // get all exam_suite for server-side datatable with advanced search
     public function get_all_exam_attribute_by_advance_search()
     {
         $wh = array();
@@ -75,11 +72,6 @@ class Exam_attribute_model extends CI_Model
             return $this->datatable->LoadJson($SQL);
         }
     }
-
-
-
-
-
     //---------------------------------------------------
     public function get_exam_attribute_by_id($id)
     {
@@ -103,6 +95,7 @@ class Exam_attribute_model extends CI_Model
         return true;
     }
 
+    //---------------------------------------------------
 
     public function get_types_by_exam_type_id($id = null)
     {
@@ -116,6 +109,8 @@ class Exam_attribute_model extends CI_Model
         return false;
     }
 
+
+    //---------------------------------------------------
     public function get_exam_types()
     {
         $query = $this->db->get('ci_exam_type');
@@ -127,6 +122,8 @@ class Exam_attribute_model extends CI_Model
         }
         return false;
     }
+
+    //---------------------------------------------------
     public function get_type_types($id)
     {
         $this->db->where('exam_type_id',$id);

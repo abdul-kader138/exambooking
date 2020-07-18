@@ -115,6 +115,10 @@ class Fee_management extends MY_Controller
         }
         $id = $this->secure_data($id);
         $fee_management = $this->fee_management_model->get_fee_management_by_id($id);
+        if (empty($fee_management)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/fee_management'));
+        }
         $exam_type_details = $this->fee_management_model->get_exam_attribute_by_id($fee_management['instrument_id']);
 
         if ($this->input->post('submit')) {

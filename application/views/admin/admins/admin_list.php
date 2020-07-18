@@ -8,7 +8,7 @@
     <div class="card">
       <div class="header">
         <h2 style="display: inline-block;">
-          ADMINS LIST (Server Side Datatable Processing) (Ajax baseded Paginationa & Search)
+          ADMINS LIST
         </h2>
         <a href="<?= base_url('admin/admins/admin_add');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> ADD NEW ADMIN</a>
       </div>

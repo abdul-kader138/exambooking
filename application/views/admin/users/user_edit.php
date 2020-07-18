@@ -18,7 +18,7 @@
                 <?= isset($msg)? $msg: ''; ?>
             </div>
           <?php endif; ?>
-          <?php echo form_open(base_url('admin/users/edit/'.$user['id']), 'class="form-horizontal"')?> 
+          <?php echo form_open(base_url('admin/users/edit/'.md5($user['id'])), 'class="form-horizontal"')?>
             <div class="row clearfix">
                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                     <label for="firstname">First Name</label>

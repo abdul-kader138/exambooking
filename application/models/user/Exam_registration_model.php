@@ -18,7 +18,7 @@ class Exam_registration_model extends CI_Model
     {
         $this->db->trans_strict(TRUE);
         $this->db->trans_start();
-        $this->db->where('id', $id);
+        $this->db->where('md5(id)', $id);
         $this->db->update('ci_user_exam_details', $data);
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) return false;
@@ -150,7 +150,7 @@ class Exam_registration_model extends CI_Model
             ->join('ci_exam_type_types', 'ci_user_exam_details.type=ci_exam_type_types.id', 'inner')
             ->join('ci_exam_instrument_product', 'ci_user_exam_details.instrument=ci_exam_instrument_product.id', 'inner')
             ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner');
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id, 'ci_user_exam_details.created_by' => $this->session->userdata('user_id')));
+        $query = $this->db->get_where('ci_user_exam_details', array('md5(ci_user_exam_details.id)' => md5($id), 'ci_user_exam_details.created_by' => $this->session->userdata('user_id')));
         if ($query->num_rows() > 0) {
             return $query->row();
         }
@@ -200,6 +200,8 @@ class Exam_registration_model extends CI_Model
 
     public function get_suite_by_exam_id($grade_id = null, $instrument_id = null)
     {
+        $this->db->select('ci_exam_suite_fees.fees,ci_exam_suite.name as suite_name')
+        ->join('ci_exam_suite', 'ci_exam_suite_fees.suite_name=ci_exam_suite.id', 'inner');
         $query = $this->db->get_where('ci_exam_suite_fees', array('grade_id' => $grade_id, 'instrument_id' => $instrument_id), 1);
         if ($query->num_rows() > 0) {
             return $query->row();
@@ -278,7 +280,7 @@ class Exam_registration_model extends CI_Model
 
     public function get_exam_submission_id($ref_id = null)
     {
-        $query = $this->db->get_where('ci_exam_submission_details', array('ref_no' => $ref_id, 'ci_exam_submission_details.created_by' => $this->session->userdata('user_id')));
+        $query = $this->db->get_where('ci_exam_submission_details', array('md5(ref_no)' => $ref_id, 'ci_exam_submission_details.created_by' => $this->session->userdata('user_id')));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;

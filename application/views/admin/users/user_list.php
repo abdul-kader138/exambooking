@@ -8,7 +8,7 @@
     <div class="card">
       <div class="header">
         <h2 style="display: inline-block;">
-          USERS LIST (Server Side Datatable Processing) (Ajax baseded Paginationa & Search)
+          USERS LIST
         </h2>
         <a href="<?= base_url('admin/users/add');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> ADD NEW USER</a>
       </div>

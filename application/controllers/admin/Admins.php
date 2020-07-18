@@ -37,7 +37,7 @@ class Admins extends MY_Controller
                 '<span class="btn bg-teal  waves-effect" title="status">' . getTypeName($row['admin_type']) . '<span>',    // get type name by ID (getTypeName() is a helper function)
                 '<span class="btn bg-blue  waves-effect" title="status">' . $status . '<span>',
 
-                '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/admins/admin_edit/' . $row['id']) . '"> <i class="material-icons">edit</i></a>
+                '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/admins/admin_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger " data-href="' . base_url('admin/admins/del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>
 				',
 
@@ -107,6 +107,10 @@ class Admins extends MY_Controller
     {
         // get all data to populate UI
         $user_details= $this->admin_model->get_user_by_id($id);
+        if (empty($user_details)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/admins'));
+        }
         $data['user'] = $user_details;
         $data['admin_types'] = $this->admin_model->get_admin_types();
         $data['branches'] = $this->admin_model->get_branches();

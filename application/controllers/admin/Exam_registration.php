@@ -44,7 +44,7 @@ class Exam_registration extends MY_Controller
                 $row['grade_name'],
                 $row['fees'],
                 $row['submitted'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam/' . $row['id']) . '"> <i class="material-icons">visibility</i></a>',
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam/' . md5($row['id'])) . '"> <i class="material-icons">visibility</i></a>',
             );
         }
         $records['data'] = $data;
@@ -112,6 +112,10 @@ class Exam_registration extends MY_Controller
     public function view_exam($id = null)
     {
         $data['records'] = $this->exam_registration_model->get_user_exam_details_by_id($id);
+        if (empty($data['records'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_registration'));
+        }
         $data['view'] = 'admin/exam_registration/view_exam';
         $this->load->view('layout', $data);
     }
@@ -129,17 +133,18 @@ class Exam_registration extends MY_Controller
     public function datatable_submission_json()
     {
 //        $records = $this->branch_model->get_all_branches();
+
         $records = $this->exam_registration_model->get_all_exam_submission_details();
         $data = array();
         foreach ($records['data'] as $row) {
             $data[] = array(
+                $row['firstname'],
                 $row['created_date'],
                 $row['ref_no'],
                 $row['id'],
                 $row['fees'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>',
-
-            );
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>
+                 <a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' . md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
         }
         $records['data'] = $data;
         echo json_encode($records);
@@ -148,9 +153,34 @@ class Exam_registration extends MY_Controller
     public function view_exam_submission($id = null)
     {
         $data['records'] = $this->exam_registration_model->get_exam_submission_id($id);
+        if (empty($data['records'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_submission_list'));
+        }
         $data['view'] = 'admin/exam_submission/view_exam_submission';
         $this->load->view('layout', $data);
     }
 
+    public function submission_del($id = null)
+    {
+        $data['records'] = $this->exam_registration_model->get_exam_submission_id($id);
+        if (empty($data['records'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_submission_list'));
+        }
+        $this->db->delete('ci_exam_submission_details', array('md5(ref_no)' => $id));
+        $this->session->set_flashdata('msg', 'Exam Attribute has been deleted successfully!');
+        redirect(base_url('admin/exam_attribute'));
+    }
+    public function update_submission($id = null)
+    {
+        $data['exam_detail'] = $this->exam_registration_model->get_single_submission_by_id($id);
+        if (empty($data['exam_detail'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_submission_list'));
+        }
+        $data['view'] = 'admin/exam_submission/submission_update';
+        $this->load->view('layout', $data);
+    }
 
 }

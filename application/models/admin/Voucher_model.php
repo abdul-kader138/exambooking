@@ -50,7 +50,6 @@ class Voucher_model extends CI_Model{
 
 
     //---------------------------------------------------
-    // get all exam_suite for server-side datatable with advanced search
     public function get_all_voucher_by_advance_search(){
         $wh =array();
         $SQL ='SELECT * FROM ci_voucher';
@@ -74,25 +73,18 @@ class Voucher_model extends CI_Model{
 
 
     //---------------------------------------------------
-    // Get exam_suite detial by ID
     public function get_voucher_by_id($id){
         $query = $this->db->get_where('ci_voucher', array('md5(id)' => $id));
         return $result = $query->row_array();
     }
 
     //---------------------------------------------------
-    // Edit exam_suite Record
     public function edit_voucher($data, $id){
         $this->db->where('md5(id)', $id);
         $this->db->update('ci_voucher', $data);
         return true;
     }
 
-    // check exam_suite association from users table by ID
-    public function get_voucher_from_exam($id){
-//        $query = $this->db->get_where('ci_user_exam_details', array('exam_suite_id' => $id));
-//        return $result = $query->row_array();
-    }
 
 }
 

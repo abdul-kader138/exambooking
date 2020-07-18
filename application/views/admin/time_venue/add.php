@@ -7,7 +7,7 @@
                 <h2>
                     ADD Time & Venue
                 </h2>
-                <a href="<?= base_url('admin/exam_suite/'); ?>" class="btn bg-deep-orange waves-effect pull-right">List
+                <a href="<?= base_url('admin/time_venue/'); ?>" class="btn bg-deep-orange waves-effect pull-right">List
                     Time & Venue</a>
             </div>
             <div class="body">

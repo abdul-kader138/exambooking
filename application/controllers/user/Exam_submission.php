@@ -111,7 +111,7 @@ class Exam_submission extends UR_Controller
                 $row['ref_no'],
                 $row['id'],
                 $row['fees'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_submission/view_exam_submission/' . $row['ref_no']) . '"> <i class="material-icons">visibility</i></a>',
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_submission/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>',
 
             );
         }
@@ -122,6 +122,10 @@ class Exam_submission extends UR_Controller
     public function view_exam_submission($id = null)
     {
         $data['records'] = $this->exam_registration_model->get_exam_submission_id($id);
+        if (empty($data['records'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('user/exam_submission_list'));
+        }
         $data['view'] = 'user/exam_submission/view_exam_submission';
         $this->load->view('layout', $data);
     }

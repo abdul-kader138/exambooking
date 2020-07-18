@@ -36,8 +36,8 @@ class Exam_registration extends UR_Controller
         foreach ($records['data'] as $row) {
             $edit_link = '';
             $delete_link = '';
-            if ($row['submitted'] == 'No') $edit_link = '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('user/exam_registration/edit_exam/' . $row['id']) . '"> <i class="material-icons">edit</i></a>&nbsp;';
-            if ($row['submitted'] == 'No') $delete_link = '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('user/exam_registration/del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>';
+            if ($row['submitted'] == 'No') $edit_link = '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('user/exam_registration/edit_exam/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>&nbsp;';
+            if ($row['submitted'] == 'No') $delete_link = '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('user/exam_registration/del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>';
             $data[] = array(
                 $row['first_name'],
                 $row['last_name'],
@@ -49,7 +49,7 @@ class Exam_registration extends UR_Controller
                 $row['grade_name'],
                 $row['fees'],
                 $row['submitted'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_registration/view_exam/' . $row['id']) . '"> <i class="material-icons">visibility</i></a>' . $edit_link . $delete_link,
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_registration/view_exam/' . md5($row['id'])) . '"> <i class="material-icons">visibility</i></a>' . $edit_link . $delete_link,
             );
         }
         $records['data'] = $data;
@@ -134,9 +134,9 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('voucher_code', "Voucher Code", 'xss_clean|trim');
 
         if ($this->form_validation->run() == true) {
-            $venue=$this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
-            $venue_details=$venue->time_venue;
-            if(trim($venue->time_venue) == "Others") $venue_details=$this->input->post('time_venue_other');
+            $venue = $this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
+            $venue_details = $venue->time_venue;
+            if (trim($venue->time_venue) == "Others") $venue_details = $this->input->post('time_venue_other');
             $data = array(
                 'exam_type' => $this->input->post('exam_type'),
                 'first_name' => $this->input->post('first_name'),
@@ -174,6 +174,10 @@ class Exam_registration extends UR_Controller
     public function view_exam($id = null)
     {
         $data['records'] = $this->exam_registration_model->get_user_exam_details_by_id($id);
+        if (empty($data['records'])) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('user/exam_registration'));
+        }
         $data['view'] = 'user/exam_registration/view_exam';
         $this->load->view('layout', $data);
     }
@@ -205,16 +209,16 @@ class Exam_registration extends UR_Controller
         }
 
         if ($this->form_validation->run() == true) {
-            $venue=$this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
-            $venue_details=$venue->time_venue;
-            if(trim($venue->time_venue) == "Others") $venue_details=$this->input->post('time_venue_other');
+            $venue = $this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
+            $venue_details = $venue->time_venue;
+            if (trim($venue->time_venue) == "Others") $venue_details = $this->input->post('time_venue_other');
             $data = array(
                 'exam_type' => $this->input->post('exam_type'),
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'gender' => $this->input->post('gender'),
                 'dob' => $this->input->post('dob'),
-                'venue_details'=>$venue_details,
+                'venue_details' => $venue_details,
                 'school_name' => $this->input->post('school_name'),
                 'type' => $this->input->post('type'),
                 'time_venue' => $this->input->post('time_venue'),
@@ -253,145 +257,8 @@ class Exam_registration extends UR_Controller
 
         //@todo
         // later implement check for any association
-        $this->db->delete('ci_user_exam_details', array('id' => $id));
+        $this->db->delete('ci_user_exam_details', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Exam has been deleted successfully!');
         redirect(base_url('user/exam_registration'));
     }
-
-    public function submit_exam()
-    {
-
-        $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
-        $data['exam_details'] = $this->exam_registration_model->get_user_all_exam_details();
-        $data['title'] = 'Exam Submission';
-        $data['view'] = 'user/exam_registration/submit_exam';
-        $this->load->view('layout', $data);
-    }
-
-    public function save_submit_exam()
-    {
-        $total_fees = 0;
-        if ($this->input->post('submit')) {
-            if (!empty($_POST['val'])) {
-                $user_details = $this->exam_registration_model->get_user_detail();
-                $branch_admin_list = $this->exam_registration_model->get_branch_admin($user_details['branch_id']);
-                foreach ($_POST['val'] as $id) {
-                    $exam_details = $this->exam_registration_model->get_user_exam_details_by_id($id);
-                    $total_fees += $exam_details->fees;
-                    $employees[] = array(
-                        'exam_id' => $id,
-                        'first_name' => $exam_details->first_name,
-                        'ref_no' => 'S-' . strtotime(date("Y-m-d H:i:s")),
-                        'last_name' => $exam_details->last_name,
-                        'venue' => $exam_details->time_venue,
-                        'exam_types' => $exam_details->type_name,
-                        'type_types' => $exam_details->type_type,
-                        'grade' => $exam_details->grade_name,
-                        'instrument' => $exam_details->instrument_name,
-                        'exam_suite' => $exam_details->exam_suite,
-                        'fees' => $exam_details->fees,
-                        'created_date' => date('Y-m-d H:i:s'),
-                        'created_by' => $this->session->userdata('user_id'),
-
-                    );
-                }
-            }
-            if (isset($employees) && $this->exam_registration_model->add_exam_submission($employees)) {
-                $this->email_send_admin($employees[0], $total_fees, $user_details, 'kam@mindyourapp.com.my');
-                $this->email_send_user($employees[0], $total_fees, $user_details);
-                if (!empty($branch_admin_list)) {
-                    foreach ($branch_admin_list as $admin) {
-                        $this->email_send_admin($employees[0], $total_fees, $user_details, $admin->email);
-                    }
-                }
-                $submission_details = $this->exam_registration_model->get_submission_summary($employees[0]['ref_no']);
-                $this->session->set_userdata('submission_details', $submission_details);
-                redirect(base_url('user/exam_registration/exam_submission_success'));
-            }
-        } else {
-            $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
-            $data['exam_details'] = $this->exam_registration_model->get_user_all_exam_details();
-            $data['title'] = 'Exam Submission';
-            $data['view'] = 'user/exam_registration/submit_exam';
-            $this->load->view('layout', $data);
-        }
-    }
-
-    public function exam_submission_list()
-    {
-        $data['view'] = 'user/exam_submission/exam_submission_list';
-        $this->load->view('layout', $data);
-    }
-
-    public function exam_submission_success()
-    {
-        $data['title'] = 'Exam Submission';
-        $data['view'] = 'user/exam_registration/submit_success';
-        $obj =  $this->session->all_userdata();
-        $data['submission_details'] =  $obj['submission_details'];
-        $this->load->view('layout', $data);
-    }
-
-    //-----------------------------------------------------------------------
-
-    public function datatable_submission_json()
-    {
-//        $records = $this->branch_model->get_all_branches();
-        $records = $this->exam_registration_model->get_all_exam_submission_details();
-        $data = array();
-        foreach ($records['data'] as $row) {
-            $data[] = array(
-                $row['created_date'],
-                $row['ref_no'],
-                $row['id'],
-                $row['fees'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_registration/view_exam_submission/' . $row['ref_no']) . '"> <i class="material-icons">visibility</i></a>',
-
-            );
-        }
-        $records['data'] = $data;
-        echo json_encode($records);
-    }
-
-    public function view_exam_submission($id = null)
-    {
-        $data['records'] = $this->exam_registration_model->get_exam_submission_id($id);
-        $data['view'] = 'user/exam_registration/view_exam_submission';
-        $this->load->view('layout', $data);
-    }
-
-    public function email_send_admin($data, $fees, $user_details, $user_email)
-    {
-        $this->load->library('parser');
-        $parse_data = array(
-            'user' => $user_details['firstname'] . " " . $user_details['lastname'],
-            'ref_no' => $data['ref_no'],
-            'submission_date' => $data['created_date'],
-            'total_amount' => $fees,
-            'submission_link' => base_url('user/exam_registration/view_exam_submission/' . $data['ref_no']),
-        );
-        $msg = file_get_contents('uploads/email_templates/exam_submission.html');
-        $message = $this->parser->parse_string($msg, $parse_data);
-        $subject = 'Notification for Exam Submission (' . $data['ref_no'] . ')';
-        $this->load->helper('email_helper');
-        $email = sendEmail($user_email, $subject, $message, $file = '', $cc = '');
-
-    }
-
-    public function email_send_user($data, $fees, $user_details)
-    {
-        $this->load->library('parser');
-        $parse_data = array(
-            'user' => $user_details['firstname'] . " " . $user_details['lastname'],
-            'ref_no' => $data['ref_no'],
-            'submission_date' => $data['created_date'],
-            'total_amount' => $fees
-        );
-        $msg = file_get_contents('uploads/email_templates/exam_submission_user.html');
-        $message = $this->parser->parse_string($msg, $parse_data);
-        $subject = 'Notification for Exam Submission (' . $data['ref_no'] . ')';
-        $this->load->helper('email_helper');
-        $response = sendEmail($user_details['email'], $subject, $message, $file = '', $cc = '');
-    }
-
 }

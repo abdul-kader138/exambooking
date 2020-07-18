@@ -1,162 +1,184 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class Users extends MY_Controller {
-	public function __construct(){
-		parent::__construct();
-		$this->load->model('admin/user_model', 'user_model');
-		$this->load->model('activity_model','activity_model');
+
+class Users extends MY_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('admin/user_model', 'user_model');
+        $this->load->model('activity_model', 'activity_model');
         $this->load->library('email');
         $this->load->library('datatable'); // loaded my custom serverside datatable library
-		}
-		//-----------------------------------------------------------------------
-		public function index(){
-			$data['view'] = 'admin/users/user_list';
-			$this->load->view('layout', $data);
-		}
-		//-----------------------------------------------------------------------
-		public function datatable_json(){				   					   
-			$records = $this->user_model->get_all_users();
-			$data = array();
-			$i = 0;
-			foreach ($records['data']  as $row) 
-			{
-                $delete_link='';
-				$status = ($row['is_verify'] == 0)? 'pending': 'active'.'<span>';
+    }
+
+    //-----------------------------------------------------------------------
+    public function index()
+    {
+        $data['view'] = 'admin/users/user_list';
+        $this->load->view('layout', $data);
+    }
+
+    //-----------------------------------------------------------------------
+    public function datatable_json()
+    {
+        $records = $this->user_model->get_all_users();
+        $data = array();
+        $i = 0;
+        foreach ($records['data'] as $row) {
+            $delete_link = '';
+            $status = ($row['is_verify'] == 0) ? 'pending' : 'active' . '<span>';
 //				$disabled = ($row['is_admin'] == 1)? 'disabled': ''.'<span>';
-				if($this->session->userdata('admin_type') ==2)
-				$delete_link='<a title="Delete" class="delete btn btn-sm btn-danger" data-href="'.base_url('admin/users/del/'.$row['id']).'" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>';
-				$data[]= array(
-					++$i,
-					$row['firstname'],
-                    $row['lastname'],
-					$row['email'],
-					date('F j, Y',strtotime($row['created_at'])),
-					'<span class="btn bg-teal  waves-effect" title="status">'.getGroupyName($row['role']).'<span>',	// get Group name by ID (getGroupyName() is a helper function)
-					'<span class="btn bg-blue  waves-effect" title="status">'.$status.'<span>',			
-					
-					'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('admin/users/edit/'.$row['id']).'"> <i class="material-icons">visibility</i></a>
-					<a title="Edit" class="update btn btn-sm btn-primary" href="'.base_url('admin/users/edit/'.$row['id']).'"> <i class="material-icons">edit</i></a>
-					'.$delete_link,
-					
-				);
-			}
-			$records['data']=$data;
-			echo json_encode($records);						   
-		}
-		//-----------------------------------------------------------------------
-		public function add(){
-			$data['user_groups'] = $this->user_model->get_user_groups();
-            $data['branches'] = $this->user_model->get_branches();
-			if($this->input->post('submit')){
-				//$this->form_validation->set_rules('username', 'Username', 'trim|min_length[3]|required');
-				$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
-				$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
-				$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
-				$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
-				$this->form_validation->set_rules('password', 'Password', 'trim|required');
-				$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
-				$this->form_validation->set_rules('address', 'Address', 'trim');
-				$this->form_validation->set_rules('group', 'Group', 'trim|required');
-				if ($this->form_validation->run() == FALSE) {
-					$data['view'] = 'admin/users/user_add';
-					$this->load->view('layout', $data);
-				}
-				else{
-					$data = array(
-						//'username' => $this->input->post('username'),
-						'firstname' => $this->input->post('firstname'),
-						'lastname' => $this->input->post('lastname'),
-						'email' => $this->input->post('email'),
-						'mobile_no' => $this->input->post('mobile_no'),
-						'address' => $this->input->post('address'),
-						'branch_id' => $this->input->post('branch'),
-						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-						'role' => $this->input->post('group'),
-						'is_verify' => 1,
-						'created_at' => date('Y-m-d : h:m:s'),
-						'updated_at' => date('Y-m-d : h:m:s'),
-					);
-					$data = $this->security->xss_clean($data);
-					$result = $this->user_model->add_user($data);
-					if($result){
-						// Add User Activity
-						$this->activity_model->add(1);
+            if ($this->session->userdata('admin_type') == 2)
+                $delete_link = '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/users/del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>';
+            $data[] = array(
+                ++$i,
+                $row['firstname'],
+                $row['lastname'],
+                $row['email'],
+                date('F j, Y', strtotime($row['created_at'])),
+                '<span class="btn bg-teal  waves-effect" title="status">' . getGroupyName($row['role']) . '<span>',    // get Group name by ID (getGroupyName() is a helper function)
+                '<span class="btn bg-blue  waves-effect" title="status">' . $status . '<span>',
 
-						$this->session->set_flashdata('msg', 'User has been added successfully!');
-						redirect(base_url('admin/users'));
-					}
-				}
-			}
-			else{
-				$data['view'] = 'admin/users/user_add';
-				$this->load->view('layout', $data);
-			}
-			
-		}
-		//-----------------------------------------------------------------------
-		public function edit($id = 0){
-            $user_details= $this->user_model->get_user_by_id($id);
-            $data['user'] = $user_details;
-            $data['user_groups'] = $this->user_model->get_user_groups();
-            $data['branches'] = $this->user_model->get_branches();
-			if($this->input->post('submit')){
-				//$this->form_validation->set_rules('username', 'Username', 'trim|required');
-				$this->form_validation->set_rules('firstname', 'Username', 'trim|required');
-				$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
-				$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
-				$this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
-				$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
-				$this->form_validation->set_rules('status', 'Status', 'trim|required');
-				$this->form_validation->set_rules('address', 'Address', 'trim');
-				$this->form_validation->set_rules('group', 'Group', 'trim|required');
-                if ($this->input->post('email') != $user_details['email']) {
-                    $this->form_validation->set_rules('email', 'Email', 'is_unique[ci_users.email]');
+                '<a title="View" class="view btn btn-sm btn-info" href="' . base_url('admin/users/edit/' . md5($row['id'])) . '"> <i class="material-icons">visibility</i></a>
+					<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/users/edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
+					' . $delete_link,
+
+            );
+        }
+        $records['data'] = $data;
+        echo json_encode($records);
+    }
+
+    //-----------------------------------------------------------------------
+    public function add()
+    {
+        $data['user_groups'] = $this->user_model->get_user_groups();
+        $data['branches'] = $this->user_model->get_branches();
+        if ($this->input->post('submit')) {
+            //$this->form_validation->set_rules('username', 'Username', 'trim|min_length[3]|required');
+            $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
+            $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
+            $this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+            $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
+            $this->form_validation->set_rules('address', 'Address', 'trim');
+            $this->form_validation->set_rules('group', 'Group', 'trim|required');
+            if ($this->form_validation->run() == FALSE) {
+                $data['view'] = 'admin/users/user_add';
+                $this->load->view('layout', $data);
+            } else {
+                $data = array(
+                    //'username' => $this->input->post('username'),
+                    'firstname' => $this->input->post('firstname'),
+                    'lastname' => $this->input->post('lastname'),
+                    'email' => $this->input->post('email'),
+                    'mobile_no' => $this->input->post('mobile_no'),
+                    'address' => $this->input->post('address'),
+                    'branch_id' => $this->input->post('branch'),
+                    'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                    'role' => $this->input->post('group'),
+                    'is_verify' => 1,
+                    'created_at' => date('Y-m-d : h:m:s'),
+                    'updated_at' => date('Y-m-d : h:m:s'),
+                );
+                $data = $this->security->xss_clean($data);
+                $result = $this->user_model->add_user($data);
+                if ($result) {
+                    // Add User Activity
+                    $this->activity_model->add(1);
+
+                    $this->session->set_flashdata('msg', 'User has been added successfully!');
+                    redirect(base_url('admin/users'));
                 }
+            }
+        } else {
+            $data['view'] = 'admin/users/user_add';
+            $this->load->view('layout', $data);
+        }
 
-				if ($this->form_validation->run() == FALSE) {
-					$data['view'] = 'admin/users/user_edit';
-					$this->load->view('layout', $data);
-				}
-				else{
-					$data = array(
-						//'username' => $this->input->post('username'),
-						'firstname' => $this->input->post('firstname'),
-						'lastname' => $this->input->post('lastname'),
-						'email' => $this->input->post('email'),
-						'mobile_no' => $this->input->post('mobile_no'),
-						'branch_id' => $this->input->post('branch'),
-						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-						'role' => $this->input->post('group'),
-						'is_verify' => 1,
-						'address' => $this->input->post('address'),
-						'is_active' => $this->input->post('status'),
-						'updated_at' => date('Y-m-d : h:m:s'),
-					);
-					$data = $this->security->xss_clean($data);
-					$result = $this->user_model->edit_user($data, $id);
-					if($result){
+    }
 
-						// Add User Activity
-						$this->activity_model->add(2);
+    //-----------------------------------------------------------------------
+    public function edit($id = 0)
+    {
+        $user_details = $this->user_model->get_user_by_id($id);
+        if (empty($user_details)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/users'));
+        }
+        if (empty($user_details)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/users'));
+        }
+        $data['user'] = $user_details;
+        $data['user_groups'] = $this->user_model->get_user_groups();
+        $data['branches'] = $this->user_model->get_branches();
+        if ($this->input->post('submit')) {
+            //$this->form_validation->set_rules('username', 'Username', 'trim|required');
+            $this->form_validation->set_rules('firstname', 'Username', 'trim|required');
+            $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
+            $this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
+            $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
+            $this->form_validation->set_rules('status', 'Status', 'trim|required');
+            $this->form_validation->set_rules('address', 'Address', 'trim');
+            $this->form_validation->set_rules('group', 'Group', 'trim|required');
+            if ($this->input->post('email') != $user_details['email']) {
+                $this->form_validation->set_rules('email', 'Email', 'is_unique[ci_users.email]');
+            }
 
-						$this->session->set_flashdata('msg', 'User has been updated successfully!');
-						redirect(base_url('admin/users'));
-					}
-				}
-			}
-			else{
-				$data['view'] = 'admin/users/user_edit';
-				$this->load->view('layout', $data);
-			}
-		}
-		//-----------------------------------------------------------------------
-		public function del($id = 0){
-			$this->db->delete('ci_users', array('id' => $id));
+            if ($this->form_validation->run() == FALSE) {
+                $data['view'] = 'admin/users/user_edit';
+                $this->load->view('layout', $data);
+            } else {
+                $data = array(
+                    //'username' => $this->input->post('username'),
+                    'firstname' => $this->input->post('firstname'),
+                    'lastname' => $this->input->post('lastname'),
+                    'email' => $this->input->post('email'),
+                    'mobile_no' => $this->input->post('mobile_no'),
+                    'branch_id' => $this->input->post('branch'),
+                    'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                    'role' => $this->input->post('group'),
+                    'is_verify' => 1,
+                    'address' => $this->input->post('address'),
+                    'is_active' => $this->input->post('status'),
+                    'updated_at' => date('Y-m-d : h:m:s'),
+                );
+                $data = $this->security->xss_clean($data);
+                $result = $this->user_model->edit_user($data, $id);
+                if ($result) {
 
-			// Add User Activity
-			$this->activity_model->add(3);
+                    // Add User Activity
+                    $this->activity_model->add(2);
 
-			$this->session->set_flashdata('msg', 'Use has been deleted successfully!');
-			redirect(base_url('admin/users'));
-		}
-	}
+                    $this->session->set_flashdata('msg', 'User has been updated successfully!');
+                    redirect(base_url('admin/users'));
+                }
+            }
+        } else {
+            $data['view'] = 'admin/users/user_edit';
+            $this->load->view('layout', $data);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    public function del($id = 0)
+    {
+        $user_details = $this->user_model->get_user_by_id($id);
+        if (empty($user_details)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/users'));
+        }
+        $this->db->delete('ci_users', array('md5(id)' => $id));
+
+        // Add User Activity
+        $this->activity_model->add(3);
+
+        $this->session->set_flashdata('msg', 'Use has been deleted successfully!');
+        redirect(base_url('admin/users'));
+    }
+}
+
 ?>

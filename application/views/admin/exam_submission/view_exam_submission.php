@@ -10,7 +10,14 @@
                     </div>
                     <div class="body">
                         <div class="row clearfix">
+                            <div class="col-sm-4">
+                              <b> Submitted By : <?=$records[0]->firstname.' '.$records[0]->lastname?></b>
+                            </div>
+                            <div class="col-sm-4">
+                                <b>Submission Date: <?=$records[0]->created_date?></b>
+                            </div>
                             <div class="col-sm-12">
+
                                 <div class="table-responsive" style="overflow-x:auto;">
                                     <table id="na_datatable"
                                            class="table table-bordered table-striped table-hover dataTable">
@@ -25,6 +32,7 @@
                                             <th>Instrument/Product/Category</th>
                                             <th>Grade</th>
                                             <th>Fees</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <?php
@@ -44,12 +52,15 @@
                                                 <td><?= $exam_detail->instrument ?></td>
                                                 <td><?= $exam_detail->grade ?></td>
                                                 <td><?= $exam_detail->fees ?></td>
+                                                <td><a title="View" class="update btn btn-sm btn-info" href="<?php echo base_url('admin/exam_registration/update_submission/' .md5($exam_detail->id)) ?>"> <i class="material-icons">visibility</i></a>
+                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                         <tbody>
                                         <tr style="background-color: #9db5b0">
                                             <td colspan="8" style="text-align: right"><b>Total :</b></td>
                                             <td><b><?= $total_fees ?></b></td>
+                                            <td></td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -27,7 +27,6 @@
             return true;
         }
         //---------------------------------------------------
-        // get all users for server-side datatable processing (ajax based)
         public function get_all_users(){
             $wh =array();
             $SQL ='SELECT * FROM ci_users';
@@ -108,14 +107,14 @@
         //---------------------------------------------------
         // Get user detial by ID
         public function get_user_by_id($id){
-            $query = $this->db->get_where('ci_users', array('id' => $id));
+            $query = $this->db->get_where('ci_users', array('md5(id)' => $id));
             return $result = $query->row_array();
         }
 
         //---------------------------------------------------
         // Edit user Record
         public function edit_user($data, $id){
-            $this->db->where('id', $id);
+            $this->db->where('md5(id)', $id);
             $this->db->update('ci_users', $data);
             return true;
         }

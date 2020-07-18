@@ -8,7 +8,6 @@ class User_model extends CI_Model
         return true;
     }
     //---------------------------------------------------
-    // get all users for server-side datatable processing (ajax based)
     public function get_all_users()
     {
         $wh = array();
@@ -25,7 +24,6 @@ class User_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // get all user records
     public function get_all_simple_users()
     {
         $this->db->where('is_admin', 0);
@@ -35,14 +33,12 @@ class User_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Count total user for pagination
     public function count_all_users()
     {
         return $this->db->count_all('ci_users');
     }
 
     //---------------------------------------------------
-    // Get all users for pagination
     public function get_all_users_for_pagination($limit, $offset)
     {
         $wh = array();
@@ -61,7 +57,6 @@ class User_model extends CI_Model
 
 
     //---------------------------------------------------
-    // get all users for server-side datatable with advanced search
     public function get_all_users_by_advance_search()
     {
         $wh = array();
@@ -87,24 +82,21 @@ class User_model extends CI_Model
 
 
     //---------------------------------------------------
-    // Get user detial by ID
     public function get_user_by_id($id)
     {
-        $query = $this->db->get_where('ci_users', array('id' => $id));
+        $query = $this->db->get_where('ci_users', array('md5(id)' => $id));
         return $result = $query->row_array();
     }
 
     //---------------------------------------------------
-    // Edit user Record
     public function edit_user($data, $id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('md5(id)', $id);
         $this->db->update('ci_users', $data);
         return true;
     }
 
     //---------------------------------------------------
-    // Get User Role/Group
     public function get_user_groups()
     {
         $query = $this->db->get('ci_user_groups');
@@ -112,7 +104,6 @@ class User_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Branch
     public function get_branches()
     {
         if ($this->session->userdata('admin_type') == 3) {

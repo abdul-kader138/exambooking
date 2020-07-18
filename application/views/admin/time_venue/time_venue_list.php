@@ -72,11 +72,11 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('admin/time_venue/datatable_json')?>",
-        "order": [[1, 'asc']],
+        "order": [[2, 'asc']],
         "columnDefs": [
-            {"targets": 0, "name": "id", 'searchable': true, 'orderable': true},
+            {"targets": 0, "name": "id", 'searchable': false, 'orderable': true},
             {"targets": 1, "name": "ci_time_venue.time_venue", 'searchable': true, 'orderable': true},
-            {"targets": 2, "name": "ci_exam_type.id", 'searchable': true, 'orderable': true},
+            {"targets": 2, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
             {"targets": 3, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });

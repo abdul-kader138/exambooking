@@ -15,10 +15,11 @@ class Exam_registration_model extends CI_Model
                ci_user_exam_details.exam_type=ci_exam_type.id inner join ci_exam_type_types on 
                ci_user_exam_details.exam_type=ci_exam_type_types.exam_type_id and ci_user_exam_details.type=ci_exam_type_types.id inner join 
                ci_exam_instrument_product on ci_user_exam_details.instrument=ci_exam_instrument_product.id inner join ci_exam_grade_diploma 
-               on ci_user_exam_details.grade=ci_exam_grade_diploma.id';
-        if ($this->session->userdata('user_id') != '')
-            $wh[] = "ci_user_exam_details.submitted='No' and ci_user_exam_details.created_by = '" . $this->session->userdata('user_id') . "'";
-        else $wh[] = "ci_user_exam_details.submitted='No'";
+               on ci_user_exam_details.grade=ci_exam_grade_diploma.id inner join ci_users on ci_user_exam_details.created_by=ci_users.id';
+        if ($this->session->userdata('admin_type') == '2')
+            $wh[] = "ci_user_exam_details.submitted='No'";
+        if ($this->session->userdata('admin_type') == '3')
+            $wh[] = "ci_user_exam_details.submitted='No' and ci_users.branch_id = '" . $this->session->userdata('branch_id') . "'";
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
             return $this->datatable->LoadJson($SQL, $WHERE);
@@ -28,7 +29,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Exam Types
     public function get_exam_types()
     {
         $query = $this->db->get('ci_exam_type');
@@ -42,7 +42,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Exam Types by id
     public function get_exam_type_by_id($id = null)
     {
         $query = $this->db->get_where('ci_exam_type', array('id' => $id));
@@ -50,7 +49,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Exam Type Types
     public function get_exam_type_types_by_id($id = null)
     {
         $query = $this->db->get_where('ci_exam_type_types', array('exam_type_id' => $id));
@@ -64,7 +62,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Time &  Venue
     public function get_time_venue($exam_type_id)
     {
         $this->db->where('exam_type_id', $exam_type_id);
@@ -78,9 +75,7 @@ class Exam_registration_model extends CI_Model
         return false;
     }
 
-
     //---------------------------------------------------
-    // Get Exam Type Types Details
     public function get_instrument_by_exam_id($exam_type_id = null, $exam_type_types_id = null)
     {
         $query = $this->db->get_where('ci_exam_instrument_product', array('exam_type_id' => $exam_type_id, 'type_types_id' => $exam_type_types_id));
@@ -95,7 +90,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Exam Type grade Details
     public function get_grade_by_exam_id($exam_type_types_id = null, $instruments_id = null)
     {
         $this->db->select('ci_exam_grade_diploma.id,ci_exam_grade_diploma.grade_name')
@@ -126,9 +120,11 @@ class Exam_registration_model extends CI_Model
             ->join('ci_exam_type', 'ci_user_exam_details.exam_type=ci_exam_type.id', 'inner')
             ->join('ci_exam_type_types', 'ci_user_exam_details.type=ci_exam_type_types.id', 'inner')
             ->join('ci_exam_instrument_product', 'ci_user_exam_details.instrument=ci_exam_instrument_product.id', 'inner')
-            ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner');
-//        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id, 'ci_user_exam_details.created_by' => $this->session->userdata('user_id')));
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.id' => $id));
+            ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner')
+            ->join('ci_users', 'ci_user_exam_details.created_by=ci_users.id', 'inner');
+        if ($this->session->userdata('admin_type') == '3')
+            $this->db->where('ci_users.branch_id', $this->session->userdata('branch_id'));
+        $query = $this->db->get_where('ci_user_exam_details', array('md5(ci_user_exam_details.id)' => $id));
         if ($query->num_rows() > 0) {
             return $query->row();
         }
@@ -150,8 +146,10 @@ class Exam_registration_model extends CI_Model
             ->join('ci_exam_type', 'ci_user_exam_details.exam_type=ci_exam_type.id', 'inner')
             ->join('ci_exam_type_types', 'ci_user_exam_details.type=ci_exam_type_types.id', 'inner')
             ->join('ci_exam_instrument_product', 'ci_user_exam_details.instrument=ci_exam_instrument_product.id', 'inner')
-            ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner');
-
+            ->join('ci_exam_grade_diploma', 'ci_user_exam_details.grade=ci_exam_grade_diploma.id', 'inner')
+            ->join('ci_users', 'ci_user_exam_details.created_by=ci_users.id', 'inner');
+        if ($this->session->userdata('admin_type') == '3')
+            $this->db->where('ci_users.branch_id', $this->session->userdata('branch_id'));
 //        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.created_by' => $this->session->userdata('user_id'), 'ci_user_exam_details.submitted' => 'No'));
         $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.submitted' => 'No'));
         if ($query->num_rows() > 0) {
@@ -163,8 +161,8 @@ class Exam_registration_model extends CI_Model
         return false;
 
     }
+
     //---------------------------------------------------
-    // Get Exam Type types by exam type id
     public function get_types_by_exam_type_id($exam_type_id = null)
     {
         $query = $this->db->get_where('ci_exam_type_types', array('exam_type_id' => $exam_type_id));
@@ -197,8 +195,11 @@ class Exam_registration_model extends CI_Model
     //---------------------------------------------------
     public function get_user_all_exam_list()
     {
-        $this->db->select('*');
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.created_by' => $this->session->userdata('user_id'), 'ci_user_exam_details.submitted' => 'No'));
+        if ($this->session->userdata('admin_type') == '3') $this->db->where('ci_users.branch_id', $this->session->userdata('branch_id'));
+        $this->db->where('ci_user_exam_details.submitted', 'Yes');
+        $this->db->select('ci_user_exam_details.*')
+            ->join('ci_users', 'ci_user_exam_details.created_by=ci_users.id', 'inner');
+        $query = $this->db->get('ci_user_exam_details');
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;
@@ -210,7 +211,6 @@ class Exam_registration_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // Get Exam Type grade Details
     public function get_submission_summary($ref_id = null)
     {
         $this->db->select('sum(ci_exam_submission_details.fees) as total_fees,ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date');
@@ -223,18 +223,15 @@ class Exam_registration_model extends CI_Model
         return false;
     }
 
-
-    // get all user exam for server-side datatable processing (ajax based)
     public function get_all_exam_submission_details()
     {
         $wh = array();
-        $SQL = 'SELECT sum(fees) as fees, ref_no,created_date,count(id) as id
-                FROM ci_exam_submission_details';
-        if ($this->session->userdata('user_id') != '')
-            $wh[] = "ci_exam_submission_details.created_by = '" . $this->session->userdata('user_id') . "'";
-   else $wh[] = "ci_exam_submission_details.exam_id !=''";
-//        $group_by = ' group by ref_no';
-        $group_by = ' ';
+        $SQL = 'SELECT concat(ci_users.firstname," ",ci_users.lastname) as firstname,sum(ci_exam_submission_details.fees) as fees, ci_exam_submission_details.ref_no,created_date,count(ci_exam_submission_details.id) as id
+                  FROM ci_exam_submission_details inner join ci_users on ci_exam_submission_details.created_by=ci_users.id';
+        if ($this->session->userdata('admin_type') == '3')
+            $wh[] = "ci_users.branch_id = '" . $this->session->userdata('branch_id') . "'";
+        else $wh[]='';
+        $group_by = ' group by ref_no';
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
             return $this->datatable->LoadJson($SQL, $WHERE, $group_by);
@@ -243,8 +240,12 @@ class Exam_registration_model extends CI_Model
         }
     }
 
+
+    //---------------------------------------------------
     public function get_exam_submission_id($ref_id = null)
     {
+        $this->db->select('ci_exam_submission_details.*,ci_users.firstname,ci_users.lastname')
+            ->join('ci_users', 'ci_exam_submission_details.created_by=ci_users.id', 'inner');
         $query = $this->db->get_where('ci_exam_submission_details', array('md5(ref_no)' => $ref_id));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
@@ -255,8 +256,8 @@ class Exam_registration_model extends CI_Model
         return false;
     }
 
-
     //---------------------------------------------------
+
 
     public function get_branch_admin($branch_id)
     {
@@ -287,13 +288,25 @@ class Exam_registration_model extends CI_Model
         return false;
     }
 
-
     //---------------------------------------------------
+
+
     // Get Time &  Venue
     public function get_time_venue_by_id($id)
     {
         $this->db->where('id', $id);
         $query = $this->db->get('ci_time_venue');
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
+    }
+
+    public function get_single_submission_by_id($id = null)
+    {
+        $this->db->select('ci_exam_submission_details.*,ci_users.firstname,ci_users.lastname')
+            ->join('ci_users', 'ci_exam_submission_details.created_by=ci_users.id', 'inner');
+        $query = $this->db->get_where('ci_exam_submission_details', array('md5(ci_exam_submission_details.id)' => $id));
         if ($query->num_rows() > 0) {
             return $query->row();
         }

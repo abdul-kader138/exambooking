@@ -30,7 +30,7 @@ class Time_venue extends MY_Controller
             $data[] = array(
                 ++$i,
                 $row['time_venue'],
-                $row['e_name'],
+                $row['name'],
                 '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/time_venue/time_venue_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
 					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/time_venue/time_venue_del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
@@ -95,6 +95,10 @@ class Time_venue extends MY_Controller
         }
         $id = $this->secure_data($id);
         $time_venue_info = $this->time_venue_model->get_time_venue_by_id($id);
+        if (empty($time_venue_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/time_venue'));
+        }
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('time_venue', 'Time Venue', 'trim|required');
             $this->form_validation->set_rules('exam_type', 'Time Venue', 'trim|required');

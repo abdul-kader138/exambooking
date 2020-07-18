@@ -27,7 +27,7 @@
                 <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                     <div class="form-group">
                         <div class="form-line">
-                            <input type="text" id="suite_name" name="suite_name" required value="<?= $time_venue['time_venue']; ?>" class="form-control">
+                            <input type="text" id="time_venue" name="time_venue" required value="<?= $time_venue['time_venue']; ?>" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -38,13 +38,13 @@
                 </div>
                 <div class="col-lg-8 col-md-7 col-sm-7 col-xs-7">
                     <div class="form-check form-check-inline">
-                        <input type="radio" <?php echo (isset($time_venue['exam_type_id'])=='1' ?'checked':''); ?> value="1" class="form-check-input" id="music"
+                        <input type="radio" value="1" <?php if ($time_venue['exam_type_id'] =='1'){echo 'checked="checked"';} ?> class="form-check-input" id="music"
                                name="exam_type">
                         <label class="form-check-label" style="font-size: 14px;" for="music">Music</label>
-                        <input type="radio" value="2" <?php echo (isset($time_venue['exam_type_id'])=='2' ?'checked':''); ?> class="form-check-input" id="drama"
+                        <input type="radio" value="2" <?php if ($time_venue['exam_type_id'] =='2'){echo 'checked="checked"';} ?> class="form-check-input" id="drama"
                                name="exam_type">
                         <label class="form-check-label" style="font-size: 14px;" for="drama">Drama</label>
-                        <input type="radio" value="3" <?php echo (isset($time_venue['exam_type_id'])=='3' ?'checked':''); ?> class="form-check-input" id="language"
+                        <input type="radio" value="3" <?php if ($time_venue['exam_type_id'] =='3'){echo 'checked="checked"';} ?> class="form-check-input" id="language"
                                name="exam_type">
                         <label class="form-check-label" style="font-size: 14px;" for="language">Language</label>
 

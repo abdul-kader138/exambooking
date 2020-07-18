@@ -80,14 +80,14 @@
 		//---------------------------------------------------
 		// Get branch detial by ID
 		public function get_branch_by_id($id){
-			$query = $this->db->get_where('ci_branches', array('id' => $id));
+			$query = $this->db->get_where('ci_branches', array('md5(id)' => $id));
 			return $result = $query->row_array();
 		}
 
 		//---------------------------------------------------
 		// Edit branch Record
 		public function edit_branch($data, $id){
-			$this->db->where('id', $id);
+			$this->db->where('md5(id)', $id);
 			$this->db->update('ci_branches', $data);
 			return true;
 		}

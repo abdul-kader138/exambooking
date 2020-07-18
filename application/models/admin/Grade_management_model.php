@@ -25,7 +25,6 @@ class Grade_management_model extends CI_Model
     }
 
     //---------------------------------------------------
-    // get all exam_suite records
     public function get_all_simple_grade_management()
     {
         $this->db->order_by('created_date', 'desc');

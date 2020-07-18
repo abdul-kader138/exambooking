@@ -106,6 +106,10 @@ class Exam_attribute extends MY_Controller
         }
         $id = $this->secure_data($id);
         $exam_attribute = $this->exam_attribute_model->get_exam_attribute_by_id($id);
+        if (empty($exam_attribute)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_attribute'));
+        }
 
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('attribute_name', 'Attribute Name', 'trim|required');

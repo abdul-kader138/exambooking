@@ -38,7 +38,7 @@ if ($records->type_types_id == '1') {
 }
 ?>
 <div class="container-fluid">
-    <?php echo form_open(base_url('user/exam_registration/edit_exam/' . $records->id), 'class="form-horizontal"'); ?>
+    <?php echo form_open(base_url('user/exam_registration/edit_exam/' . md5($records->id)), 'class="form-horizontal"'); ?>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">

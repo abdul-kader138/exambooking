@@ -94,6 +94,10 @@ class Exam_suite extends MY_Controller
         }
         $id = $this->secure_data($id);
         $exam_suite_info = $this->exam_suite_model->get_exam_suite_by_id($id);
+        if (empty($exam_suite_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_suite'));
+        }
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('suite_name', 'Suite Name', 'trim|required');
             if (strtolower($exam_suite_info['name']) != strtolower(trim($this->input->post('suite_name')))) {
@@ -133,11 +137,6 @@ class Exam_suite extends MY_Controller
     public function exam_suite_del($id = 0)
     {
 
-//        Check brach association with Exam
-        if($this->exam_suite_model->get_exam_suite_from_exam($id)){
-            $this->session->set_flashdata('error', 'Exam Suite has association with Exam,please first remove the association.');
-            redirect(base_url('admin/exam_suite'));
-        }
         $this->db->delete('ci_exam_suite', array('id' => $id));
 
         // Add User Activity

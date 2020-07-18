@@ -98,10 +98,14 @@ class Voucher extends MY_Controller
         }
         $id = $this->secure_data($id);
         $voucher_info = $this->voucher_model->get_voucher_by_id($id);
+        if (empty($voucher_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/voucher'));
+        }
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('code', 'Voucher Code', 'trim|required');
             $this->form_validation->set_rules('fee', 'Fee', 'trim|required');
-            if (strtolower($voucher_info['name']) != strtolower(trim($this->input->post('code')))) {
+            if (strtolower($voucher_info['code']) != strtolower(trim($this->input->post('code')))) {
                 $this->form_validation->set_rules('code', 'Voucher Code', 'is_unique[ci_voucher.code]');
             }
 

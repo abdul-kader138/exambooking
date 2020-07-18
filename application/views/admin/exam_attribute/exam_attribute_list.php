@@ -77,8 +77,8 @@
         "order": [[3, 'asc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_exam_instrument_product.id", 'searchable': true, 'orderable': true},
-            {"targets": 1, "name": "ci_exam_type.id", 'searchable': true, 'orderable': true},
-            {"targets": 2, "name": "ci_exam_type_types.id", 'searchable': true, 'orderable': true},
+            {"targets": 1, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
+            {"targets": 2, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
             {"targets": 3, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},
             {"targets": 4, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]

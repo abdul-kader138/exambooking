@@ -18,6 +18,7 @@
                     <table id="na_datatable" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                         <tr>
+                            <th>Submitted By</th>
                             <th>Submission Date</th>
                             <th>Reference No</th>
                             <th>Candidate</th>
@@ -27,6 +28,7 @@
                         </thead>
                         <tfoot>
                         <tr>
+                            <th>Submitted By</th>
                             <th>Submission Date</th>
                             <th>Reference No</th>
                             <th>Candidate</th>
@@ -55,10 +57,11 @@
         "order": [[0, 'desc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_exam_submission_details.created_date", 'searchable': true, 'orderable': true},
-            {"targets": 1, "name": "ci_exam_submission_details.ref_no", 'searchable': true, 'orderable': true},
-            {"targets": 2, "name": "ci_exam_submission_details.id", 'searchable': true, 'orderable': true},
-            {"targets": 3, "name": "ci_exam_submission_details.fees", 'searchable': true, 'orderable': true},
-            {"targets": 4, "name": "Action", 'searchable': false, 'orderable': false, 'width': '40px'}
+            {"targets": 1, "name": "ci_users.firstname", 'searchable': true, 'orderable': true},
+            {"targets": 2, "name": "ci_exam_submission_details.ref_no", 'searchable': true, 'orderable': true},
+            {"targets": 3, "name": "ci_exam_submission_details.id", 'searchable': true, 'orderable': true},
+            {"targets": 4, "name": "ci_exam_submission_details.fees", 'searchable': true, 'orderable': true},
+            {"targets": 5, "name": "Action", 'searchable': false, 'orderable': false, 'width': '40px'}
 
         ]
     });

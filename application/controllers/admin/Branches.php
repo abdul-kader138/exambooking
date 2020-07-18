@@ -34,7 +34,7 @@ class Branches extends MY_Controller
                 ++$i,
                 $row['branch_name'],
                 $row['created_at'],
-                '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/branches/branch_edit/' . $row['id']) . '"> <i class="material-icons">edit</i></a>
+                '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/branches/branch_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
 					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/branches/del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
             );
@@ -91,6 +91,10 @@ class Branches extends MY_Controller
             redirect(base_url('admin'));
         }
         $branch_info = $this->branch_model->get_branch_by_id($id);
+        if (empty($branch_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/branches'));
+        }
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('branch_name', 'Branch Name', 'trim|required');
             if ($branch_info['branch_name'] != $this->input->post('branch_name')) {
