@@ -211,8 +211,18 @@ class Fee_management_model extends CI_Model
         return false;
     }
 
+    public function get_fee_from_exam_fee_by_id($instrument,$grade,$suite_name,$fees){
+        $query = $this->db->get_where('ci_user_exam_details', array('instrument' => $instrument,'grade'=>$grade,'LOWER(exam_suite)'=>strtolower($suite_name),'fees'=>$fees));
+        return $result = $query->row_array();
+    }
+
     public function get_fee_from_exam_by_id($instrument,$grade,$suite_name){
-        $query = $this->db->get_where('ci_exam_suite_fees', array('instrument' => $instrument,'grade'=>$grade));
+        $query = $this->db->get_where('ci_user_exam_details', array('instrument' => $instrument,'grade'=>$grade,'LOWER(exam_suite)'=>strtolower($suite_name)));
+        return $result = $query->row_array();
+    }
+    public function get_exam_suite_by_id($id)
+    {
+        $query = $this->db->get_where('ci_exam_suite', array('id' => $id));
         return $result = $query->row_array();
     }
 }

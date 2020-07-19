@@ -182,5 +182,22 @@ class Exam_registration extends MY_Controller
         $data['view'] = 'admin/exam_submission/submission_update';
         $this->load->view('layout', $data);
     }
+    public function update_voucher_info()
+    {
+        $submission_id = $this->input->post('submission_id');
+        $voucher_code = $this->input->post('voucher_code');
+        $status = $this->input->post('status');
+        $update_submission = $this->exam_registration_model->update_voucher_info($submission_id, $status,$voucher_code);
+        echo json_encode($update_submission);
+    }
+
+    public function update_exam_info()
+    {
+        $exam = $this->input->post('exam');
+        $exam_dates = $this->input->post('exam_dates');
+        $submission_id = $this->input->post('submission_id');
+        $update_exam_info = $this->exam_registration_model->update_exam_info($submission_id, $exam,$exam_dates);
+        echo json_encode($update_exam_info);
+    }
 
 }

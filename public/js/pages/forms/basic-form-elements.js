@@ -1,9 +1,11 @@
 $(function () {
     //Datetimepicker plugin
     $('.datetimepicker').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm',
+        format: 'YYYY-MM-DD hh:mm:ss',
         clearButton: true,
-        weekStart: 1
+        weekStart: 1,
+        pickTime:true
+        // time: true,
     });
 
     $('.datepicker').bootstrapMaterialDatePicker({

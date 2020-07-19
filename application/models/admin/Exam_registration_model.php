@@ -4,6 +4,30 @@ class Exam_registration_model extends CI_Model
 {
 
     //---------------------------------------------------
+
+    public function update_voucher_info($submission_id, $status,$voucher_code)
+    {
+        $this->db->trans_strict(TRUE);
+        $this->db->trans_start();
+        $this->db->where('id', $submission_id);
+        $this->db->update('ci_exam_submission_details', array('exam_status'=>$status,'voucher_code'=>$voucher_code));
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) return  array('update_status'=>'No');
+        return array('update_status'=>'Yes');
+    }
+
+    public function update_exam_info($submission_id, $exam,$exam_dates)
+    {
+        $this->db->trans_strict(TRUE);
+        $this->db->trans_start();
+        $this->db->where('id', $submission_id);
+        $this->db->update('ci_exam_submission_details', array('exam_no'=>$exam,'exam_date'=>$exam_dates));
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) return  array('update_status'=>'No');
+        return array('update_status'=>'Yes');
+    }
+
+    //---------------------------------------------------
     public function get_all_user_exam_details()
     {
         $wh = array();

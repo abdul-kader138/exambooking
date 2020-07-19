@@ -46,29 +46,7 @@
                     <li id="add_exam">
                         <a href="<?= base_url('user/exam_registration/add_exam'); ?>">Add New</a>
                     </li>
-                    <li id="exam_submission_list">
-                        <a href="<?= base_url('user/exam_registration/exam_submission_list'); ?>">Submitted Exam
-                            List</a>
-                    </li>
-                    <li id="basic">
-                        <a href="<?= base_url('user/forms/basic'); ?>">Basic Form Elements</a>
-                    </li>
-                    <li id="advanced">
-                        <a href="<?= base_url('user/forms/advanced'); ?>">Advanced Form Elements</a>
-                    </li>
-                    <li id="examples">
-                        <a href="<?= base_url('user/forms/examples'); ?>">Form Examples</a>
-                    </li>
-                    <li id="validation">
-                        <a href="<?= base_url('user/forms/validation'); ?>">Form Validation</a>
-                    </li>
-                    <li id="wizard">
-                        <a href="<?= base_url('user/forms/wizard'); ?>">Form Wizard</a>
-                    </li>
-                    <li id="editors">
-                        <a href="<?= base_url('user/forms/editors'); ?>">Editors</a>
-                    </li>
-                </ul>
+                   </ul>
             </li>
             <li id="exam_submission">
                 <a href="javascript:void(0);" class="menu-toggle">
@@ -78,15 +56,6 @@
                 <ul class="ml-menu">
                     <li id="exam_submission_list">
                         <a href="<?= base_url('user/exam_submission/exam_submission_list'); ?>">My Submission</a>
-                    </li>
-                    <li id="normal">
-                        <a href="<?= base_url('user/tables/normal'); ?>">Normal Tables</a>
-                    </li>
-                    <li id="jquery">
-                        <a href="<?= base_url('user/tables/jquery'); ?>">Jquery Datatables</a>
-                    </li>
-                    <li id="editable">
-                        <a href="<?= base_url('user/tables/editable'); ?>">Editable Tables</a>
                     </li>
                 </ul>
             </li>
