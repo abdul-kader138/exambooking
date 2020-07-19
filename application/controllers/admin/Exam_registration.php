@@ -143,8 +143,8 @@ class Exam_registration extends MY_Controller
                 $row['ref_no'],
                 $row['id'],
                 $row['fees'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>
-                 <a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' . md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>'.
+                 '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' .md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
         }
         $records['data'] = $data;
         echo json_encode($records);
@@ -166,11 +166,11 @@ class Exam_registration extends MY_Controller
         $data['records'] = $this->exam_registration_model->get_exam_submission_id($id);
         if (empty($data['records'])) {
             $this->session->set_flashdata('error', 'Information not found!!');
-            redirect(base_url('admin/exam_submission_list'));
+            redirect(base_url('admin/exam_registration/exam_submission_list'));
         }
         $this->db->delete('ci_exam_submission_details', array('md5(ref_no)' => $id));
-        $this->session->set_flashdata('msg', 'Exam Attribute has been deleted successfully!');
-        redirect(base_url('admin/exam_attribute'));
+        $this->session->set_flashdata('msg', 'Information has been deleted successfully!');
+        redirect(base_url('admin/exam_registration/exam_submission_list'));
     }
     public function update_submission($id = null)
     {

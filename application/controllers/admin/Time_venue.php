@@ -143,11 +143,10 @@ class Time_venue extends MY_Controller
     public function time_venue_del($id = 0)
     {
 
-//        Check brach association with Exam
-//        if($this->time_venue_model->get_time_venue_from_exam($id)){
-//            $this->session->set_flashdata('error', 'Time & Venue has association with Exam,please first remove the association.');
-//            redirect(base_url('admin/time_venue'));
-//        }
+        if($this->time_venue_model->get_venue_from_exam_by_id($id)){
+            $this->session->set_flashdata('error', 'Venue name has association with Exam,please first remove the association.');
+            redirect(base_url('admin/time_venue'));
+        }
         $this->db->delete('ci_time_venue', array('id' => $id));
 
         // Add User Activity

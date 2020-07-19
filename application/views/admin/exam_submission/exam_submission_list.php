@@ -44,6 +44,24 @@
 </div>
 <!-- #END# Exportable Table -->
 
+<div id="confirm-delete" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete</h4>
+            </div>
+            <div class="modal-body">
+                <p>As you sure you want to delete.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Jquery DataTable Plugin Js -->
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
@@ -73,8 +91,10 @@
 <script>
     //Delete Dialogue
     $('#confirm-delete').on('show.bs.modal', function (e) {
+
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
+
     $("#exam_submission_list").addClass('active');
 </script>
 

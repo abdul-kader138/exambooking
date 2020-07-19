@@ -170,10 +170,10 @@ class Grade_management extends MY_Controller
     public function grade_management_del($id = 0)
     {
 
-//        if ($this->exam_attribute_model->get_exam_attribute_from_exam($id)) {
-//            $this->session->set_flashdata('error', 'Exam Attribute has association with Exam,please first remove the association.');
-//            redirect(base_url('admin/exam_attribute'));
-//        }
+        if($this->grade_management_model->get_grade_from_fees_by_id($id)){
+            $this->session->set_flashdata('error', 'Grade name has association with Exam Fee,please first remove the association.');
+            redirect(base_url('admin/grade_management'));
+        }
         $this->db->delete('ci_exam_grade_diploma', array('id' => $id));
 
         // Add User Activity

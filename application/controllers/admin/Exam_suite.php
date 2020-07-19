@@ -136,7 +136,10 @@ class Exam_suite extends MY_Controller
     //-----------------------------------------------------------------------
     public function exam_suite_del($id = 0)
     {
-
+        if($this->exam_suite_model->get_suite_from_fees_by_id($id)){
+            $this->session->set_flashdata('error', 'Suite name has association with Exam Fee,please first remove the association.');
+            redirect(base_url('admin/exam_suite'));
+        }
         $this->db->delete('ci_exam_suite', array('id' => $id));
 
         // Add User Activity

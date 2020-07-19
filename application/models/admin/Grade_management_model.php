@@ -162,6 +162,11 @@ class Grade_management_model extends CI_Model
         }
         return false;
     }
+
+    public function get_grade_from_fees_by_id($id){
+        $query = $this->db->get_where('ci_exam_suite_fees', array('grade_id' => $id));
+        return $result = $query->row_array();
+    }
 }
 
 ?>

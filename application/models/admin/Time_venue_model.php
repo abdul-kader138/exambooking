@@ -90,6 +90,11 @@ class Time_venue_model extends CI_Model{
         return $result = $query->row_array();
     }
 
+    public function get_venue_from_exam_by_id($id){
+        $query = $this->db->get_where('ci_user_exam_details', array('time_venue' => $id));
+        return $result = $query->row_array();
+    }
+
 }
 
 ?>

@@ -136,6 +136,11 @@ class Exam_attribute_model extends CI_Model
         }
         return false;
     }
+
+    public function get_attribute_from_grade_by_id($id){
+        $query = $this->db->get_where('ci_exam_grade_diploma', array('instrument_id' => $id));
+        return $result = $query->row_array();
+    }
 }
 
 ?>

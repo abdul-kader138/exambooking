@@ -186,10 +186,11 @@ class Fee_management extends MY_Controller
     public function fee_management_del($id = 0)
     {
 
-//        if ($this->exam_attribute_model->get_exam_attribute_from_exam($id)) {
-//            $this->session->set_flashdata('error', 'Exam Attribute has association with Exam,please first remove the association.');
-//            redirect(base_url('admin/exam_attribute'));
-//        }
+        $fee_management = $this->fee_management_model->get_fee_management_by_id($id);
+        if ($this->fee_management_model->get_fee_from_exam_by_id($fee_management['instrument_id'],$fee_management['grade_id'])) {
+            $this->session->set_flashdata('error', 'Fee has association with Exam,please first remove the association.');
+            redirect(base_url('admin/fee_management'));
+        }
         $this->db->delete('ci_exam_suite_fees', array('id' => $id));
 
         // Add User Activity

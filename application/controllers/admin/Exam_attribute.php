@@ -161,10 +161,10 @@ class Exam_attribute extends MY_Controller
     public function exam_attribute_del($id = 0)
     {
 
-//        if ($this->exam_attribute_model->get_exam_attribute_from_exam($id)) {
-//            $this->session->set_flashdata('error', 'Exam Attribute has association with Exam,please first remove the association.');
-//            redirect(base_url('admin/exam_attribute'));
-//        }
+        if ($this->exam_attribute_model->get_attribute_from_grade_by_id($id)) {
+            $this->session->set_flashdata('error', 'Exam Attribute has association with instrument,please first remove the association.');
+            redirect(base_url('admin/exam_attribute'));
+        }
         $this->db->delete('ci_exam_instrument_product', array('id' => $id));
 
         // Add User Activity
