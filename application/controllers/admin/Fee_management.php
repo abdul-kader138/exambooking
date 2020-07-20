@@ -194,7 +194,7 @@ class Fee_management extends MY_Controller
             $this->session->set_flashdata('error', 'Fee has association with Exam,please first remove the association.');
             redirect(base_url('admin/fee_management'));
         }
-//        $this->db->delete('ci_exam_suite_fees', array('md5(id)' => $id));
+        $this->db->delete('ci_exam_suite_fees', array('md5(id)' => $id));
 
         // Add User Activity
         $this->activity_model->add(14);

@@ -111,14 +111,14 @@ class Exam_registration extends MY_Controller
 
     public function view_exam($id = null)
     {
-        $data['records'] = $this->exam_registration_model->get_user_exam_details_by_id($id);
-        if (empty($data['records'])) {
+        $data['exam_detail'] = $this->exam_registration_model->get_single_submission_by_exam_id($id);
+        if (empty($data['exam_detail'])) {
             $this->session->set_flashdata('error', 'Information not found!!');
-            redirect(base_url('admin/exam_registration'));
+            redirect(base_url('admin/exam_submission_list'));
         }
-        $data['view'] = 'admin/exam_registration/view_exam';
+        $data['view'] = 'admin/exam_submission/submission_update';
         $this->load->view('layout', $data);
-    }
+      }
 
 
     public function exam_submission_list()

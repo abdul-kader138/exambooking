@@ -109,6 +109,11 @@ class Voucher extends MY_Controller
                 $this->form_validation->set_rules('code', 'Voucher Code', 'is_unique[ci_voucher.code]');
             }
 
+            if($voucher_info['status']=='Used'){
+                $this->session->set_flashdata('error', 'Voucher already used.So edit operation not possible!');
+                redirect(base_url('admin/voucher'));
+            }
+
             if ($this->form_validation->run() == FALSE) {
                 $this->data['msg'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
                 $data['voucher'] = $voucher_info;

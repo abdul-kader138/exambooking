@@ -284,9 +284,7 @@ class Exam_registration_model extends CI_Model
         }
         return false;
     }
-
     //---------------------------------------------------
-
 
     public function get_branch_admin($branch_id)
     {
@@ -336,6 +334,17 @@ class Exam_registration_model extends CI_Model
         $this->db->select('ci_exam_submission_details.*,ci_users.firstname,ci_users.lastname')
             ->join('ci_users', 'ci_exam_submission_details.created_by=ci_users.id', 'inner');
         $query = $this->db->get_where('ci_exam_submission_details', array('md5(ci_exam_submission_details.id)' => $id));
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
+    }
+
+    public function get_single_submission_by_exam_id($id = null)
+    {
+        $this->db->select('ci_exam_submission_details.*,ci_users.firstname,ci_users.lastname')
+            ->join('ci_users', 'ci_exam_submission_details.created_by=ci_users.id', 'inner');
+        $query = $this->db->get_where('ci_exam_submission_details', array('md5(ci_exam_submission_details.exam_id)' => $id));
         if ($query->num_rows() > 0) {
             return $query->row();
         }

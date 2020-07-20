@@ -180,15 +180,15 @@
                     </ul>
                 </li>
             <?php } ?>
-<!--            --><?php //if ($this->session->userdata('admin_type') == '2') { ?>
-<!--                <li class="header"></li>-->
-<!--                <li id="general_settings">-->
-<!--                    <a href="--><?//= base_url('admin/general_settings'); ?><!--">-->
-<!--                        <i class="material-icons">settings</i>-->
-<!--                        <span>Settings</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            --><?php //} ?>
+            <?php if ($this->session->userdata('admin_type') == '2') { ?>
+                <li class="header"></li>
+                <li id="general_settings">
+                    <a href="<?= base_url('admin/general_settings'); ?>">
+                        <i class="material-icons">settings</i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
     <!-- #Menu -->
