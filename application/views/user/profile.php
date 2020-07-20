@@ -49,7 +49,7 @@
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" value="<?= $user['email']; ?>" name="email" class="form-control" placeholder="Enter your email address">
+                                            <input type="text" value="<?= $user['email']; ?>" name="email" class="form-control" readonly placeholder="Enter your email address">
                                         </div>
                                     </div>
                                 </div>

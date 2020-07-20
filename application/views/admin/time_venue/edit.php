@@ -5,9 +5,9 @@
     <div class="card">
       <div class="header">
         <h2>
-          EDIT Time & Venue
+          EDIT Date & Venue
         </h2>
-          <a href="<?= base_url('admin/time_venue/'); ?>" class="btn bg-deep-orange waves-effect pull-right">List Time & Venue</a>
+          <a href="<?= base_url('admin/time_venue/'); ?>" class="btn bg-deep-orange waves-effect pull-right">List Date & Venue</a>
       </div>
       <div class="body">
         <div class="row clearfix">
@@ -22,7 +22,7 @@
           <?php echo form_open(base_url('admin/time_venue/time_venue_edit/'.md5($time_venue['id'])), 'class="form-horizontal"')?>
             <div class="row clearfix">
                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                    <label for="firstname">Time & Venue</label>
+                    <label for="firstname">Date & Venue</label>
                 </div>
                 <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                     <div class="form-group">

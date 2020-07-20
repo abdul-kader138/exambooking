@@ -168,6 +168,7 @@ class Exam_registration extends MY_Controller
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/exam_registration/exam_submission_list'));
         }
+        $this->db->delete('ci_user_exam_details', array('id' => $data['records'][0]->exam_id));
         $this->db->delete('ci_exam_submission_details', array('md5(ref_no)' => $id));
         $this->session->set_flashdata('msg', 'Information has been deleted successfully!');
         redirect(base_url('admin/exam_registration/exam_submission_list'));

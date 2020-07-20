@@ -144,10 +144,10 @@
             toastr.warning('Status is required', 'Error');
             return true;
         }
-        if ((voucher == '' || voucher == 'undefined') && status_val) {
-            toastr.warning('Voucher No. is required', 'Error');
-            return true;
-        }
+        // if ((voucher == '' || voucher == 'undefined') && status_val) {
+        //     toastr.warning('Voucher No. is required', 'Error');
+        //     return true;
+        // }
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('admin/exam_registration/update_voucher_info'); ?>",

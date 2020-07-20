@@ -39,7 +39,7 @@ class Voucher extends MY_Controller
                 $row['fee'],
                 $row['status'],
                 '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/voucher/voucher_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
-					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/voucher/voucher_del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
+					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/voucher/voucher_del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
             );
         }
@@ -65,7 +65,7 @@ class Voucher extends MY_Controller
                 $this->load->view('layout', $data);
             } else {
                 $data = array(
-                    'code' => $this->input->post('code'),
+                    'code' => trim($this->input->post('code')),
                     'fee' => $this->input->post('fee'),
                     'created_date' => date('Y-m-d H:i:s'),
                     'created_by' => $this->session->userdata('admin_id'),
@@ -116,7 +116,7 @@ class Voucher extends MY_Controller
                 $this->load->view('layout', $data);
             } else {
                 $data = array(
-                    'code' => $this->input->post('code'),
+                    'code' => trim($this->input->post('code')),
                     'fee' => $this->input->post('fee'),
                     'updated_date' => date('Y-m-d H:i:s'),
                     'updated_by' => $this->session->userdata('admin_id'),
@@ -144,11 +144,12 @@ class Voucher extends MY_Controller
     {
 
 //        Check brach association with Exam
-//        if($this->exam_suite_model->get_exam_suite_from_exam($id)){
-//            $this->session->set_flashdata('error', 'Exam Suite has association with Exam,please first remove the association.');
-//            redirect(base_url('admin/exam_suite'));
-//        }
-        $this->db->delete('ci_voucher', array('id' => $id));
+        $voucher_management = $this->voucher_model->get_voucher_by_id($id);
+        if($this->voucher_model->get_submission_from_voucher_by_code($voucher_management['code'])){
+            $this->session->set_flashdata('error', 'Voucher has association with Exam,please first remove the association.');
+            redirect(base_url('admin/voucher'));
+        }
+        $this->db->delete('ci_voucher', array('md5(id)' => $id));
 
         // Add User Activity
         $this->activity_model->add(14);

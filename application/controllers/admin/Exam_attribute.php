@@ -116,8 +116,8 @@ class Exam_attribute extends MY_Controller
             $this->form_validation->set_rules('exam_type', 'Type Of Exam', 'trim|required');
             $this->form_validation->set_rules('type', 'Type', 'trim|required');
             $exam_attribute_info = $this->exam_attribute_model->get_attribute_by_type_id($this->input->post('exam_type'), $this->input->post('type'), trim($this->input->post('attribute_name')));
-            if (strtolower($exam_attribute['name']) != strtolower(trim($this->input->post('attribute_name')))) {
-                if (strtolower($exam_attribute_info['instrument_name']) == strtolower(trim($this->input->post('attribute_name')))) {
+            if ($exam_attribute['type_types_id'] != $this->input->post('type') || $exam_attribute['instrument_name'] != $this->input->post('attribute_name') ) {
+                if ($exam_attribute_info) {
                     $this->form_validation->set_rules('attribute_name', 'Attribute Name', 'is_unique[ci_exam_instrument_product.instrument_name]');
                 }
             }

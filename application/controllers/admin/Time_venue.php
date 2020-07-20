@@ -104,7 +104,7 @@ class Time_venue extends MY_Controller
             $this->form_validation->set_rules('exam_type', 'Time Venue', 'trim|required');
             if (strtolower($time_venue_info['time_venue']) != strtolower(trim($this->input->post('time_venue')))) {
                 $time_venue = $this->time_venue_model->get_venue_by_type_id($this->input->post('exam_type'), trim($this->input->post('time_venue')));
-                if (strtolower($time_venue['time_venue']) == strtolower(trim($this->input->post('time_venue')))) {
+                if ($time_venue) {
                     $this->form_validation->set_rules('time_venue', 'Time & Venue', 'is_unique[ci_time_venue.time_venue]');
                 }
             }

@@ -131,14 +131,14 @@ class Fee_management extends MY_Controller
             $this->form_validation->set_rules('fees', 'Fee', 'trim');
 
 
-//            $suite_info = $this->fee_management_model->get_exam_suite_by_id($this->input->post('suite_id'));
-//            $fee_management_info = $this->fee_management_model->get_fee_from_exam_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'), $suite_info['name'], $this->input->post('fee'));
-//            if (($fee_management['fees'] != $this->input->post('fee'))) {
-//                if ($fee_management_info) {
-//                    $this->form_validation->set_rules('grade_id', 'Grade Fees', 'trim|grade_check');
-//                    $this->form_validation->set_message('grade_check', 'Fee already exist.');
-//                }
-//            }
+            $suite_info = $this->fee_management_model->get_exam_suite_by_id($this->input->post('suite_id'));
+            $fee_management_info = $this->fee_management_model->get_fee_from_exam_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'), $suite_info['name'], $this->input->post('fee'));
+            if (($fee_management['instrument_id'] != $this->input->post('instrument_id')) || ($fee_management['grade_id'] != $this->input->post('grade_id'))) {
+                if ($fee_management_info) {
+                    $this->form_validation->set_rules('grade_id', 'Grade Fees', 'trim|grade_check');
+                    $this->form_validation->set_message('grade_check', 'Fee already exist.');
+                }
+            }
 
             if ($this->form_validation->run() == FALSE) {
                 $this->data['msg'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');

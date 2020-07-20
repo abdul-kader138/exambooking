@@ -122,8 +122,8 @@ class Grade_management extends MY_Controller
 
             $grade_management_info = $this->grade_management_model->get_grade_by_type_id($this->input->post('exam_type'), $this->input->post('type'),
                 $this->input->post('instrument_id'), trim($this->input->post('grade_name')));
-            if (strtolower($grade_management['grade_name']) != strtolower(trim($this->input->post('grade_name')))) {
-                if (strtolower($grade_management_info['grade_name']) == strtolower(trim($this->input->post('grade_name')))) {
+            if  ($grade_management['instrument_id'] != $this->input->post('instrument_id') || strtolower($grade_management['grade_name']) != strtolower(trim($this->input->post('grade_name')))) {
+                if ($grade_management_info) {
                     $this->form_validation->set_rules('grade_name', 'Grade Name', 'is_unique[ci_exam_grade_diploma.grade_name]');
                 }
             }
@@ -134,7 +134,7 @@ class Grade_management extends MY_Controller
                 $data['view'] = 'admin/grade_management/edit';
                 $data['exam_types'] = $this->grade_management_model->get_exam_types();
                 $data['type_types'] = $this->grade_management_model->get_type_types($grade_management['exam_type_id']);
-                $data['instruments'] = $this->grade_management->get_instruments($grade_management['exam_type_id'],$grade_management['type_types_id']);
+                $data['instruments'] = $this->grade_management_model->get_instruments($grade_management['exam_type_id'], $grade_management['type_types_id']);
                 $this->load->view('layout', $data);
             } else {
                 $data = array(
@@ -161,7 +161,7 @@ class Grade_management extends MY_Controller
             $data['view'] = 'admin/grade_management/edit';
             $data['exam_types'] = $this->grade_management_model->get_exam_types();
             $data['type_types'] = $this->grade_management_model->get_type_types($grade_management['exam_type_id']);
-            $data['instruments'] = $this->grade_management_model->get_instruments($grade_management['exam_type_id'],$grade_management['type_types_id']);
+            $data['instruments'] = $this->grade_management_model->get_instruments($grade_management['exam_type_id'], $grade_management['type_types_id']);
             $this->load->view('layout', $data);
         }
     }
@@ -170,7 +170,7 @@ class Grade_management extends MY_Controller
     public function grade_management_del($id = 0)
     {
 
-        if($this->grade_management_model->get_grade_from_fees_by_id($id)){
+        if ($this->grade_management_model->get_grade_from_fees_by_id($id)) {
             $this->session->set_flashdata('error', 'Grade name has association with Exam Fee,please first remove the association.');
             redirect(base_url('admin/grade_management'));
         }

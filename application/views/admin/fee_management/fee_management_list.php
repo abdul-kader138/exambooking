@@ -80,7 +80,7 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('admin/fee_management/datatable_json')?>",
-        "order": [[4, 'asc']],
+        "order": [[3, 'asc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_exam_suite_fees.id", 'searchable': true, 'orderable': true},
             {"targets": 1, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},

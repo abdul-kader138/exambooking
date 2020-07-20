@@ -86,7 +86,7 @@ else
                                     foreach ($instruments as $instrument) {
                                         $instrument_list[$instrument->id] = $instrument->instrument_name;
                                     }
-                                    echo form_dropdown('instrument_id', $instrument_list, $fee_management['instrument_id'], 'id="type" class="form-control show-tick"  required="required"" ');
+                                    echo form_dropdown('instrument_id', $instrument_list, $fee_management['instrument_id'], 'id="instrument_id" class="form-control show-tick"  required="required"" ');
                                     ?>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ else
                                     foreach ($exam_grades as $exam_grade) {
                                         $grade_list[$exam_grade->id] = $exam_grade->grade_name;
                                     }
-                                    echo form_dropdown('grade_id', $grade_list, $fee_management['grade_id'], 'id="type" class="form-control show-tick"  required="required"" ');
+                                    echo form_dropdown('grade_id', $grade_list, $fee_management['grade_id'], 'id="grade_id" class="form-control show-tick"  required="required"" ');
                                     ?>
                                 </div>
                             </div>

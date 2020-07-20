@@ -10,11 +10,11 @@
             <div class="header">
                 <h2>
                     <h2 style="display: inline-block;">
-                        List Time &  Venue
+                        List Date &  Venue
                     </h2>
                 </h2>
                 <a href="<?= base_url('admin/time_venue/time_venue_add'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i
-                            class="material-icons">calendar_today </i> ADD Time & Venue</a>
+                            class="material-icons">calendar_today </i> ADD Date & Venue</a>
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -22,7 +22,7 @@
                         <thead>
                         <tr>
                             <th style="width: 40px;" class="text-left">#ID</th>
-                            <th>Time & Venue</th>
+                            <th>Date & Venue</th>
                             <th>Type Of Exam</th>
                             <th width="200" class="text-right">Action</th>
                         </tr>
@@ -30,7 +30,7 @@
                         <tfoot>
                         <tr>
                             <td style="width: 40px;" class="text-left">#ID</td>
-                            <td>Time & Venue</td>
+                            <td>Date & Venue</td>
                             <td>Type Of Exam</td>
                             <td style="width: 150px;" class="text-right">Action</td>
                         </tr>

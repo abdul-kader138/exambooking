@@ -11,10 +11,15 @@ class Exam_registration_model extends CI_Model
         $this->db->trans_start();
         $this->db->where('id', $submission_id);
         $this->db->update('ci_exam_submission_details', array('exam_status'=>$status,'voucher_code'=>$voucher_code));
+        if($voucher_code){
+            $this->db->where('LOWER(code)', strtolower($voucher_code));
+            $this->db->update('ci_voucher', array('status'=>'Used'));
+        }
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) return  array('update_status'=>'No');
         return array('update_status'=>'Yes');
     }
+
 
     public function update_exam_info($submission_id, $exam,$exam_dates)
     {
@@ -41,7 +46,7 @@ class Exam_registration_model extends CI_Model
                ci_exam_instrument_product on ci_user_exam_details.instrument=ci_exam_instrument_product.id inner join ci_exam_grade_diploma 
                on ci_user_exam_details.grade=ci_exam_grade_diploma.id inner join ci_users on ci_user_exam_details.created_by=ci_users.id';
         if ($this->session->userdata('admin_type') == '2')
-            $wh[] = "ci_user_exam_details.submitted='No'";
+            $wh[] = "ci_user_exam_details.submitted='Yes'";
         if ($this->session->userdata('admin_type') == '3')
             $wh[] = "ci_user_exam_details.submitted='No' and ci_users.branch_id = '" . $this->session->userdata('branch_id') . "'";
         if (count($wh) > 0) {
@@ -175,7 +180,7 @@ class Exam_registration_model extends CI_Model
         if ($this->session->userdata('admin_type') == '3')
             $this->db->where('ci_users.branch_id', $this->session->userdata('branch_id'));
 //        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.created_by' => $this->session->userdata('user_id'), 'ci_user_exam_details.submitted' => 'No'));
-        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.submitted' => 'No'));
+        $query = $this->db->get_where('ci_user_exam_details', array('ci_user_exam_details.submitted' => 'Yes'));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;
