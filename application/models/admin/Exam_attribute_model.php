@@ -141,6 +141,11 @@ class Exam_attribute_model extends CI_Model
         $query = $this->db->get_where('ci_exam_grade_diploma', array('instrument_id' => $id));
         return $result = $query->row_array();
     }
+
+    public function get_exam_details_by_instrument_id($id){
+        $query = $this->db->get_where('ci_user_exam_details', array('md5(instrument)' => $id));
+        return $result = $query->row_array();
+    }
 }
 
 ?>

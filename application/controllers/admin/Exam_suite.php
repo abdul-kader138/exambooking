@@ -37,7 +37,7 @@ class Exam_suite extends MY_Controller
                 ++$i,
                 $row['name'],
                 '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/exam_suite/exam_suite_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
-					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_suite/exam_suite_del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
+		   		<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_suite/exam_suite_del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
             );
         }
@@ -49,7 +49,6 @@ class Exam_suite extends MY_Controller
     public function exam_suite_add()
     {
         if ($this->input->post('submit')) {
-
             if (!$this->session->userdata('is_admin_login')) {
                 $this->session->set_flashdata('error', 'Access Denied!!!');
                 redirect(base_url('admin'));
@@ -69,9 +68,6 @@ class Exam_suite extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->exam_suite_model->add_exam_suite($data);
                 if ($result) {
-                    // Add User Activity
-                    $this->activity_model->add(12);
-
                     $this->session->set_flashdata('msg', 'Exam Suite has been added successfully!');
                     redirect(base_url('admin/exam_suite'));
                 }
@@ -86,7 +82,6 @@ class Exam_suite extends MY_Controller
     //-----------------------------------------------------------------------
     public function exam_suite_edit($id = 0)
     {
-
         //Access check
         if (!$this->session->userdata('is_admin_login')) {
             $this->session->set_flashdata('error', 'Access Denied!!!');
@@ -98,6 +93,13 @@ class Exam_suite extends MY_Controller
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/exam_suite'));
         }
+
+        $suite_association = $this->exam_suite_model->get_suite_from_exam_by_code($exam_suite_info['name']);
+        if ($suite_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            redirect(base_url('admin/exam_suite'));
+        }
+
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('suite_name', 'Suite Name', 'trim|required');
             if (strtolower($exam_suite_info['name']) != strtolower(trim($this->input->post('suite_name')))) {
@@ -118,10 +120,6 @@ class Exam_suite extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->exam_suite_model->edit_exam_suite($data, $id);
                 if ($result) {
-
-                    // Add User Activity
-                    $this->activity_model->add(13);
-
                     $this->session->set_flashdata('msg', 'Exam Suite has been updated successfully!');
                     redirect(base_url('admin/exam_suite'));
                 }
@@ -136,15 +134,19 @@ class Exam_suite extends MY_Controller
     //-----------------------------------------------------------------------
     public function exam_suite_del($id = 0)
     {
-        if($this->exam_suite_model->get_suite_from_fees_by_id($id)){
-            $this->session->set_flashdata('error', 'Suite name has association with Exam Fee,please first remove the association.');
+        $id = $this->secure_data($id);
+        $exam_suite_info = $this->exam_suite_model->get_exam_suite_by_id($id);
+        if (empty($exam_suite_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/exam_suite'));
+        }
+
+        $suite_association = $this->exam_suite_model->get_suite_from_exam_by_code($exam_suite_info['name']);
+        if ($suite_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
             redirect(base_url('admin/exam_suite'));
         }
         $this->db->delete('ci_exam_suite', array('id' => $id));
-
-        // Add User Activity
-        $this->activity_model->add(14);
-
         $this->session->set_flashdata('msg', 'Exam Suite has been deleted successfully!');
         redirect(base_url('admin/exam_suite'));
     }

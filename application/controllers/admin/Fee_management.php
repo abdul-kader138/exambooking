@@ -67,8 +67,7 @@ class Fee_management extends MY_Controller
             $this->form_validation->set_rules('suite_id', 'Suite Name', 'trim');
             $this->form_validation->set_rules('fees', 'Fee', 'trim');
 
-            $suite_info = $this->fee_management_model->get_exam_suite_by_id($this->input->post('suite_id'));
-            if ($this->fee_management_model->get_fee_from_exam_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'), $suite_info['name'], $this->input->post('fee'))) {
+            if ($this->fee_management_model->get_fee_from_grade_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'))) {
                 $this->form_validation->set_rules('grade_id', 'Grade Fees', 'trim|grade_check');
                 $this->form_validation->set_message('grade_check', 'Fee already exist.');
             }
@@ -91,8 +90,6 @@ class Fee_management extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->fee_management_model->add_fee_management($data);
                 if ($result) {
-                    // Add User Activity
-                    $this->activity_model->add(12);
                     $this->session->set_flashdata('msg', 'Fee has been added successfully!');
                     redirect(base_url('admin/fee_management'));
                 }
@@ -115,13 +112,21 @@ class Fee_management extends MY_Controller
             redirect(base_url('admin'));
         }
         $id = $this->secure_data($id);
+
+        //Existence Checking
         $fee_management = $this->fee_management_model->get_fee_management_by_id($id);
         if (empty($fee_management)) {
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/fee_management'));
         }
+        //Association Checking
+        $suite_info = $this->fee_management_model->get_exam_suite_by_id($fee_management['suite_name']);
+        $fee_association = $this->fee_management_model->get_exam_details_by_fees_id($fee_management['instrument_id'],$fee_management['grade_id'],$suite_info['name'],$fee_management['fees']);
+        if ($fee_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            redirect(base_url('admin/fee_management'));
+        }
         $exam_type_details = $this->fee_management_model->get_exam_attribute_by_id($fee_management['instrument_id']);
-
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('grade_id', 'Grade Name', 'required');
             $this->form_validation->set_rules('instrument_id', 'Attribute Name', 'trim|required');
@@ -131,8 +136,7 @@ class Fee_management extends MY_Controller
             $this->form_validation->set_rules('fees', 'Fee', 'trim');
 
 
-            $suite_info = $this->fee_management_model->get_exam_suite_by_id($this->input->post('suite_id'));
-            $fee_management_info = $this->fee_management_model->get_fee_from_exam_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'), $suite_info['name'], $this->input->post('fee'));
+            $fee_management_info = $this->fee_management_model->get_fee_from_grade_by_id($this->input->post('instrument_id'), $this->input->post('grade_id'));
             if (($fee_management['instrument_id'] != $this->input->post('instrument_id')) || ($fee_management['grade_id'] != $this->input->post('grade_id'))) {
                 if ($fee_management_info) {
                     $this->form_validation->set_rules('grade_id', 'Grade Fees', 'trim|grade_check');
@@ -147,7 +151,7 @@ class Fee_management extends MY_Controller
                 $data['view'] = 'admin/fee_management/edit';
                 $data['exam_types'] = $this->fee_management_model->get_exam_types();
                 $data['exam_suites'] = $this->fee_management_model->get_exam_suites();
-                $data['exam_grades'] = $this->fee_management_model->get_exam_grade();
+                $data['exam_grades'] = $this->fee_management_model->get_exam_grade($fee_management['instrument_id']);
                 $data['type_types'] = $this->fee_management_model->get_type_types($exam_type_details['exam_type_id']);
                 $data['instruments'] = $this->fee_management_model->get_instruments($exam_type_details['exam_type_id'], $exam_type_details['type_types_id']);
                 $this->load->view('layout', $data);
@@ -163,10 +167,6 @@ class Fee_management extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->fee_management_model->edit_fee_management($data, $id);
                 if ($result) {
-
-                    // Add User Activity
-                    $this->activity_model->add(13);
-
                     $this->session->set_flashdata('msg', 'Fee has been updated successfully!');
                     redirect(base_url('admin/fee_management'));
                 }
@@ -177,7 +177,7 @@ class Fee_management extends MY_Controller
             $data['view'] = 'admin/fee_management/edit';
             $data['exam_types'] = $this->fee_management_model->get_exam_types();
             $data['exam_suites'] = $this->fee_management_model->get_exam_suites();
-            $data['exam_grades'] = $this->fee_management_model->get_exam_grade();
+            $data['exam_grades'] = $this->fee_management_model->get_exam_grade($fee_management['instrument_id']);
             $data['type_types'] = $this->fee_management_model->get_type_types($exam_type_details['exam_type_id']);
             $data['instruments'] = $this->fee_management_model->get_instruments($exam_type_details['exam_type_id'], $exam_type_details['type_types_id']);
             $this->load->view('layout', $data);
@@ -188,17 +188,22 @@ class Fee_management extends MY_Controller
     public function fee_management_del($id = 0)
     {
 
+        $id = $this->secure_data($id);
+
+        //Existence Checking
         $fee_management = $this->fee_management_model->get_fee_management_by_id($id);
+        if (empty($fee_management)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/fee_management'));
+        }
+        //Association Checking
         $suite_info = $this->fee_management_model->get_exam_suite_by_id($fee_management['suite_name']);
-        if ($this->fee_management_model->get_fee_from_exam_fee_by_id($fee_management['instrument_id'], $fee_management['grade_id'], $suite_info['name'], $fee_management['fees'])) {
-            $this->session->set_flashdata('error', 'Fee has association with Exam,please first remove the association.');
+        $fee_association = $this->fee_management_model->get_exam_details_by_fees_id($fee_management['instrument_id'],$fee_management['grade_id'],$suite_info['name'],$fee_management['fees']);
+        if ($fee_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
             redirect(base_url('admin/fee_management'));
         }
         $this->db->delete('ci_exam_suite_fees', array('md5(id)' => $id));
-
-        // Add User Activity
-        $this->activity_model->add(14);
-
         $this->session->set_flashdata('msg', 'Fee has been deleted successfully!');
         redirect(base_url('admin/fee_management'));
     }

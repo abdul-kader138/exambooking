@@ -28,6 +28,7 @@
                             <th>Grade</th>
                             <th>Fees</th>
                             <th>Submitted</th>
+                            <th>Created Date</th>
                             <th width="200" class="text-right">Action</th>
                         </tr>
                         </thead>
@@ -43,6 +44,7 @@
                             <th>Grade</th>
                             <th>Fees</th>
                             <th>Submitted</th>
+                            <th>Created Date</th>
                             <th style="width: 150px;" class="text-right">Action</th>
                         </tr>
                         </tfoot>
@@ -83,7 +85,7 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('admin/exam_registration/datatable_json')?>",
-        "order": [[9, 'asc']],
+        "order": [[10, 'desc']],
         "columnDefs": [
             {"targets": 0, "name": "ci_user_exam_details.first_name", 'searchable': true, 'orderable': true},
             {"targets": 1, "name": "ci_user_exam_details.last_name", 'searchable': true, 'orderable': true},
@@ -95,7 +97,8 @@
             {"targets": 7, "name": "ci_exam_grade_diploma.grade_name", 'searchable': true, 'orderable': true},
             {"targets": 8, "name": "ci_user_exam_details.fees", 'searchable': true, 'orderable': true},
             {"targets": 9, "name": "ci_user_exam_details.submitted", 'searchable': true, 'orderable': true},
-            {"targets": 10, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
+            {"targets": 10, "name": "ci_user_exam_details.created_date", 'searchable': true, 'orderable': true},
+            {"targets": 11, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });
 </script>

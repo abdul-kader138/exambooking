@@ -85,15 +85,17 @@ class Time_venue_model extends CI_Model{
     //---------------------------------------------------
     public function get_venue_by_type_id($exam_type,$name)
     {
-        $test=strtolower($name);
         $query = $this->db->get_where('ci_time_venue', array('exam_type_id' => $exam_type,'LOWER(time_venue)' => strtolower($name)));
         return $result = $query->row_array();
     }
 
-    public function get_venue_from_exam_by_id($id){
-        $query = $this->db->get_where('ci_user_exam_details', array('time_venue' => $id));
+
+    public function get_suite_from_exam_by_code($time_venue)
+    {
+        $query = $this->db->get_where('ci_user_exam_details', array('md5(time_venue)' =>$time_venue));
         return $result = $query->row_array();
     }
+
 
 }
 

@@ -19,7 +19,7 @@ class Fee_management_model extends CI_Model
                 inner join ci_exam_instrument_product on ci_exam_suite_fees.instrument_id=ci_exam_instrument_product.id
                 inner join ci_exam_type_types on ci_exam_grade_diploma.type_types_id=ci_exam_type_types.id 
                 inner join ci_exam_type on ci_exam_grade_diploma.exam_type_id=ci_exam_type.id left join 
-                ci_exam_suite on ci_exam_suite_fees.suite_name=ci_exam_suite.id';
+                ci_exam_suite on ci_exam_suite_fees.suite_name=ci_exam_suite.id ';
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
             return $this->datatable->LoadJson($SQL, $WHERE);
@@ -199,9 +199,9 @@ class Fee_management_model extends CI_Model
         return $result = $query->row_array();
     }
 
-    public function get_exam_grade()
+    public function get_exam_grade($id)
     {
-        $query = $this->db->get('ci_exam_grade_diploma');
+        $query = $this->db->get_where('ci_exam_grade_diploma', array('instrument_id' => $id));
         if ($query->num_rows() > 0) {
             foreach (($query->result()) as $row) {
                 $data[] = $row;
@@ -216,8 +216,8 @@ class Fee_management_model extends CI_Model
         return $result = $query->row_array();
     }
 
-    public function get_fee_from_exam_by_id($instrument,$grade,$suite_name){
-        $query = $this->db->get_where('ci_user_exam_details', array('instrument' => $instrument,'grade'=>$grade,'LOWER(exam_suite)'=>strtolower($suite_name)));
+    public function get_fee_from_grade_by_id($instrument,$grade){
+        $query = $this->db->get_where('ci_exam_suite_fees', array('instrument_id' => $instrument,'grade_id'=>$grade));
         return $result = $query->row_array();
     }
     public function get_exam_suite_by_id($id)
@@ -225,6 +225,12 @@ class Fee_management_model extends CI_Model
         $query = $this->db->get_where('ci_exam_suite', array('id' => $id));
         return $result = $query->row_array();
     }
+
+    public function get_exam_details_by_fees_id($instrument_id,$grade_id,$suite_name,$fees){
+        $query = $this->db->get_where('ci_user_exam_details', array('instrument' => $instrument_id,'grade' => $grade_id,'exam_suite'=>$suite_name,'fees'=>$fees));
+        return $result = $query->row_array();
+    }
+
 }
 
 ?>

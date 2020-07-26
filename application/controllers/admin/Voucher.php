@@ -51,7 +51,6 @@ class Voucher extends MY_Controller
     public function voucher_add()
     {
         if ($this->input->post('submit')) {
-
             if (!$this->session->userdata('is_admin_login')) {
                 $this->session->set_flashdata('error', 'Access Denied!!!');
                 redirect(base_url('admin'));
@@ -73,9 +72,6 @@ class Voucher extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->voucher_model->add_voucher($data);
                 if ($result) {
-                    // Add User Activity
-                    $this->activity_model->add(12);
-
                     $this->session->set_flashdata('msg', 'Voucher has been added successfully!');
                     redirect(base_url('admin/voucher'));
                 }
@@ -97,21 +93,25 @@ class Voucher extends MY_Controller
             redirect(base_url('admin'));
         }
         $id = $this->secure_data($id);
+
+        //Existence Checking
         $voucher_info = $this->voucher_model->get_voucher_by_id($id);
         if (empty($voucher_info)) {
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/voucher'));
         }
+
+        //Association Checking with exam or submission
+        if($voucher_info['status']=='Used'){
+            $this->session->set_flashdata('error', 'Voucher already used.So edit operation not possible!');
+            redirect(base_url('admin/voucher'));
+        }
+
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('code', 'Voucher Code', 'trim|required');
             $this->form_validation->set_rules('fee', 'Fee', 'trim|required');
             if (strtolower($voucher_info['code']) != strtolower(trim($this->input->post('code')))) {
                 $this->form_validation->set_rules('code', 'Voucher Code', 'is_unique[ci_voucher.code]');
-            }
-
-            if($voucher_info['status']=='Used'){
-                $this->session->set_flashdata('error', 'Voucher already used.So edit operation not possible!');
-                redirect(base_url('admin/voucher'));
             }
 
             if ($this->form_validation->run() == FALSE) {
@@ -129,10 +129,6 @@ class Voucher extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->voucher_model->edit_voucher($data, $id);
                 if ($result) {
-
-                    // Add User Activity
-                    $this->activity_model->add(13);
-
                     $this->session->set_flashdata('msg', 'Voucher has been updated successfully!');
                     redirect(base_url('admin/voucher'));
                 }
@@ -147,20 +143,21 @@ class Voucher extends MY_Controller
     //-----------------------------------------------------------------------
     public function voucher_del($id = 0)
     {
+        $id = $this->secure_data($id);
+        //Existence Checking
+        $voucher_info = $this->voucher_model->get_voucher_by_id($id);
+        if (empty($voucher_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/voucher'));
+        }
 
-//        Check brach association with Exam
-        $voucher_management = $this->voucher_model->get_voucher_by_id($id);
-        if($this->voucher_model->get_submission_from_voucher_by_code($voucher_management['code'])){
-            $this->session->set_flashdata('error', 'Voucher has association with Exam,please first remove the association.');
+        //Association Checking with exam or submission
+        if($voucher_info['status']=='Used'){
+            $this->session->set_flashdata('error', 'Voucher already used.So edit operation not possible!');
             redirect(base_url('admin/voucher'));
         }
         $this->db->delete('ci_voucher', array('md5(id)' => $id));
-
-        // Add User Activity
-        $this->activity_model->add(14);
-
         $this->session->set_flashdata('msg', 'Voucher has been deleted successfully!');
         redirect(base_url('admin/voucher'));
     }
-
 }

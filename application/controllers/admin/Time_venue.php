@@ -32,7 +32,7 @@ class Time_venue extends MY_Controller
                 $row['time_venue'],
                 $row['name'],
                 '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/time_venue/time_venue_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
-					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/time_venue/time_venue_del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
+					<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/time_venue/time_venue_del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
             );
         }
@@ -70,9 +70,6 @@ class Time_venue extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->time_venue_model->add_time_venue($data);
                 if ($result) {
-                    // Add User Activity
-                    $this->activity_model->add(12);
-
                     $this->session->set_flashdata('msg', 'Time & Venue has been added successfully!');
                     redirect(base_url('admin/time_venue'));
                 }
@@ -95,8 +92,15 @@ class Time_venue extends MY_Controller
         }
         $id = $this->secure_data($id);
         $time_venue_info = $this->time_venue_model->get_time_venue_by_id($id);
+        // Existence Checking
         if (empty($time_venue_info)) {
             $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('admin/time_venue'));
+        }
+        // Association Checking with User Exam
+        $time_venue_association = $this->time_venue_model->get_suite_from_exam_by_code($id);
+        if ($time_venue_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
             redirect(base_url('admin/time_venue'));
         }
         if ($this->input->post('submit')) {
@@ -124,10 +128,6 @@ class Time_venue extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->time_venue_model->edit_time_venue($data, $id);
                 if ($result) {
-
-                    // Add User Activity
-                    $this->activity_model->add(13);
-
                     $this->session->set_flashdata('msg', 'Time & Venue has been updated successfully!');
                     redirect(base_url('admin/time_venue'));
                 }
@@ -142,16 +142,20 @@ class Time_venue extends MY_Controller
     //-----------------------------------------------------------------------
     public function time_venue_del($id = 0)
     {
-
-        if($this->time_venue_model->get_venue_from_exam_by_id($id)){
-            $this->session->set_flashdata('error', 'Venue name has association with Exam,please first remove the association.');
+        $id = $this->secure_data($id);
+        $time_venue_info = $this->time_venue_model->get_time_venue_by_id($id);
+        // Existence Checking
+        if (empty($time_venue_info)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/time_venue'));
         }
-        $this->db->delete('ci_time_venue', array('id' => $id));
-
-        // Add User Activity
-        $this->activity_model->add(14);
-
+        // Association Checking with User Exam
+        $time_venue_association = $this->time_venue_model->get_suite_from_exam_by_code($id);
+        if ($time_venue_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            redirect(base_url('admin/time_venue'));
+        }
+        $this->db->delete('ci_time_venue', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Time & Venue has been deleted successfully!');
         redirect(base_url('admin/time_venue'));
     }

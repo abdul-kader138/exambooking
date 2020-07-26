@@ -2,8 +2,12 @@
 <link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
       rel="stylesheet"/>
 <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
-
+<link href="<?= base_url() ?>public/plugins/toastr/toastr.min.css" rel="stylesheet"/>
 <style>
+    [type=checkbox]:not(:checked) {
+        left: inherit;
+        margin-top: 8px;
+    }
     .hide_content {
         display: none;
     }
@@ -67,7 +71,7 @@ if ($records->type_types_id == '1') {
                                 <label for="first_name">First Name (eg. Abdullah, Carol Lim)</label>
                                 <div class="form-line">
                                     <?php echo form_input('first_name', $records->first_name, 'class="form-control input-tip" 
-                                    placeholder="Please enter first name" required="required" id="first_name" pattern="[a-z A-Z]+"'); ?>
+                                    placeholder="Please enter first name" required="required" id="first_name" pattern="^[a-zA-Z][a-z A-Z0]{1,15}$"'); ?>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +81,7 @@ if ($records->type_types_id == '1') {
                                 <div class="form-line">
                                     <div class="form-line">
                                         <?php echo form_input('last_name', $records->last_name, 'class="form-control input-tip" 
-                                    placeholder="Please enter second name" required="required" id="last_name" pattern="[a-z A-Z]+"'); ?>
+                                    placeholder="Please enter second name" required="required" id="last_name" pattern="^[a-zA-Z][a-z A-Z0]{1,15}$"'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -234,11 +238,17 @@ if ($records->type_types_id == '1') {
                                     <?php echo form_input('voucher_code', $records->voucher_code, 'class="form-control  input-tip" 
                                          id="voucher_code"'); ?>
                                 </div>
+                                <br>
+                                <input type="checkbox" <?= $records->voucher_code?'checked' :''?> style=" <?= $records->voucher_code?'' :'display:none'?>" id="voucher_apply" class="form-line"/><label
+                                        for="voucher_apply" style="<?= $records->voucher_code?'' :'display:none;'?> font-size: 14px" id="voucher_label_apply"> <b>Voucher
+                                        Apply</b></label>
+                                <p id="voucher_apply_details"><label class="label-info" for="voucher_apply_details"><?=$records->voucher_code?'Available Discount :'.$records->discount.' RM':''?></label></p>
                             </div>
                         </div>
                     </div>
 
                     <div id="template"></div>
+                    <input type="hidden" value="<?=$records->id?>" id="exam_id">
                     <button id="submit_info" class="btn btn-primary waves-effect" type="submit">Edit
                     </button>
                 </div>
@@ -253,6 +263,7 @@ if ($records->type_types_id == '1') {
     <script src="<?= base_url() ?>public/plugins/momentjs/moment.js"></script>
     <script src="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="<?= base_url() ?>public/js/pages/forms/basic-form-elements.js"></script>
+    <script src="<?= base_url() ?>public/plugins/toastr/toastr.min.js"></script>
     <script type="text/javascript" charset="utf-8">
 
 
@@ -402,6 +413,61 @@ if ($records->type_types_id == '1') {
                         $("#fees").val(states.fees);
                     },
                 });
+            });
+            $(document).on('blur', '#voucher_code', function (e) {
+                var obj = $.trim($('#voucher_code').val());
+                $('#voucher_apply').prop('checked', false);
+                $('#voucher_apply_details').empty();
+                if (obj) {
+                    $('#voucher_label_apply').show();
+                    $('#voucher_apply').show();
+                    $('#voucher_apply').attr('required', 'required');
+                } else {
+                    $('#voucher_apply').removeAttr('required');
+                    $('#voucher_label_apply').hide();
+                    $('#voucher_apply').hide();
+                }
+
+            });
+            $('#voucher_apply').click(function () {
+                if ($(this).prop('checked') == true) {
+                    var code = $('#voucher_code').val();
+                    var exam_id = $('#exam_id').val();
+                    toastr.options.positionClass = 'toast-bottom-right';
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo site_url('user/exam_registration/check_voucher_details_for_update'); ?>",
+                        data: {exam_id: exam_id,code:code},
+                        dataType: "json",//return type expected as json
+                        success: function (states) {
+                            console.log(states);
+                            if (states.error_info == '') {
+                                $('#voucher_apply_details').empty();
+                                var label_obj = '<label style="font-size: 13px" class="label label-info" for="voucher_apply_details">Available Discount :' + states.update_status.fee + ' RM</label>'
+                                $('#voucher_apply_details').append(label_obj);
+                            } else {
+                                toastr.error(states.error_info, 'Error');
+                                $('#voucher_code').val('');
+                                $('#voucher_apply').prop('checked', false);
+                                $('#voucher_apply').removeAttr('required');
+                                $('#voucher_apply').hide();
+                                $('#voucher_label_apply').hide();
+                            }
+                        },
+                        error: function (error) {
+                            toastr.error('Something went wrong,Please contact with system admin', 'Error')
+                        }
+                    });
+                }
+                else {
+                    if ($('#voucher_code').val() == '' || $('#voucher_code').val() == undefined)
+                        toastr.error('Please enter voucher code', 'Error');
+                    $('#voucher_code').val('');
+                    $('#voucher_apply').removeAttr('required');
+                    $('#voucher_apply').hide();
+                    $('#voucher_label_apply').hide();
+                    $('#voucher_apply_details').empty();
+                }
             });
         });
 

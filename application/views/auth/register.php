@@ -1,4 +1,9 @@
-
+<style>
+    [type=checkbox]:not(:checked) {
+        left: inherit;
+        margin-top: 8px;
+    }
+</style>
 <div class="login-box">
     <?php if (isset($msg) || validation_errors() !== ''): ?>
         <div class="alert alert-warning alert-dismissible">

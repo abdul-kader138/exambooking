@@ -76,9 +76,9 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('admin/grade_management/datatable_json')?>",
-        "order": [[3, 'asc']],
+        "order": [[3, 'asc'],[4, 'desc'],[2, 'asc'],[1, 'asc']],
         "columnDefs": [
-            {"targets": 0, "name": "ci_exam_instrument_product.id", 'searchable': true, 'orderable': true},
+            {"targets": 0, "name": "ci_exam_instrument_product.id", 'searchable': false, 'orderable': true},
             {"targets": 1, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
             {"targets": 2, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
             {"targets": 3, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},

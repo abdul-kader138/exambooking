@@ -86,7 +86,7 @@ else
                                     foreach ($instruments as $instrument) {
                                         $instrument_list[$instrument->id] = $instrument->instrument_name;
                                     }
-                                    echo form_dropdown('instrument_id', $instrument_list, $grade_management['instrument_id'], 'id="type" class="form-control show-tick"  required="required"" ');
+                                    echo form_dropdown('instrument_id', $instrument_list, $grade_management['instrument_id'], 'id="instrument_id" class="form-control show-tick"  required="required"" ');
                                     ?>
                                 </div>
                             </div>
@@ -143,13 +143,6 @@ else
             });
         });
         $('#type').change(function () {
-            var exam_type_types = $(this).val();
-            var l_type = "Categories";
-            if (exam_type_types == '3') l_type = 'Product Name';
-            if (exam_type_types == '1' || exam_type_types == '2' || exam_type_types == '4') l_type = 'Instrument';
-            $("#l_type").text(l_type);
-        });
-        $('#type').change(function () {
             var exam_types = $('#exam_type').val();
             var type_types = $(this).val();
             $.ajax({
@@ -158,7 +151,6 @@ else
                 data: {exam_type: exam_types, type_types_id: type_types},
                 dataType: "json",//return type expected as json
                 success: function (states) {
-                    console.log(states);
                     $("#instrument_id").empty();
                     $("#instrument_id").append('<option value="">-- Please Select --</option>');
                     $.each(states, function (index, key) {

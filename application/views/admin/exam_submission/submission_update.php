@@ -1,12 +1,4 @@
 <div class="container-fluid">
-    <style>
-        hr {
-            border: solid 1px #666666;
-            width: 96%;
-            color: # #666666;
-            height: 1px;
-        }
-    </style>
     <link href="<?= base_url() ?>public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
           rel="stylesheet"/>
     <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
@@ -59,6 +51,16 @@
                                         <tr>
                                             <td>Fees : <?= $exam_detail->fees ?></td>
                                         </tr>
+                                        <tr>
+                                            <td>Voucher Code
+                                                : <?= isset($exam_detail_info['voucher_code']) ? $exam_detail_info['voucher_code'] : '' ?></td>
+                                        </tr>
+                                        <?php if (isset($exam_detail_info['voucher_code'])) { ?>
+                                            <tr>
+                                                <td>Discount
+                                                    : <?= isset($exam_detail_info['discount']) ? $exam_detail_info['discount'] : '' ?></td>
+                                            </tr>
+                                        <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -84,8 +86,10 @@
                                     <div class="col-lg-5 col-md-7 col-sm-4 col-xs-5">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="datetimepicker form-control" required id="exam_date"
-                                                       name="exam_date" value="<?= (($exam_detail->exam_date)?$exam_detail->exam_date:$exam_detail->exam_date); ?>"
+                                                <input type="text" class="datetimepicker form-control" required
+                                                       id="exam_date"
+                                                       name="exam_date"
+                                                       value="<?= (($exam_detail->exam_date) ? substr($exam_detail->exam_date, 0, 16) : ''); ?>"
                                                        placeholder="Please Choose Exam Date"></div>
                                         </div>
                                         <input type="button" name="add_exam_no" id="add_exam_no" value="ADD"
@@ -101,8 +105,12 @@
                                     <div class="col-lg-5 col-md-7 col-sm-4 col-xs-5">
                                         <select class="form-control show-tick" name="status" id="status" required>
                                             <option value="">-- Please select--</option>
-                                            <option value="Pass" <?= ($exam_detail->exam_status=='Pass'?'selected':''); ?>>Pass</option>
-                                            <option value="Fail" <?= ($exam_detail->exam_status=='Fail'?'selected':''); ?>>Fail</option>
+                                            <option value="Pass" <?= ($exam_detail->exam_status == 'Pass' ? 'selected' : ''); ?>>
+                                                Pass
+                                            </option>
+                                            <option value="Fail" <?= ($exam_detail->exam_status == 'Fail' ? 'selected' : ''); ?>>
+                                                Fail
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -114,7 +122,7 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" id="voucher_code" name="voucher_code" required
-                                                    value="<?= $exam_detail->voucher_code ?>"   class="form-control">
+                                                       value="<?= $exam_detail->voucher_code ?>" class="form-control">
                                             </div>
                                         </div>
                                         <input type="button" name="add_voucher" id="add_voucher" value="ADD"
@@ -140,24 +148,26 @@
         var voucher = $('#voucher_code').val();
         var status_val = $('#status').val();
         var submission_obj = $('#submission_id').val();
+
         if (status_val == '' || status_val == 'undefined') {
             toastr.warning('Status is required', 'Error');
             return true;
         }
-        // if ((voucher == '' || voucher == 'undefined') && status_val) {
-        //     toastr.warning('Voucher No. is required', 'Error');
-        //     return true;
-        // }
+        if ((voucher == '' || voucher == 'undefined') && status_val == 'Fail') {
+            toastr.warning('Voucher No. is required', 'Error');
+            return true;
+        }
+
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('admin/exam_registration/update_voucher_info'); ?>",
             data: {voucher_code: voucher, status: status_val, submission_id: submission_obj},
             dataType: "json",//return type expected as json
             success: function (states) {
-                if (states.update_status == 'Yes') {
+                if (states.error_info === '') {
                     toastr.success('Status & Voucher code updated successfully', 'Success')
                 } else {
-                    toastr.error('Update operation failed.', 'Error')
+                    toastr.error(states.error_info, 'Error')
                 }
             },
             error: function (error) {
@@ -187,7 +197,7 @@
                 if (states.update_status == 'Yes') {
                     toastr.success('Exam No & Date/Time updated successfully', 'Success')
                 } else {
-                    toastr.error('Update operation failed.', 'Error')
+                    toastr.error('Update operation failed.', 'error')
                 }
             },
             error: function (error) {

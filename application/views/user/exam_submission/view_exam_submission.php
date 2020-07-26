@@ -24,6 +24,10 @@
                                             <th>Exam Type</th>
                                             <th>Instrument/Product/Category</th>
                                             <th>Grade</th>
+                                            <th>Exam No</th>
+                                            <th>Exam Date</th>
+                                            <th>Status</th>
+                                            <th>Voucher Code</th>
                                             <th>Fees</th>
                                         </tr>
                                         </thead>
@@ -43,12 +47,16 @@
                                                 <td><?= $exam_detail->type_types ?></td>
                                                 <td><?= $exam_detail->instrument ?></td>
                                                 <td><?= $exam_detail->grade ?></td>
+                                                <td><?= $exam_detail->exam_no ?></td>
+                                                <td><?= (($exam_detail->exam_date)?substr($exam_detail->exam_date,0,16):'') ?></td>
+                                                <td><?= $exam_detail->exam_status ?></td>
+                                                <td><?= $exam_detail->voucher_code ?></td>
                                                 <td><?= $exam_detail->fees ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                         <tbody>
                                         <tr style="background-color: #9db5b0">
-                                            <td colspan="8" style="text-align: right"><b>Total :</b></td>
+                                            <td colspan="12" style="text-align: right"><b>Total :</b></td>
                                             <td><b><?= $total_fees ?></b></td>
                                         </tr>
                                         </tbody>

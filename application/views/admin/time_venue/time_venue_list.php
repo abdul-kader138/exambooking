@@ -72,7 +72,7 @@
         "processing": true,
         "serverSide": true,
         "ajax": "<?=base_url('admin/time_venue/datatable_json')?>",
-        "order": [[2, 'asc']],
+        "order": [[1, 'asc'],[2, 'asc']],
         "columnDefs": [
             {"targets": 0, "name": "id", 'searchable': false, 'orderable': true},
             {"targets": 1, "name": "ci_time_venue.time_venue", 'searchable': true, 'orderable': true},

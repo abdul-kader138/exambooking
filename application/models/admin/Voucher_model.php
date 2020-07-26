@@ -68,10 +68,6 @@ class Voucher_model extends CI_Model{
         }
     }
 
-
-
-
-
     //---------------------------------------------------
     public function get_voucher_by_id($id){
         $query = $this->db->get_where('ci_voucher', array('md5(id)' => $id));
@@ -88,6 +84,11 @@ class Voucher_model extends CI_Model{
 
     public function get_submission_from_voucher_by_code($id){
         $query = $this->db->get_where('ci_exam_submission_details', array('voucher_code' => $id));
+        return $result = $query->row_array();
+    }
+
+    public function get_voucher_from_exam_by_code($id){
+        $query = $this->db->get_where('ci_user_exam_details', array('LOWER(voucher_code)' => strtolower(trim($id))));
         return $result = $query->row_array();
     }
 }

@@ -85,10 +85,12 @@ class Exam_suite_model extends CI_Model
         return true;
     }
 
-    public function get_suite_from_fees_by_id($id){
-        $query = $this->db->get_where('ci_exam_suite_fees', array('suite_name' => $id));
+    public function get_suite_from_exam_by_code($code)
+    {
+        $query = $this->db->get_where('ci_user_exam_details', array('LOWER(exam_suite)' =>strtolower(trim($code))));
         return $result = $query->row_array();
     }
+
 }
 
 ?>

@@ -27,7 +27,7 @@
                                 <td><?=$records->gender?></td>
                                 <td>|</td>
                                 <td>Voucher Code</td>
-                                <td><?=$records->voucher_code?></td>
+                                <td><b><?=($records->voucher_code)? $records->voucher_code.' (Discount Amount: '.$records->discount .')': ''?></b></td>
                             </tr>
                             <tr>
                                 <td>School Name :</td>

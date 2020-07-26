@@ -44,6 +44,7 @@ class Exam_registration extends MY_Controller
                 $row['grade_name'],
                 $row['fees'],
                 $row['submitted'],
+                $row['created_date'],
                 '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam/' . md5($row['id'])) . '"> <i class="material-icons">visibility</i></a>',
             );
         }
@@ -111,14 +112,16 @@ class Exam_registration extends MY_Controller
 
     public function view_exam($id = null)
     {
-        $data['exam_detail'] = $this->exam_registration_model->get_single_submission_by_exam_id($id);
+        $obj = $this->exam_registration_model->get_single_submission_by_exam_id($id);
+        $data['exam_detail'] = $obj;
         if (empty($data['exam_detail'])) {
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/exam_submission_list'));
         }
+        $data['exam_detail_info'] = $this->exam_registration_model->get_exam_details_by_id($obj->exam_id);
         $data['view'] = 'admin/exam_submission/submission_update';
         $this->load->view('layout', $data);
-      }
+    }
 
 
     public function exam_submission_list()
@@ -143,8 +146,8 @@ class Exam_registration extends MY_Controller
                 $row['ref_no'],
                 $row['id'],
                 $row['fees'],
-                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>'.
-                 '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' .md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
+                '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>' .
+                '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' . md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
         }
         $records['data'] = $data;
         echo json_encode($records);
@@ -168,14 +171,19 @@ class Exam_registration extends MY_Controller
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/exam_registration/exam_submission_list'));
         }
-        $this->db->delete('ci_user_exam_details', array('id' => $data['records'][0]->exam_id));
-        $this->db->delete('ci_exam_submission_details', array('md5(ref_no)' => $id));
-        $this->session->set_flashdata('msg', 'Information has been deleted successfully!');
-        redirect(base_url('admin/exam_registration/exam_submission_list'));
+        if ($this->exam_registration_model->delete_submission($id, $data['records'])) {
+            $this->session->set_flashdata('msg', 'Information has been deleted successfully!');
+            redirect(base_url('admin/exam_registration/exam_submission_list'));
+        }
+
     }
+
     public function update_submission($id = null)
     {
-        $data['exam_detail'] = $this->exam_registration_model->get_single_submission_by_id($id);
+        $obj = $this->exam_registration_model->get_single_submission_by_id($id);
+        $data['exam_detail'] = $obj;
+        $data['exam_detail_info'] = $this->exam_registration_model->get_exam_details_by_id($obj->exam_id);
+
         if (empty($data['exam_detail'])) {
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/exam_submission_list'));
@@ -183,13 +191,30 @@ class Exam_registration extends MY_Controller
         $data['view'] = 'admin/exam_submission/submission_update';
         $this->load->view('layout', $data);
     }
+
     public function update_voucher_info()
     {
-        $submission_id = $this->input->post('submission_id');
-        $voucher_code = $this->input->post('voucher_code');
         $status = $this->input->post('status');
-        $update_submission = $this->exam_registration_model->update_voucher_info($submission_id, $status,$voucher_code);
-        echo json_encode($update_submission);
+        $submission_id = $this->input->post('submission_id');
+        $code = $this->input->post('voucher_code');
+        $error = "";
+        $update_submission = false;
+        $voucher_details = '';
+        if (!$code && !$status) {
+            $error = "No Data Avail Available for update";
+        } else {
+            if ($code) $voucher_details = $this->exam_registration_model->get_unused_voucher_by_code($code);
+            if (empty($voucher_details) && $code) {
+                $error = "Voucher Code not eligible for apply!";
+                $code = '';
+            }
+            if (($voucher_details && $code) || $status) {
+                $update_submission = $this->exam_registration_model->update_voucher_info($submission_id, $status, $code);
+            }
+        }
+        $response = array('update_status' => $update_submission, 'error_info' => $error);
+        echo json_encode($response);
+
     }
 
     public function update_exam_info()
@@ -197,7 +222,7 @@ class Exam_registration extends MY_Controller
         $exam = $this->input->post('exam');
         $exam_dates = $this->input->post('exam_dates');
         $submission_id = $this->input->post('submission_id');
-        $update_exam_info = $this->exam_registration_model->update_exam_info($submission_id, $exam,$exam_dates);
+        $update_exam_info = $this->exam_registration_model->update_exam_info($submission_id, $exam, $exam_dates);
         echo json_encode($update_exam_info);
     }
 

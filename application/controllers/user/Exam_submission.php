@@ -38,7 +38,7 @@ class Exam_submission extends UR_Controller
                 $branch_admin_list = $this->exam_registration_model->get_branch_admin($user_details['branch_id']);
                 $super_admin_list = $this->exam_registration_model->get_super_admin();
                 foreach ($_POST['val'] as $id) {
-                    $exam_details = $this->exam_registration_model->get_user_exam_details_by_id($id);
+                    $exam_details = $this->exam_registration_model->get_user_exam_details_for_submission_by_id($id);
                     $total_fees += $exam_details->fees;
                     $employees[] = array(
                         'exam_id' => $id,

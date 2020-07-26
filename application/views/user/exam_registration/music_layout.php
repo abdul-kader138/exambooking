@@ -28,7 +28,8 @@
                     ?>
                 </div>
                 <div class="form-line" id="time_venue_other_div">
-                    <input type="text" name="time_venue_other" id="time_venue_other"  class="form-control" placeholder="Please Enter Others Date & Venue"/>
+                    <input type="text" name="time_venue_other" id="time_venue_other" class="form-control"
+                           placeholder="Please Enter Others Date & Venue"/>
                 </div>
             </div>
         </div>
@@ -83,8 +84,14 @@
         <div class="form-group">
             <label for="voucher_code">Voucher Code</label>
             <div class="form-line">
-                <input type="text" name="voucher_code" class="form-control" placeholder="please enter voucher code"/>
+                <input type="text" id="voucher_code" name="voucher_code" class="form-control"
+                       placeholder="please enter voucher code"/>
             </div>
+            <br>
+            <input type="checkbox" style="display: none" id="voucher_apply" class="form-line"/><label
+                    for="voucher_apply" style="display: none; font-size: 14px" id="voucher_label_apply"> <b>Voucher
+                    Apply</b></label>
+            <p id="voucher_apply_details"></p>
         </div>
     </div>
 </div>
@@ -120,12 +127,12 @@
     });
 
     $('#time_venue').change(function () {
-        var obj=$("#time_venue option:selected").text();
-        if(obj == 'Others'){
+        var obj = $("#time_venue option:selected").text();
+        if (obj == 'Others') {
             $("#time_venue_other_div").show();
             $('#time_venue_other').val();
             $('#time_venue_other').attr('required', true);
-        }else {
+        } else {
             $('#time_venue_other').removeAttr('required');
             $('#time_venue_other').val();
             $("#time_venue_other_div").hide();
@@ -141,7 +148,7 @@
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('user/exam_registration/get_exam_type_grade'); ?>",
-            data: {exam_type_type: types,instrument:instruments},
+            data: {exam_type_type: types, instrument: instruments},
             dataType: "json",//return type expected as json
             success: function (states) {
                 $("#l_grade").text(l_grade);
@@ -169,5 +176,44 @@
                 $("#fees").val(states.fees);
             },
         });
+    });
+
+    $('#voucher_apply').click(function () {
+        if ($(this).prop('checked') == true) {
+            var code = $('#voucher_code').val();
+            toastr.options.positionClass = 'toast-bottom-right';
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('user/exam_registration/check_voucher_details'); ?>",
+                data: {code: code},
+                dataType: "json",//return type expected as json
+                success: function (states) {
+                    if (states.error_info == '') {
+                        $('#voucher_apply_details').empty();
+                        var label_obj = '<label style="font-size: 13px" class="label label-info" for="voucher_apply_details">Available Discount :' + states.update_status.fee + ' RM</label>'
+                        $('#voucher_apply_details').append(label_obj);
+                    } else {
+                        toastr.error(states.error_info, 'Error');
+                        $('#voucher_code').val('');
+                        $('#voucher_apply').prop('checked', false);
+                        $('#voucher_apply').removeAttr('required');
+                        $('#voucher_apply').hide();
+                        $('#voucher_label_apply').hide();
+                    }
+                },
+                error: function (error) {
+                    toastr.error('Something went wrong,Please contact with system admin', 'Error')
+                }
+            });
+        }
+        else {
+            if ($('#voucher_code').val() == '' || $('#voucher_code').val() == undefined)
+                toastr.error('Please enter voucher code', 'Error');
+            $('#voucher_code').val('');
+            $('#voucher_apply').removeAttr('required');
+            $('#voucher_apply').hide();
+            $('#voucher_label_apply').hide();
+            $('#voucher_apply_details').empty();
+        }
     });
 </script>

@@ -167,6 +167,12 @@ class Grade_management_model extends CI_Model
         $query = $this->db->get_where('ci_exam_suite_fees', array('grade_id' => $id));
         return $result = $query->row_array();
     }
+
+    public function get_exam_details_by_grade_id($id){
+        $query = $this->db->get_where('ci_user_exam_details', array('md5(grade)' => $id));
+        return $result = $query->row_array();
+    }
+
 }
 
 ?>

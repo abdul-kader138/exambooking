@@ -81,8 +81,13 @@
         <div class="form-group">
             <label for="voucher_code">Voucher Code</label>
             <div class="form-line">
-                <input type="text" name="voucher_code" class="form-control" placeholder=""/>
+                <input type="text" name="voucher_code" id="voucher_code" class="form-control" placeholder=""/>
             </div>
+            <br>
+            <input type="checkbox" style="display: none" id="voucher_apply" class="form-line"/><label
+                    for="voucher_apply" style="display: none; font-size: 14px" id="voucher_label_apply"> <b>Voucher
+                    Apply</b></label>
+            <p id="voucher_apply_details"></p>
         </div>
     </div>
 </div>
@@ -160,6 +165,44 @@
                 $("#fees").val(states.fees);
             },
         });
+    });
+    $('#voucher_apply').click(function () {
+        if ($(this).prop('checked') == true) {
+            var code = $('#voucher_code').val();
+            toastr.options.positionClass = 'toast-bottom-right';
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('user/exam_registration/check_voucher_details'); ?>",
+                data: {code: code},
+                dataType: "json",//return type expected as json
+                success: function (states) {
+                    if (states.error_info == '') {
+                        $('#voucher_apply_details').empty();
+                        var label_obj = '<label style="font-size: 13px" class="label label-info" for="voucher_apply_details">Available Discount :' + states.update_status.fee + ' RM</label>'
+                        $('#voucher_apply_details').append(label_obj);
+                    } else {
+                        toastr.error(states.error_info, 'Error');
+                        $('#voucher_code').val('');
+                        $('#voucher_apply').prop('checked', false);
+                        $('#voucher_apply').removeAttr('required');
+                        $('#voucher_apply').hide();
+                        $('#voucher_label_apply').hide();
+                    }
+                },
+                error: function (error) {
+                    toastr.error('Something went wrong,Please contact with system admin', 'Error')
+                }
+            });
+        }
+        else {
+            if ($('#voucher_code').val() == '' || $('#voucher_code').val() == undefined)
+                toastr.error('Please enter voucher code', 'Error');
+            $('#voucher_code').val('');
+            $('#voucher_apply').removeAttr('required');
+            $('#voucher_apply').hide();
+            $('#voucher_label_apply').hide();
+            $('#voucher_apply_details').empty();
+        }
     });
 
 </script>

@@ -49,6 +49,7 @@ class Exam_registration extends UR_Controller
                 $row['grade_name'],
                 $row['fees'],
                 $row['submitted'],
+                $row['created_date'],
                 '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_registration/view_exam/' . md5($row['id'])) . '"> <i class="material-icons">visibility</i></a>' . $edit_link . $delete_link,
             );
         }
@@ -120,9 +121,8 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('first_name', "First Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
         $this->form_validation->set_rules('last_name', "Last Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
         $this->form_validation->set_rules('dob', "Date of Birth", 'xss_clean|trim|required');
-//        $this->form_validation->set_rules('dob', "exam_type", 'xss_clean|trim|required|regex_match[/^(0[1-9]|1[012])([- /.])(0[1-9]|[12][0-9]|3[01])\2(19|20)\d\d/]');
+        $this->form_validation->set_rules('dob', "exam_type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('gender', "Gender", 'xss_clean|trim|required');
-//        $this->form_validation->set_rules('ic_no', "IC No", 'xss_clean|trim|required');
         $this->form_validation->set_rules('school_name', "School Name", 'xss_clean|trim');
         $this->form_validation->set_rules('type', "Type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('time_venue', "Time & Venue", 'xss_clean|trim|required');
@@ -133,7 +133,11 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('group_name', "Group Name", 'xss_clean|trim');
         $this->form_validation->set_rules('voucher_code', "Voucher Code", 'xss_clean|trim');
 
+//        voucher duplication check
+
         if ($this->form_validation->run() == true) {
+            $voucher_details = false;
+            if ((trim($this->input->post('voucher_code')))) $voucher_details = $this->exam_registration_model->get_unused_voucher_by_code($this->input->post('voucher_code'));
             $venue = $this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
             $venue_details = $venue->time_venue;
             if (trim($venue->time_venue) == "Others") $venue_details = $this->input->post('time_venue_other');
@@ -144,22 +148,22 @@ class Exam_registration extends UR_Controller
                 'gender' => $this->input->post('gender'),
                 'venue_details' => $venue_details,
                 'dob' => $this->input->post('dob'),
-                'dob' => $this->input->post('dob'),
                 'school_name' => $this->input->post('school_name'),
                 'type' => $this->input->post('type'),
                 'time_venue' => $this->input->post('time_venue'),
                 'instrument' => $this->input->post('instrument'),
                 'grade' => $this->input->post('grade'),
-                'fees' => $this->input->post('fees'),
+                'fees' => ($voucher_details) ? $voucher_details['fee'] : $this->input->post('fees'),
                 'exam_suite' => $this->input->post('exam_suite'),
                 'voucher_code' => $this->input->post('voucher_code'),
+                'discount' => ($voucher_details) ? $voucher_details['fee'] : '',
                 'group_name' => $this->input->post('group_name'),
                 'created_date' => date('Y-m-d h:i:s'),
                 'created_by' => $this->session->userdata('user_id'),
 
             );
         }
-        if ($this->form_validation->run() == true && $this->exam_registration_model->add_exam($data)) {
+        if ($this->form_validation->run() == true && $this->exam_registration_model->add_exam($data, $this->input->post('voucher_code'), $voucher_details)) {
             $this->session->set_flashdata('msg', 'Exam information has been added successfully!');
             redirect(base_url('user/exam_registration'));
         } else {
@@ -189,9 +193,8 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('exam_type', "Exam Type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('first_name', "First Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
         $this->form_validation->set_rules('last_name', "Last Name", 'xss_clean|trim|required|regex_match[/^\+?[a-z A-Z]+$/]');
-//        $this->form_validation->set_rules('dob', "exam_type", 'xss_clean|trim|required|regex_match[/^(0[1-9]|1[012])([- /.])(0[1-9]|[12][0-9]|3[01])\2(19|20)\d\d/]');
+        $this->form_validation->set_rules('dob', "exam_type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('gender', "Gender", 'xss_clean|trim|required');
-//        $this->form_validation->set_rules('ic_no', "IC No", 'xss_clean|trim|required');
         $this->form_validation->set_rules('school_name', "School Name", 'xss_clean|trim');
         $this->form_validation->set_rules('type', "Type", 'xss_clean|trim|required');
         $this->form_validation->set_rules('time_venue', "Time & Venue", 'xss_clean|trim|required');
@@ -202,13 +205,26 @@ class Exam_registration extends UR_Controller
         $this->form_validation->set_rules('group_name', "Group Name", 'xss_clean|trim');
         $this->form_validation->set_rules('voucher_code', "Voucher Code", 'xss_clean|trim');
         $records = $this->exam_registration_model->get_user_exam_details_by_id($id);
-
+        if (empty($records)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
+            redirect(base_url('user/exam_registration'));
+        }
         if ($records->submitted == 'Yes') {
             $this->session->set_flashdata('error', 'Exam information already submitted.');
             redirect(base_url('user/exam_registration'));
         }
 
+
         if ($this->form_validation->run() == true) {
+
+            $voucher_info_old = $this->exam_registration_model->get_voucher_details($records->voucher_code);
+            $fees= $this->input->post('fees');
+            if ((trim($this->input->post('voucher_code'))))
+            {
+                $voucher_info_new = $this->exam_registration_model->get_voucher_details($this->input->post('voucher_code'));
+                $fees=$voucher_info_new['fee'];
+            }
+
             $venue = $this->exam_registration_model->get_time_venue_by_id($this->input->post('time_venue'));
             $venue_details = $venue->time_venue;
             if (trim($venue->time_venue) == "Others") $venue_details = $this->input->post('time_venue_other');
@@ -224,16 +240,16 @@ class Exam_registration extends UR_Controller
                 'time_venue' => $this->input->post('time_venue'),
                 'instrument' => $this->input->post('instrument'),
                 'grade' => $this->input->post('grade'),
-                'fees' => $this->input->post('fees'),
+                'fees' => $fees,
                 'exam_suite' => $this->input->post('exam_suite'),
                 'voucher_code' => $this->input->post('voucher_code'),
                 'group_name' => $this->input->post('group_name'),
+                'discount' => ($voucher_info_new) ? $voucher_info_new['fee'] : '',
                 'updated_date' => date('Y-m-d h:i:s'),
                 'updated_by' => $this->session->userdata('user_id'),
-
             );
         }
-        if ($this->form_validation->run() == true && $this->exam_registration_model->update_exam($data, $id)) {
+        if ($this->form_validation->run() == true && $this->exam_registration_model->update_exam($data, $id,$records->id, $records->voucher_code,$this->input->post('voucher_code'), $voucher_info_old,$voucher_info_new)) {
             $this->session->set_flashdata('msg', 'Exam information has been updated successfully!');
             redirect(base_url('user/exam_registration'));
         } else {
@@ -254,11 +270,36 @@ class Exam_registration extends UR_Controller
     //-----------------------------------------------------------------------
     public function del($id = 0)
     {
-
-        //@todo
-        // later implement check for any association
-        $this->db->delete('ci_user_exam_details', array('md5(id)' => $id));
-        $this->session->set_flashdata('msg', 'Exam has been deleted successfully!');
-        redirect(base_url('user/exam_registration'));
+        $voucher_details = false;
+        $records = $this->exam_registration_model->get_user_exam_details_by_id($id);
+        $voucher_code = '';
+        if ($records) $voucher_code = $records->voucher_code;
+        $voucher_details = $this->exam_registration_model->get_voucher_by_code($voucher_code);
+        if ($this->exam_registration_model->delete_exam($id, $voucher_code, $voucher_details)) {
+            $this->session->set_flashdata('msg', 'Exam has been deleted successfully!');
+            redirect(base_url('user/exam_registration'));
+        }
     }
+
+    public function check_voucher_details()
+    {
+        $code = $this->input->post('code');
+        $error = "Voucher Code not eligible for apply!";
+        $voucher_details = $this->exam_registration_model->get_unused_voucher_by_code($code);
+        if ($voucher_details) $error = '';
+        $response = array('update_status' => $voucher_details, 'error_info' => $error);
+        echo json_encode($response);
+    }
+
+    public function check_voucher_details_for_update()
+    {
+        $id = $this->input->post('exam_id');
+        $code = $this->input->post('code');
+        $error = "Voucher Code not eligible for apply!";
+        $voucher_details = $this->exam_registration_model->get_unused_voucher_by_exam_id($id, $code);
+        if ($voucher_details) $error = '';
+        $response = array('update_status' => $voucher_details, 'error_info' => $error);
+        echo json_encode($response);
+    }
+
 }

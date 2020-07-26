@@ -39,9 +39,8 @@ class Grade_management extends MY_Controller
                 $row['type_types_name'],
                 $row['instrument_name'],
                 $row['grade_name'],
-//                $row['created_date'],
                 '<a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/grade_management/grade_management_edit/' . md5($row['id'])) . '"> <i class="material-icons">edit</i></a>
-				 <a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/grade_management/grade_management_del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
+				 <a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/grade_management/grade_management_del/' . md5($row['id'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
             );
         }
@@ -63,12 +62,13 @@ class Grade_management extends MY_Controller
             $this->form_validation->set_rules('instrument_id', 'Attribute Name', 'trim|required');
             $this->form_validation->set_rules('exam_type', 'Type Of Exam', 'trim|required');
             $this->form_validation->set_rules('type', 'Type', 'trim|required');
+
+            // uniqueness checking
             $grade_management_info = $this->grade_management_model->get_grade_by_type_id($this->input->post('exam_type'), $this->input->post('type'),
                 $this->input->post('instrument_id'), trim($this->input->post('grade_name')));
-            if (strtolower($grade_management_info['grade_name']) == strtolower(trim($this->input->post('grade_name')))) {
+            if ($grade_management_info) {
                 $this->form_validation->set_rules('grade_name', 'Grade Name', 'is_unique[ci_exam_grade_diploma.grade_name]');
             }
-
             if ($this->form_validation->run() == FALSE) {
                 $this->data['msg'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
                 $data['view'] = 'admin/grade_management/add';
@@ -86,8 +86,6 @@ class Grade_management extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->grade_management_model->add_grade_management($data);
                 if ($result) {
-                    // Add User Activity
-                    $this->activity_model->add(12);
                     $this->session->set_flashdata('msg', 'Grade Management has been added successfully!');
                     redirect(base_url('admin/grade_management'));
                 }
@@ -109,11 +107,21 @@ class Grade_management extends MY_Controller
             redirect(base_url('admin'));
         }
         $id = $this->secure_data($id);
+
+        // Existence Checking
         $grade_management = $this->grade_management_model->get_grade_management_by_id($id);
         if (empty($grade_management)) {
             $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/grade_management'));
         }
+
+        // Association Checking with User Exam
+        $grade_association = $this->grade_management_model->get_exam_details_by_grade_id($id);
+        if ($grade_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            redirect(base_url('admin/grade_management'));
+        }
+
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('grade_name', 'Grade Name', 'trim|required');
             $this->form_validation->set_rules('instrument_id', 'Attribute Name', 'trim|required');
@@ -122,7 +130,7 @@ class Grade_management extends MY_Controller
 
             $grade_management_info = $this->grade_management_model->get_grade_by_type_id($this->input->post('exam_type'), $this->input->post('type'),
                 $this->input->post('instrument_id'), trim($this->input->post('grade_name')));
-            if  ($grade_management['instrument_id'] != $this->input->post('instrument_id') || strtolower($grade_management['grade_name']) != strtolower(trim($this->input->post('grade_name')))) {
+            if ($grade_management['instrument_id'] != $this->input->post('instrument_id') || strtolower($grade_management['grade_name']) != strtolower(trim($this->input->post('grade_name')))) {
                 if ($grade_management_info) {
                     $this->form_validation->set_rules('grade_name', 'Grade Name', 'is_unique[ci_exam_grade_diploma.grade_name]');
                 }
@@ -148,10 +156,6 @@ class Grade_management extends MY_Controller
                 $data = $this->security->xss_clean($data);
                 $result = $this->grade_management_model->edit_grade_management($data, $id);
                 if ($result) {
-
-                    // Add User Activity
-                    $this->activity_model->add(13);
-
                     $this->session->set_flashdata('msg', 'Grade has been updated successfully!');
                     redirect(base_url('admin/grade_management'));
                 }
@@ -170,15 +174,22 @@ class Grade_management extends MY_Controller
     public function grade_management_del($id = 0)
     {
 
-        if ($this->grade_management_model->get_grade_from_fees_by_id($id)) {
-            $this->session->set_flashdata('error', 'Grade name has association with Exam Fee,please first remove the association.');
+        $id = $this->secure_data($id);
+
+        // Existence Checking
+        $grade_management = $this->grade_management_model->get_grade_management_by_id($id);
+        if (empty($grade_management)) {
+            $this->session->set_flashdata('error', 'Information not found!!');
             redirect(base_url('admin/grade_management'));
         }
-        $this->db->delete('ci_exam_grade_diploma', array('id' => $id));
 
-        // Add User Activity
-        $this->activity_model->add(14);
-
+        // Association Checking with User Exam
+        $grade_association = $this->grade_management_model->get_exam_details_by_grade_id($id);
+        if ($grade_association) {
+            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            redirect(base_url('admin/grade_management'));
+        }
+        $this->db->delete('ci_exam_grade_diploma', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Grade has been deleted successfully!');
         redirect(base_url('admin/grade_management'));
     }
