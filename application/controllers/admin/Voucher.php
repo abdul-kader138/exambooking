@@ -107,6 +107,13 @@ class Voucher extends MY_Controller
             redirect(base_url('admin/voucher'));
         }
 
+        //Association Checking with exam or submission
+        $submission_association = $this->voucher_model->get_submission_from_voucher_by_code($voucher_info['code']);
+        if($submission_association){
+            $this->session->set_flashdata('error', 'Voucher already used in exam submission.So edit operation not possible!');
+            redirect(base_url('admin/voucher'));
+        }
+
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('code', 'Voucher Code', 'trim|required');
             $this->form_validation->set_rules('fee', 'Fee', 'trim|required');
@@ -153,9 +160,17 @@ class Voucher extends MY_Controller
 
         //Association Checking with exam or submission
         if($voucher_info['status']=='Used'){
-            $this->session->set_flashdata('error', 'Voucher already used.So edit operation not possible!');
+            $this->session->set_flashdata('error', 'Voucher already used.So delete operation not possible!');
             redirect(base_url('admin/voucher'));
         }
+
+        //Association Checking with exam or submission
+        $submission_association = $this->voucher_model->get_submission_from_voucher_by_code($voucher_info['code']);
+        if($submission_association){
+            $this->session->set_flashdata('error', 'Voucher already used in exam submission.So delete operation not possible!');
+            redirect(base_url('admin/voucher'));
+        }
+
         $this->db->delete('ci_voucher', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Voucher has been deleted successfully!');
         redirect(base_url('admin/voucher'));

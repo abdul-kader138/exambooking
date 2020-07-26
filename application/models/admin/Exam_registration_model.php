@@ -416,7 +416,7 @@ class Exam_registration_model extends CI_Model
 
 
     //---------------------------------------------------
-    public function c($id)
+    public function get_exam_details($id)
     {
         $query = $this->db->get_where('ci_user_exam_details', array('id' => $id));
         return $result = $query->row_array();

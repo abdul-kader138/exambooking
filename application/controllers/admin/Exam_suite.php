@@ -141,12 +141,18 @@ class Exam_suite extends MY_Controller
             redirect(base_url('admin/exam_suite'));
         }
 
-        $suite_association = $this->exam_suite_model->get_suite_from_exam_by_code($exam_suite_info['name']);
-        if ($suite_association) {
-            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+        $suite_association_exam = $this->exam_suite_model->get_suite_from_exam_by_code($exam_suite_info['name']);
+        if ($suite_association_exam) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with exam!!');
             redirect(base_url('admin/exam_suite'));
         }
-        $this->db->delete('ci_exam_suite', array('id' => $id));
+
+        $suite_association_fees = $this->exam_suite_model->get_suite_from_grade_by_id($id);
+        if ($suite_association_fees) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with fee!!');
+            redirect(base_url('admin/exam_suite'));
+        }
+        $this->db->delete('ci_exam_suite', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Exam Suite has been deleted successfully!');
         redirect(base_url('admin/exam_suite'));
     }

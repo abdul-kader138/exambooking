@@ -200,7 +200,7 @@ class Fee_management extends MY_Controller
         $suite_info = $this->fee_management_model->get_exam_suite_by_id($fee_management['suite_name']);
         $fee_association = $this->fee_management_model->get_exam_details_by_fees_id($fee_management['instrument_id'],$fee_management['grade_id'],$suite_info['name'],$fee_management['fees']);
         if ($fee_association) {
-            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with exam!!');
             redirect(base_url('admin/fee_management'));
         }
         $this->db->delete('ci_exam_suite_fees', array('md5(id)' => $id));

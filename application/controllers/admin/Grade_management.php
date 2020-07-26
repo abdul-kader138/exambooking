@@ -184,11 +184,20 @@ class Grade_management extends MY_Controller
         }
 
         // Association Checking with User Exam
-        $grade_association = $this->grade_management_model->get_exam_details_by_grade_id($id);
-        if ($grade_association) {
-            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+        $exam_association = $this->grade_management_model->get_exam_details_by_grade_id($id);
+        if ($exam_association) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with exam!!');
             redirect(base_url('admin/grade_management'));
         }
+
+        // Association Checking with User grade
+        $grade_association = $this->grade_management_model->get_grade_from_fees_by_id($id);
+        if ($grade_association) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with grade!!');
+            redirect(base_url('admin/grade_management'));
+        }
+
+
         $this->db->delete('ci_exam_grade_diploma', array('md5(id)' => $id));
         $this->session->set_flashdata('msg', 'Grade has been deleted successfully!');
         redirect(base_url('admin/grade_management'));

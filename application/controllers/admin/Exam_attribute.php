@@ -168,9 +168,16 @@ class Exam_attribute extends MY_Controller
         }
 
         // Association Checking with User Exam
-        $instrument_association = $this->exam_attribute_model->get_exam_details_by_instrument_id($id);
-        if ($instrument_association) {
-            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+        $instrument_exam_association = $this->exam_attribute_model->get_exam_details_by_instrument_id($id);
+        if ($instrument_exam_association) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with exam!!');
+            redirect(base_url('admin/exam_attribute'));
+        }
+
+        // Association Checking with User Grade
+        $instrument_grade_association = $this->exam_attribute_model->get_attribute_details_by_grade_id($id);
+        if ($instrument_grade_association) {
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with grade!!');
             redirect(base_url('admin/exam_attribute'));
         }
 

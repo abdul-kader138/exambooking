@@ -397,13 +397,13 @@ class Exam_registration_model extends CI_Model
 
     }
 
-    public function get_unused_voucher_by_exam_id($id, $code)
-    {
-        $sql = "select * from (SELECT code,fee FROM ci_voucher where 
-              exam_id ='' or exam_id =" . $id . ") as a where LOWER(a.code)='" . strtolower(trim($code)) . "'";
-        $query = $this->db->query($sql);
-        return $result = $query->row_array();
-    }
+//    public function get_unused_voucher_by_exam_id($id, $code)
+//    {
+//        $sql = "select * from (SELECT code,fee FROM ci_voucher where
+//              exam_id ='' or exam_id =" . $id . ") as a where LOWER(a.code)='" . strtolower(trim($code)) . "'";
+//        $query = $this->db->query($sql);
+//        return $result = $query->row_array();
+//    }
 
     public function get_voucher_details($id)
     {

@@ -152,7 +152,7 @@ class Time_venue extends MY_Controller
         // Association Checking with User Exam
         $time_venue_association = $this->time_venue_model->get_suite_from_exam_by_code($id);
         if ($time_venue_association) {
-            $this->session->set_flashdata('error', 'Information edit not possible due to association with exam!!');
+            $this->session->set_flashdata('error', 'Information delete not possible due to association with exam!!');
             redirect(base_url('admin/time_venue'));
         }
         $this->db->delete('ci_time_venue', array('md5(id)' => $id));

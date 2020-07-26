@@ -91,6 +91,7 @@ class Voucher_model extends CI_Model{
         $query = $this->db->get_where('ci_user_exam_details', array('LOWER(voucher_code)' => strtolower(trim($id))));
         return $result = $query->row_array();
     }
-}
+
+ }
 
 ?>

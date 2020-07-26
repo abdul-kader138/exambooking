@@ -91,6 +91,12 @@ class Exam_suite_model extends CI_Model
         return $result = $query->row_array();
     }
 
+    public function get_suite_from_grade_by_id($id)
+    {
+        $query = $this->db->get_where('ci_exam_suite_fees', array('md5(suite_name)' =>$id));
+        return $result = $query->row_array();
+    }
+
 }
 
 ?>

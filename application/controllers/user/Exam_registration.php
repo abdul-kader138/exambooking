@@ -296,7 +296,7 @@ class Exam_registration extends UR_Controller
         $id = $this->input->post('exam_id');
         $code = $this->input->post('code');
         $error = "Voucher Code not eligible for apply!";
-        $voucher_details = $this->exam_registration_model->get_unused_voucher_by_exam_id($id, $code);
+        $voucher_details = $this->exam_registration_model->get_unused_voucher_by_code($code);
         if ($voucher_details) $error = '';
         $response = array('update_status' => $voucher_details, 'error_info' => $error);
         echo json_encode($response);
