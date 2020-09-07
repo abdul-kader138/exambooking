@@ -422,6 +422,118 @@ class Exam_registration_model extends CI_Model
         return $result = $query->row_array();
     }
 
+
+    public function get_submission_details_by_param($from, $to, $exam_type, $type)
+    {
+//        $exam_type_val = 'No';
+//        if (is_array($exam_type)) $exam_type_val = $exam_type['name'];
+        if (!isset($type)) $type = 'No';
+        if (!isset($from)) $from = '1999-01-01';
+        if (!isset($to)) $to = '1999-01-02';
+        $wh = array();
+        $SQL = 'SELECT ci_exam_submission_details.id,ci_exam_submission_details.ref_no,ci_exam_submission_details.first_name,ci_exam_submission_details.last_name,
+		ci_user_exam_details.dob,ci_user_exam_details.gender,ci_exam_submission_details.exam_suite,
+		ci_exam_submission_details.instrument,ci_exam_submission_details.grade 
+		FROM ci_exam_submission_details INNER join 
+		ci_user_exam_details on ci_exam_submission_details.exam_id=ci_user_exam_details.id 
+		inner join ci_users on ci_exam_submission_details.created_by=ci_users.id';
+        if ($this->session->userdata('admin_type') == '3')
+            $wh[] = "ci_users.branch_id = '" . $this->session->userdata('branch_id') . "' and ci_exam_submission_details.type_types ='" . $type . "'"
+                . " and ci_exam_submission_details.exam_types ='" . $exam_type . "'"
+                . " and ci_exam_submission_details.created_date between '" . $from . "'"
+                . " and '" . $to . "'";
+        else $wh[] = "ci_exam_submission_details.type_types ='" . $type . "'"
+            . " and ci_exam_submission_details.exam_types ='" . $exam_type . "'"
+            . " and ci_exam_submission_details.created_date between '" . $from . "'"
+            . " and '" . $to . "'";
+        $group_by = '';
+        if (count($wh) > 0) {
+            $WHERE = implode(' and ', $wh);
+            return $this->datatable->LoadJson($SQL, $WHERE, $group_by);
+        } else {
+            return $this->datatable->LoadJson($SQL, $group_by);
+        }
+    }
+
+    public function get_submission_details_by_id($id)
+    {
+        $this->db->select('ci_exam_submission_details.id,ci_exam_submission_details.ref_no,ci_exam_submission_details.first_name,
+        ci_exam_submission_details.last_name,ci_exam_submission_details.grade,ci_exam_submission_details.instrument,
+        ci_exam_submission_details.exam_suite,ci_user_exam_details.dob,ci_user_exam_details.gender')
+            ->join('ci_user_exam_details', 'ci_exam_submission_details.exam_id=ci_user_exam_details.id', 'inner');
+        $query = $this->db->get_where('ci_exam_submission_details', array('ci_exam_submission_details.id' => $id));
+        if ($query->num_rows() > 0) {
+            foreach (($query->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+
+    }
+
+    public function get_voucher_from_exam_by_code($code)
+    {
+        $query = $this->db->get_where('ci_voucher', array('LOWER(code)' => strtolower(trim($code)), 'status' => 'New'));
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
+    }
+
+    public function get_submission_details($id, $ref_no)
+    {
+        $query = $this->db->get_where('ci_exam_submission_details', array('ref_no' => $ref_no, 'id' => $id));
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
+    }
+
+    public function update_candidate_submission($submission_details, $exam_id)
+    {
+        if ($submission_details) {
+            $this->db->trans_strict(TRUE);
+            $this->db->trans_start();
+            foreach ($submission_details as $record) {
+                if ($record['id'] && $record['ref_no']) {
+                    $voucher_details = $this->get_voucher_from_exam_by_code($record['voucher_code']);
+                    $this->db->where(array('id' => $record['id'], 'ref_no' => $record['ref_no']));
+                    $this->db->update('ci_exam_submission_details', array('exam_no' => $record['exam_no'], 'exam_date' => $record['exam_date'], 'exam_status' => $record['status'], 'voucher_code' => $record['voucher_code']));
+                    $this->db->where(array('id' => $voucher_details->id));
+                    $this->db->update('ci_voucher', array('ci_voucher.status' => 'Used', 'ci_voucher.exam_id' => $exam_id));
+                }
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) return false;
+            return true;
+        }
+        return false;
+//        return true;
+    }
+
+    public function update_voucher($voucher_details)
+    {
+        if ($voucher_details) {
+            $this->db->trans_strict(TRUE);
+            $this->db->trans_start();
+            $this->db->insert_batch('ci_voucher',$voucher_details);
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) return false;
+            return true;
+        }
+        return false;
+    }
+
+    public function get_voucher_by_csv_code($code)
+    {
+        $query = $this->db->get_where('ci_voucher', array('LOWER(code)' => strtolower(trim($code))));
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return false;
+    }
+
 }
 
 ?>

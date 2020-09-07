@@ -84,7 +84,7 @@ class Auth extends CI_Controller {
 						// Add User Activity
 						$this->activity_model->add(4);
 
-						redirect(base_url('user/profile'), 'refresh');
+						redirect(base_url('user/exam_registration/add_exam'), 'refresh');
 					}
 				}
 				else{

@@ -37,7 +37,7 @@
                                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" value="<?= $user['lastname']; ?>" name="lastname" class="form-control" placeholder="Enter your lastname">
+                                            <input type="text" value="<?= $user['lastname']; ?>" name="lastname" class="form-control validate" placeholder="Enter your lastname">
                                         </div>
                                     </div>
                                 </div>

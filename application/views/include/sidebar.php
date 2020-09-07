@@ -92,6 +92,20 @@
                     <li id="exam_list">
                         <a href="<?= base_url('admin/exam_registration'); ?>"> List Candidates</a>
                     </li>
+                    <li id="exam_submission_search">
+                        <a href="<?= base_url('admin/exam_registration/exam_submission_search'); ?>"> Export
+                            Candidates</a>
+                    </li>
+                    <?php if ($this->session->userdata('admin_type') == '2') { ?>
+                        <li id="update_candidates">
+                            <a href="<?= base_url('admin/exam_registration/update_candidates'); ?>"> Update Candidates
+                                (XLS)</a>
+                        </li>
+                        <li id="update_voucher">
+                            <a href="<?= base_url('admin/exam_registration/update_voucher'); ?>"> Create Voucher
+                                (XLS)</a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </li>
             <?php if ($this->session->userdata('admin_type') == '2') { ?>
@@ -189,6 +203,96 @@
                     </a>
                 </li>
             <?php } ?>
+
+            <!--            <li id="ci_examples">-->
+            <!--                <a href="javascript:void(0);" class="menu-toggle">-->
+            <!--                    <i class="material-icons">code</i>-->
+            <!--                    <span>CI Examples</span>-->
+            <!--                </a>-->
+            <!--                <ul class="ml-menu">-->
+            <!--                    <li id="simple_datatable">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/simple_datatable'); ?><!--">Simple Datatable</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="ajax_datatable">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/ajax_datatable'); ?><!--">Ajax Datatable</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="pagination">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/pagination'); ?><!--">Pagination Examples</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="file_upload">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/file_upload'); ?><!--">File Upload</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="multi_file_upload">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/multi_file_upload'); ?><!--">Multiple Files Upload</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="location">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/location'); ?><!--">Locations</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="charts">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/charts'); ?><!--">Dynamic Charts</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="advance_search">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/ci_examples/advance_search'); ?><!--">Advance Search</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </li>-->
+            <!--            <li id="forms">-->
+            <!--                <a href="javascript:void(0);" class="menu-toggle">-->
+            <!--                    <i class="material-icons">assignment</i>-->
+            <!--                    <span>Forms</span>-->
+            <!--                </a>-->
+            <!--                <ul class="ml-menu">-->
+            <!--                    <li id="basic">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/forms/basic'); ?><!--">Basic Form Elements</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="advanced">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/forms/advanced'); ?><!--">Advanced Form Elements</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="examples">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/forms/examples'); ?><!--">Form Examples</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="validation">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/forms/validation'); ?><!--">Form Validation</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="wizard">-->
+            <!--                        <a href="--><? //= base_url('admin/forms/wizard'); ?><!--">Form Wizard</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="editors">-->
+            <!--                        <a href="--><? //= base_url('admin/forms/editors'); ?><!--">Editors</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </li>-->
+            <!--            <li id="tables">-->
+            <!--                <a href="javascript:void(0);" class="menu-toggle">-->
+            <!--                    <i class="material-icons">view_list</i>-->
+            <!--                    <span>Tables</span>-->
+            <!--                </a>-->
+            <!--                <ul class="ml-menu">-->
+            <!--                    <li id="normal">-->
+            <!--                        <a href="--><? //= base_url('admin/tables/normal'); ?><!--">Normal Tables</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="jquery">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/tables/jquery'); ?><!--">Jquery Datatables</a>-->
+            <!--                    </li>-->
+            <!--                    <li id="editable">-->
+            <!--                        <a href="-->
+            <? //= base_url('admin/tables/editable'); ?><!--">Editable Tables</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </li>-->
         </ul>
     </div>
     <!-- #Menu -->
