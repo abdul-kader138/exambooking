@@ -37,14 +37,26 @@ class Exam_submission extends UR_Controller
                 $user_details = $this->exam_registration_model->get_user_detail();
                 $branch_admin_list = $this->exam_registration_model->get_branch_admin($user_details['branch_id']);
                 $super_admin_list = $this->exam_registration_model->get_super_admin();
+                $submission_code=$_POST['submission_code'] ;
+                $overtime_code="";
+                $penalty_fee="";
+                $overtime_obj=$this->exam_registration_model->get_unused_overtime_by_code($submission_code);
+                if(!empty($overtime_obj)){
+                    $overtime_code=$overtime_obj['code'];
+                    $penalty_fee=$overtime_obj['fee'];
+                    $total_fees+=$overtime_obj['fee'];
+                }
+                $ref='S-' . strtotime(date("Y-m-d H:i:s"));
                 foreach ($_POST['val'] as $id) {
                     $exam_details = $this->exam_registration_model->get_user_exam_details_for_submission_by_id($id);
                     $total_fees += $exam_details->fees;
                     $employees[] = array(
                         'exam_id' => $id,
                         'first_name' => $exam_details->first_name,
-                        'ref_no' => 'S-' . strtotime(date("Y-m-d H:i:s")),
+                        'ref_no' => $ref,
                         'last_name' => $exam_details->last_name,
+                        'overtime_code' => $overtime_code,
+                        'penalty_fee' => $penalty_fee,
                         'venue' => $exam_details->venue_details,
                         'exam_types' => $exam_details->type_name,
                         'type_types' => $exam_details->type_type,
@@ -110,7 +122,7 @@ class Exam_submission extends UR_Controller
                 $row['created_date'],
                 $row['ref_no'],
                 $row['id'],
-                $row['fees'],
+                ($row['fees']+$row['penalty_fee']),
                 '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('user/exam_submission/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>',
 
             );
@@ -164,4 +176,15 @@ class Exam_submission extends UR_Controller
         $response = sendEmail($user_details['email'], $subject, $message, $file = '', $cc = '');
     }
 
+    public function overtime_submit_exam()
+    {
+
+        $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
+        $overtime_code= $this->input->post('overtime_code');
+        $data['exam_details'] = $this->exam_registration_model->get_user_all_exam_details();
+        $data['overtime_time'] = $this->exam_registration_model->get_unused_overtime_by_code($overtime_code);
+        $data['title'] = 'Exam Submission';
+        $data['view'] = 'user/exam_submission/overtime_submit_exam';
+        $this->load->view('layout', $data);
+    }
 }

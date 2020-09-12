@@ -23,6 +23,7 @@ class Exam_registration extends UR_Controller
     {
         $data['view'] = 'user/exam_registration/exam_list';
         $data['user_exam_details'] = $this->exam_registration_model->get_user_all_exam_list();
+        $data['submission_time'] = $this->exam_registration_model->get_active_time_by_date(date('Y-m-d'));
         $this->load->view('layout', $data);
     }
 
@@ -299,6 +300,16 @@ class Exam_registration extends UR_Controller
         $voucher_details = $this->exam_registration_model->get_unused_voucher_by_code($code);
         if ($voucher_details) $error = '';
         $response = array('update_status' => $voucher_details, 'error_info' => $error);
+        echo json_encode($response);
+    }
+
+    public function check_overtime_details()
+    {
+        $code = $this->input->post('code');
+        $error = "Overtime Code not eligible for apply!";
+        $overtime_details = $this->exam_registration_model->get_unused_overtime_by_code($code);
+        if ($overtime_details) $error = '';
+        $response = array('update_status' => $overtime_details, 'error_info' => $error);
         echo json_encode($response);
     }
 

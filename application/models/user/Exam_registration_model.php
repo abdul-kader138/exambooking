@@ -248,6 +248,14 @@ class Exam_registration_model extends CI_Model
     {
         $this->db->trans_strict(TRUE);
         $this->db->trans_start();
+        // overtime code update
+        if(!empty($data[0]['overtime_code'])){
+            $overtime_code=$this->get_unused_overtime_by_code($data[0]['overtime_code']);
+            if($overtime_code){
+                $this->db->where('id', $overtime_code['id']);
+                $this->db->update('ci_overtime_submission', array('status' => 'Used','submission_ref'=>$data[0]['ref_no']));
+            }
+        }
         foreach ($data as $obj) {
             $this->db->where('id', $obj['exam_id']);
             $this->db->update('ci_user_exam_details', array('submitted' => 'Yes'));
@@ -277,7 +285,7 @@ class Exam_registration_model extends CI_Model
     // Get Exam Type grade Details
     public function get_submission_summary($ref_id = null)
     {
-        $this->db->select('sum(ci_exam_submission_details.fees) as total_fees,ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date');
+        $this->db->select('sum(ci_exam_submission_details.fees) as total_fees,ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date,ci_exam_submission_details.penalty_fee');
         $this->db->where('ci_exam_submission_details.ref_no', $ref_id);
         $this->db->group_by('ci_exam_submission_details.ref_no');
         $query = $this->db->get('ci_exam_submission_details');
@@ -292,7 +300,7 @@ class Exam_registration_model extends CI_Model
     public function get_all_exam_submission_details()
     {
         $wh = array();
-        $SQL = 'SELECT sum(fees) as fees, ref_no,created_date,count(id) as id
+        $SQL = 'SELECT sum(fees) as fees, ref_no,created_date,count(id) as id, penalty_fee
                 FROM ci_exam_submission_details';
         if ($this->session->userdata('user_id') != '')
             $wh[] = "ci_exam_submission_details.created_by = '" . $this->session->userdata('user_id') . "'";
@@ -397,17 +405,21 @@ class Exam_registration_model extends CI_Model
 
     }
 
-//    public function get_unused_voucher_by_exam_id($id, $code)
-//    {
-//        $sql = "select * from (SELECT code,fee FROM ci_voucher where
-//              exam_id ='' or exam_id =" . $id . ") as a where LOWER(a.code)='" . strtolower(trim($code)) . "'";
-//        $query = $this->db->query($sql);
-//        return $result = $query->row_array();
-//    }
-
     public function get_voucher_details($id)
     {
         $query = $this->db->get_where('ci_voucher', array('LOWER(code)' => strtolower(trim($id))));
+        return $result = $query->row_array();
+    }
+
+    public function get_active_time_by_date($date){
+        $sql="SELECT * FROM ci_submission_time WHERE ('".$date."' BETWEEN start_date and end_date and status=1)";
+        $query = $this->db->query($sql);
+        return $result = $query->row_array();
+    }
+
+    public function get_unused_overtime_by_code($id)
+    {
+        $query = $this->db->get_where('ci_overtime_submission', array('LOWER(code)' => strtolower(trim($id)), 'status' => 'New'));
         return $result = $query->row_array();
     }
 

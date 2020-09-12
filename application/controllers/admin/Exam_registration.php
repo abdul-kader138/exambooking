@@ -159,7 +159,7 @@ class Exam_registration extends MY_Controller
                 $row['created_date'],
                 $row['ref_no'],
                 $row['id'],
-                $row['fees'],
+                ($row['fees'] + $row['penalty_fee']),
                 '<a title="View" class="update btn btn-sm btn-info" href="' . base_url('admin/exam_registration/view_exam_submission/' . md5($row['ref_no'])) . '"> <i class="material-icons">visibility</i></a>' .
                 '<a title="Delete" class="delete btn btn-sm btn-danger" data-href="' . base_url('admin/exam_registration/submission_del/' . md5($row['ref_no'])) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>');
         }
@@ -169,7 +169,7 @@ class Exam_registration extends MY_Controller
 
     public function datatable_submission_search_json()
     {
-        $exam_name = 'No';
+        $exam_name = '';
         $exam_name_obj = '';
         $exam_type = $this->input->get('exam_type') ? $this->input->get('exam_type') : NULL;
         if ($exam_type) $exam_name_obj = $this->exam_registration_model->get_exam_type_by_id($exam_type);

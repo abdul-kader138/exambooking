@@ -57,6 +57,13 @@
                                             </tr>
                                         <?php endforeach; ?>
                                         <tbody>
+                                        <?php if(!empty($records[0]->penalty_fee)){ ?>
+                                        <tr style="background-color: #9db5b0">
+                                            <td colspan="8" style="text-align: right"><b>Penalty Fee :</b></td>
+                                            <td><b><?= ($total_fees +$records[0]->penalty_fee)?></b></td>
+                                            <td></td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr style="background-color: #9db5b0">
                                             <td colspan="8" style="text-align: right"><b>Total :</b></td>
                                             <td><b><?= $total_fees ?></b></td>

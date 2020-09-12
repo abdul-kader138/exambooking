@@ -12,7 +12,7 @@
                             <b>Thank you! Your submission has been sent. Below is our bank account detail.</b><br>
                             Submission Date: <?=$this->functions->reformatDate($submission_details->created_date)?><br>
                             Ref No: <?=$submission_details->ref_no?><br>
-                            Total Amount: <?=$submission_details->total_fees?><br>
+                            Total Amount: <?=($submission_details->total_fees + $submission_details->penalty_fee)?><br>
                             Bank Name: xxxxx xxx xxxx <br>
                             Bank Acc No.: xxxx xxxx xxxx<br>
                             Kindly bank-in or online transfer the total amount to the above bank account, please included your Name and Ref No. for our referene.<br>

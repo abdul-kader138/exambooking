@@ -8,32 +8,33 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2 style="display: inline-block;">
-                    List Submission
+                <h2>
+                    <h2 style="display: inline-block;">
+                        List Submission Time
+                    </h2>
                 </h2>
-                <a href="<?= base_url('admin/exam_registration/');?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> Candidates</a>
+                <a href="<?= base_url('admin/submission_time/submission_time_add'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i
+                            class="material-icons">add_circle</i> ADD Submission Time</a>
             </div>
             <div class="body">
                 <div class="table-responsive">
                     <table id="na_datatable" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                         <tr>
-                            <th>Submitted By</th>
-                            <th>Submission Date</th>
-                            <th>Reference No</th>
-                            <th>Candidate</th>
-                            <th>Fees</th>
-                            <th width="50" class="text-right">Action</th>
+                            <th style="width: 40px;" class="text-left">#ID</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Status</th>
+                            <th width="200" class="text-right">Action</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>Submitted By</th>
-                            <th>Submission Date</th>
-                            <th>Reference No</th>
-                            <th>Candidate</th>
-                            <th>Fees</th>
-                            <th style="width: 50px;" class="text-right">Action</th>
+                            <td style="width: 40px;" class="text-left">#ID</td>
+                            <td>From</td>
+                            <td>To</td>
+                            <td>Status</td>
+                            <td style="width: 150px;" class="text-right">Action</td>
                         </tr>
                         </tfoot>
                     </table>
@@ -44,6 +45,7 @@
 </div>
 <!-- #END# Exportable Table -->
 
+<!-- Modal -->
 <div id="confirm-delete" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -71,16 +73,14 @@
     var table = $('#na_datatable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "<?=base_url('admin/exam_registration/datatable_submission_json')?>",
-        "order": [[0, 'desc']],
+        "ajax": "<?=base_url('admin/submission_time/datatable_json')?>",
+        "order": [[1, 'asc']],
         "columnDefs": [
-            {"targets": 0, "name": "ci_exam_submission_details.created_date", 'searchable': true, 'orderable': true},
-            {"targets": 1, "name": "ci_users.firstname", 'searchable': true, 'orderable': true},
-            {"targets": 2, "name": "ci_exam_submission_details.ref_no", 'searchable': true, 'orderable': true},
-            {"targets": 3, "name": "ci_exam_submission_details.id", 'searchable': true, 'orderable': true},
-            // {"targets": 4, "name": "ci_exam_submission_details.fees", 'searchable': true, 'orderable': true},
-            {"targets": 5, "name": "Action", 'searchable': false, 'orderable': false, 'width': '40px'}
-
+            {"targets": 0, "name": "id", 'searchable': true, 'orderable': true},
+            {"targets": 1, "name": "start_date", 'searchable': true, 'orderable': true},
+            {"targets": 2, "name": "end_date", 'searchable': true, 'orderable': true},
+            {"targets": 3, "name": "status", 'searchable': true, 'orderable': true},
+            {"targets": 4, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });
 </script>
@@ -89,15 +89,16 @@
 <!-- Custom Js -->
 <script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script>
 <script>
+    //Textare auto growth
+    autosize($('textarea.auto-growth'));
+
     //Delete Dialogue
     $('#confirm-delete').on('show.bs.modal', function (e) {
-
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
-
-    $("#exam_submission_list").addClass('active');
+    $("submission_time_list").addClass('active');
 </script>
+  
 
-
-
+  
 

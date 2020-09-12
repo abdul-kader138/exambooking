@@ -1,8 +1,7 @@
-<!-- JQuery DataTable Css -->
 <link href="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css"
       rel="stylesheet">
-<!-- Bootstrap Select Css -->
 <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
+<link href="<?= base_url() ?>public/plugins/toastr/toastr.min.css" rel="stylesheet"/>
 <!-- Exportable Table -->
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -53,11 +52,28 @@
                     </table>
                 </div>
                 <?php
-                if (!empty($user_exam_details)) { ?>
+                if (!empty($user_exam_details) && !empty($submission_time)) { ?>
                     <div style="margin-top: 20px;">
                         <a href="<?= base_url('user/exam_submission/submit_exam'); ?>"
                            class="btn bg-pink waves-effect pull-left"> Submit</a>
                     </div>
+                <?php } ?>
+                <?php if (empty($submission_time) && !empty($user_exam_details)) { ?>
+                    <div style="margin-top: 20px;" class="col-sm-6">
+                        <a href="#" disabled class="btn bg-pink waves-effect"> Submit</a>&nbsp;&nbsp;
+                        <span><b class="bg-pink"
+                                 style="font-size: 12px">&nbsp;&nbsp;Submission is Over! &nbsp;</b></span>
+                    </div>
+                    <div style="margin-top: 20px;" class="col-sm-6">
+                        <?php
+                        $attributes = array('class' => 'form-horizontal', 'id' => 'overtime_submit_exam');
+                        echo form_open(base_url('user/exam_submission/overtime_submit_exam'), $attributes); ?>
+                        <label for="">Overtime Code:&nbsp;</label>&nbsp;
+                        <input type="text" id="overtime_code" name="overtime_code" required>&nbsp;&nbsp;
+                        <button class="btn bg-blue waves-effect" id="overtime_code_submit"> Apply & Submit</button>
+                        <?php echo form_close(); ?>
+                    </div>
+                    <div class="clearfix">&nbsp;</div>
                 <?php } ?>
             </div>
         </div>
@@ -85,9 +101,11 @@
     </div>
 </div>
 
-<!-- Jquery DataTable Plugin Js -->
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
+<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script>
+<script src="<?= base_url() ?>public/plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
     //---------------------------------------------------
     var table = $('#na_datatable').DataTable({
@@ -110,13 +128,6 @@
             {"targets": 11, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });
-</script>
-<!-- Autosize Plugin Js -->
-<script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
-<!-- Custom Js -->
-<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script>
-<script>
-    //Textare auto growth
     autosize($('textarea.auto-growth'));
 
     //Delete Dialogue
@@ -124,6 +135,31 @@
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
     $("#exam_list").addClass('active');
+
+    $('#overtime_code_submit').click(function (e) {
+        e.preventDefault();
+        var code = $('#overtime_code').val();
+        if (code == '' || code == undefined) toastr.error('Please enter overtime code.', 'Error');
+        if (code != '' && code != undefined) {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('user/exam_registration/check_overtime_details'); ?>",
+                data: {code: code},
+                dataType: "json",//return type expected as json
+                success: function (states) {
+                    debugger;
+                    if (states.error_info == '') {
+                        $('#overtime_submit_exam').submit();
+                    } else {
+                        toastr.error(states.error_info, 'Error');
+                    }
+                },
+                error: function (error) {
+                    toastr.error('Something went wrong,Please contact with system admin', 'Error');
+                }
+            });
+        }
+    });
 </script>
 
 

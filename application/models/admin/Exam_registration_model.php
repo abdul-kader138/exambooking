@@ -238,7 +238,7 @@ class Exam_registration_model extends CI_Model
     //---------------------------------------------------
     public function get_submission_summary($ref_id = null)
     {
-        $this->db->select('sum(ci_exam_submission_details.fees) as total_fees,ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date');
+        $this->db->select('sum(ci_exam_submission_details.fees) as total_fees,ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date,ci_exam_submission_details.penalty_fee');
         $this->db->where('ci_exam_submission_details.ref_no', $ref_id);
         $this->db->group_by('ci_exam_submission_details.ref_no');
         $query = $this->db->get('ci_exam_submission_details');
@@ -251,7 +251,7 @@ class Exam_registration_model extends CI_Model
     public function get_all_exam_submission_details()
     {
         $wh = array();
-        $SQL = 'SELECT concat(ci_users.firstname," ",ci_users.lastname) as firstname,sum(ci_exam_submission_details.fees) as fees, ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date,count(ci_exam_submission_details.id) as id
+        $SQL = 'SELECT concat(ci_users.firstname," ",ci_users.lastname) as firstname,sum(ci_exam_submission_details.fees) as fees, ci_exam_submission_details.penalty_fee, ci_exam_submission_details.ref_no,ci_exam_submission_details.created_date,count(ci_exam_submission_details.id) as id
                   FROM ci_exam_submission_details inner join ci_users on ci_exam_submission_details.created_by=ci_users.id';
         if ($this->session->userdata('admin_type') == '3')
             $wh[] = "ci_users.branch_id = '" . $this->session->userdata('branch_id') . "'";
@@ -425,11 +425,12 @@ class Exam_registration_model extends CI_Model
 
     public function get_submission_details_by_param($from, $to, $exam_type, $type)
     {
-//        $exam_type_val = 'No';
-//        if (is_array($exam_type)) $exam_type_val = $exam_type['name'];
-        if (!isset($type)) $type = 'No';
+        $type_query= '';
+        $exam_type_query='';
         if (!isset($from)) $from = '1999-01-01';
         if (!isset($to)) $to = '1999-01-02';
+        if(!empty($type_query)) $type_query = " and ci_exam_submission_details.type_types ='" . $type . "'";
+        if(!empty($exam_type_query)) $exam_type_query = " and ci_exam_submission_details.exam_types ='" . $exam_type . "'";
         $wh = array();
         $SQL = 'SELECT ci_exam_submission_details.id,ci_exam_submission_details.ref_no,ci_exam_submission_details.first_name,ci_exam_submission_details.last_name,
 		ci_user_exam_details.dob,ci_user_exam_details.gender,ci_exam_submission_details.exam_suite,
@@ -438,14 +439,15 @@ class Exam_registration_model extends CI_Model
 		ci_user_exam_details on ci_exam_submission_details.exam_id=ci_user_exam_details.id 
 		inner join ci_users on ci_exam_submission_details.created_by=ci_users.id';
         if ($this->session->userdata('admin_type') == '3')
-            $wh[] = "ci_users.branch_id = '" . $this->session->userdata('branch_id') . "' and ci_exam_submission_details.type_types ='" . $type . "'"
-                . " and ci_exam_submission_details.exam_types ='" . $exam_type . "'"
-                . " and ci_exam_submission_details.created_date between '" . $from . "'"
-                . " and '" . $to . "'";
-        else $wh[] = "ci_exam_submission_details.type_types ='" . $type . "'"
-            . " and ci_exam_submission_details.exam_types ='" . $exam_type . "'"
-            . " and ci_exam_submission_details.created_date between '" . $from . "'"
-            . " and '" . $to . "'";
+            $wh[] = "ci_users.branch_id = '" . $this->session->userdata('branch_id') . "' and "
+                . " ci_exam_submission_details.created_date between '" . $from." 00:00" . "'"
+                . " and '" . $to." 23:59" . "'"
+                . $type_query
+                . $exam_type_query;
+        else $wh[] = "ci_exam_submission_details.created_date between '" . $from." 00:00" . "'"
+            . " and '" .  $to." 23:59"  . "'"
+            . $type_query
+            . $exam_type_query;
         $group_by = '';
         if (count($wh) > 0) {
             $WHERE = implode(' and ', $wh);
@@ -497,11 +499,11 @@ class Exam_registration_model extends CI_Model
             $this->db->trans_start();
             foreach ($submission_details as $record) {
                 if ($record['id'] && $record['ref_no']) {
-                    $voucher_details = $this->get_voucher_from_exam_by_code($record['voucher_code']);
                     $this->db->where(array('id' => $record['id'], 'ref_no' => $record['ref_no']));
                     $this->db->update('ci_exam_submission_details', array('exam_no' => $record['exam_no'], 'exam_date' => $record['exam_date'], 'exam_status' => $record['status'], 'voucher_code' => $record['voucher_code']));
-                    $this->db->where(array('id' => $voucher_details->id));
-                    $this->db->update('ci_voucher', array('ci_voucher.status' => 'Used', 'ci_voucher.exam_id' => $exam_id));
+//                    $voucher_details = $this->get_voucher_from_exam_by_code($record['voucher_code']);
+//                    $this->db->where(array('id' => $voucher_details->id));
+//                    $this->db->update('ci_voucher', array('ci_voucher.status' => 'Used', 'ci_voucher.exam_id' => $exam_id));
                 }
             }
             $this->db->trans_complete();
@@ -517,7 +519,7 @@ class Exam_registration_model extends CI_Model
         if ($voucher_details) {
             $this->db->trans_strict(TRUE);
             $this->db->trans_start();
-            $this->db->insert_batch('ci_voucher',$voucher_details);
+            $this->db->insert_batch('ci_voucher', $voucher_details);
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE) return false;
             return true;

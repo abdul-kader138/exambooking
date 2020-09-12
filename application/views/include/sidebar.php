@@ -193,15 +193,38 @@
                         </li>
                     </ul>
                 </li>
+                <li id="submission_time">
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">post_add</i>
+                        <span>Submission Time Management</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li id="submission_time_add">
+                            <a href="<?= base_url('admin/submission_time/submission_time_add'); ?>">Add Submission Time</a>
+                        </li>
+                        <li id="submission_time_list">
+                            <a href="<?= base_url('admin/submission_time'); ?>">List Submission Time</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="overtime_submission">
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">post_add</i>
+                        <span>Overtime Code Management</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li id="overtime_submission_add">
+                            <a href="<?= base_url('admin/overtime_submission/overtime_submission_add'); ?>">Add Overtime Code</a>
+                        </li>
+                        <li id="overtime_submission_list">
+                            <a href="<?= base_url('admin/overtime_submission'); ?>">List Overtime Code</a>
+                        </li>
+                    </ul>
+                </li>
             <?php } ?>
             <?php if ($this->session->userdata('admin_type') == '2') { ?>
                 <li class="header"></li>
-                <li id="general_settings">
-                    <a href="<?= base_url('admin/general_settings'); ?>">
-                        <i class="material-icons">settings</i>
-                        <span>Settings</span>
-                    </a>
-                </li>
             <?php } ?>
 
             <!--            <li id="ci_examples">-->

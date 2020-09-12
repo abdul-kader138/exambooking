@@ -69,7 +69,7 @@ if ($this->input->post('to_date')) {
                             foreach ($exam_types as $exam_type) {
                                 $exam_type_list[$exam_type->id] = $exam_type->name;
                             }
-                            echo form_dropdown('exam_type', $exam_type_list, $exam_id, 'id="exam_type" class="form-control show-tick"  required="required"" ');
+                            echo form_dropdown('exam_type', $exam_type_list, $exam_id, 'id="exam_type" class="form-control show-tick" ');
                             ?>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ if ($this->input->post('to_date')) {
                         <div class="form-group">
                             <label for="type" id="d_grade">Grade</label>
                             <div class="form-line">
-                                <select class="form-control show-tick" required name="type" id="type">
+                                <select class="form-control show-tick" name="type" id="type">
                                     <option value="">-- Please select Grade--</option>
                                 </select>
                             </div>

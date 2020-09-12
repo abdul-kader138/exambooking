@@ -55,9 +55,15 @@
                                             </tr>
                                         <?php endforeach; ?>
                                         <tbody>
+                                        <?php if(!empty($records[0]->penalty_fee)){ ?>
+                                        <tr>
+                                            <td colspan="12" style="text-align: right"><b>Penalty Fee :</b></td>
+                                            <td><b><?= $records[0]->penalty_fee ?></b></td>
+                                        </tr>
+                                        <?php }?>
                                         <tr style="background-color: #9db5b0">
                                             <td colspan="12" style="text-align: right"><b>Total :</b></td>
-                                            <td><b><?= $total_fees ?></b></td>
+                                            <td><b><?= ($total_fees+$records[0]->penalty_fee) ?></b></td>
                                         </tr>
                                         </tbody>
                                     </table>
