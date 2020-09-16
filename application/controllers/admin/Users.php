@@ -33,7 +33,6 @@ class Users extends MY_Controller
             $data[] = array(
                 ++$i,
                 $row['firstname'],
-                $row['lastname'],
                 $row['email'],
                 date('F j, Y', strtotime($row['created_at'])),
                 '<span class="btn bg-teal  waves-effect" title="status">' . getGroupyName($row['role']) . '<span>',    // get Group name by ID (getGroupyName() is a helper function)
@@ -57,7 +56,6 @@ class Users extends MY_Controller
         if ($this->input->post('submit')) {
             //$this->form_validation->set_rules('username', 'Username', 'trim|min_length[3]|required');
             $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
-            $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
             $this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
             $this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -71,7 +69,6 @@ class Users extends MY_Controller
                 $data = array(
                     //'username' => $this->input->post('username'),
                     'firstname' => $this->input->post('firstname'),
-                    'lastname' => $this->input->post('lastname'),
                     'email' => $this->input->post('email'),
                     'mobile_no' => $this->input->post('mobile_no'),
                     'address' => $this->input->post('address'),
@@ -117,7 +114,6 @@ class Users extends MY_Controller
         if ($this->input->post('submit')) {
             //$this->form_validation->set_rules('username', 'Username', 'trim|required');
             $this->form_validation->set_rules('firstname', 'Username', 'trim|required');
-            $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
             $this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
             $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
@@ -135,7 +131,6 @@ class Users extends MY_Controller
                 $data = array(
                     //'username' => $this->input->post('username'),
                     'firstname' => $this->input->post('firstname'),
-                    'lastname' => $this->input->post('lastname'),
                     'email' => $this->input->post('email'),
                     'mobile_no' => $this->input->post('mobile_no'),
                     'branch_id' => $this->input->post('branch'),

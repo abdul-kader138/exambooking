@@ -18,8 +18,7 @@
             <thead>
               <tr>
                 <th>#ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Created Date</th>
                 <th>Role/Group</th>
@@ -29,8 +28,7 @@
             </thead>
             <tfoot>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Created Date</th>
                 <th>Role/Group</th>
@@ -76,16 +74,15 @@
       "processing": true,
       "serverSide": true,
       "ajax": "<?=base_url('admin/users/datatable_json')?>",
-      "order": [[6,'desc']],
+      "order": [[5,'desc']],
       "columnDefs": [
         { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
         { "targets": 1, "name": "firstname", 'searchable':true, 'orderable':true},
-        { "targets": 2, "name": "lastname", 'searchable':true, 'orderable':true},
-        { "targets": 3, "name": "email", 'searchable':true, 'orderable':true},
-        { "targets": 4, "name": "role", 'searchable':false, 'orderable':false},
-        { "targets": 5, "name": "is_admin", 'searchable':true, 'orderable':true},
-        { "targets": 6, "name": "created_at", 'searchable':true, 'orderable':true},
-        { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+        { "targets": 2, "name": "email", 'searchable':true, 'orderable':true},
+        { "targets": 3, "name": "role", 'searchable':false, 'orderable':false},
+        { "targets": 4, "name": "is_admin", 'searchable':true, 'orderable':true},
+        { "targets": 5, "name": "created_at", 'searchable':true, 'orderable':true},
+        { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
       ]
     });
   </script>

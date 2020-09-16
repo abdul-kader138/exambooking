@@ -22,16 +22,8 @@
                             <i class="material-icons">person</i>
                         </span>
                 <div class="form-line">
-                    <input type="text" class="form-control" name="firstname" placeholder="First Name" required
+                    <input type="text" class="form-control" name="firstname" placeholder="Name" required
                            autofocus>
-                </div>
-            </div>
-            <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">person</i>
-                        </span>
-                <div class="form-line">
-                    <input type="text" class="form-control" name="lastname" placeholder="Last Name" required autofocus>
                 </div>
             </div>
             <div class="input-group">

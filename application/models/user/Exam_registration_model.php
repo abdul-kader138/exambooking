@@ -60,7 +60,7 @@ class Exam_registration_model extends CI_Model
         $wh = array();
         $SQL = 'SELECT ci_user_exam_details.id,ci_user_exam_details.submitted,ci_user_exam_details.first_name,ci_user_exam_details.last_name,
                ci_time_venue.time_venue, ci_exam_type.name type_name,ci_user_exam_details.created_date,ci_exam_type_types.name type_type,ci_user_exam_details.venue_details,
-               ci_exam_instrument_product.instrument_name,ci_exam_grade_diploma.grade_name,ci_user_exam_details.exam_suite,
+               ci_exam_instrument_product.instrument_name,ci_exam_grade_diploma.grade_name,ci_user_exam_details.exam_suite,ci_user_exam_details.dob,ci_user_exam_details.gender,
                ci_user_exam_details.fees,ci_user_exam_details.school_name,ci_user_exam_details.ic_no FROM ci_user_exam_details 
                inner join ci_time_venue on ci_user_exam_details.time_venue=ci_time_venue.id inner join ci_exam_type on 
                ci_user_exam_details.exam_type=ci_exam_type.id inner join ci_exam_type_types on 

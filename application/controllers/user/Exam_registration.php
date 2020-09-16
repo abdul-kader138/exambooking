@@ -43,6 +43,8 @@ class Exam_registration extends UR_Controller
                 $row['first_name'],
                 $row['last_name'],
                 $row['school_name'],
+                $row['dob'],
+                $row['gender'],
                 $row['venue_details'],
                 $row['type_name'],
                 $row['type_type'],

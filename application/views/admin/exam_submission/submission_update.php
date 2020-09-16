@@ -9,7 +9,8 @@
                 <div class="card">
                     <div class="header">
                         <input type="hidden" id="submission_id" value="<?= $exam_detail->id ?>"/>
-                        <h2>Submission Details (<?= $exam_detail->ref_no ?>)</h2>
+                        <h2>Submission No. -(<?= $exam_detail->ref_no ?>)</h2><br><br>
+                        <h2>Candidate ID -<?= $exam_detail->id ?></h2>
                         <a href="<?= base_url('admin/exam_registration/exam_submission_list'); ?>"
                            class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">list</i> List
                             Submission</a>

@@ -105,8 +105,7 @@ if ($this->input->post('to_date')) {
                             <th>DOB</th>
                             <th>Gender</th>
                             <th>Exam Suite</th>
-                            <th>Instrument</th>
-                            <th>Grade</th>
+                            <th>Examination/Product Name </th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -118,8 +117,7 @@ if ($this->input->post('to_date')) {
                             <th>DOB</th>
                             <th>Gender</th>
                             <th>Exam Suite</th>
-                            <th>Instrument</th>
-                            <th>Grade</th>
+                            <th>Examination/Product Name </th>
                         </tr>
                         </tfoot>
                     </table>
@@ -180,8 +178,7 @@ if ($this->input->post('to_date')) {
             {"targets": 4, "name": "ci_user_exam_details.dob", 'searchable': true, 'orderable': false},
             {"targets": 5, "name": "ci_user_exam_details.gender", 'searchable': true, 'orderable': false},
             {"targets": 6, "name": "ci_exam_submission_details.exam_suite", 'searchable': true, 'orderable': false},
-            {"targets": 7, "name": "ci_exam_submission_details.instrument", 'searchable': true, 'orderable': false},
-            {"targets": 8, "name": "ci_exam_submission_details.grade", 'searchable': true, 'orderable': false}
+            {"targets": 7, "name": "ci_exam_submission_details.instrument", 'searchable': true, 'orderable': false}
         ],
         'select': {
             'style': 'os',

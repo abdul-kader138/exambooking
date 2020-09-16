@@ -39,6 +39,8 @@ class Exam_registration extends MY_Controller
                 $row['first_name'],
                 $row['last_name'],
                 $row['school_name'],
+                $row['dob'],
+                $row['gender'],
                 $row['venue_details'],
                 $row['type_name'],
                 $row['type_type'],
@@ -188,8 +190,7 @@ class Exam_registration extends MY_Controller
                 $row['dob'],
                 $row['gender'],
                 $row['exam_suite'],
-                $row['instrument'],
-                $row['grade']);
+                ($row['instrument'].' '.$row['grade']));
         }
         $records['data'] = $data;
         echo json_encode($records);
@@ -297,8 +298,7 @@ class Exam_registration extends MY_Controller
                     $this->excel->getActiveSheet()->SetCellValue('E1', 'DOB');
                     $this->excel->getActiveSheet()->SetCellValue('F1', 'Gender');
                     $this->excel->getActiveSheet()->SetCellValue('G1', 'Exam Suite');
-                    $this->excel->getActiveSheet()->SetCellValue('H1', 'Instrument');
-                    $this->excel->getActiveSheet()->SetCellValue('I1', 'Grade');
+                    $this->excel->getActiveSheet()->SetCellValue('H1', 'Examination/Product Name ');
 //
                     $row = 2;
                     foreach ($_POST['id'] as $id) {
@@ -310,8 +310,7 @@ class Exam_registration extends MY_Controller
                         $this->excel->getActiveSheet()->SetCellValue('E' . $row, $this->functions->reformatDate($records[0]->dob));
                         $this->excel->getActiveSheet()->SetCellValue('F' . $row, $records[0]->gender);
                         $this->excel->getActiveSheet()->SetCellValue('G' . $row, $records[0]->exam_suite);
-                        $this->excel->getActiveSheet()->SetCellValue('H' . $row, $records[0]->instrument);
-                        $this->excel->getActiveSheet()->SetCellValue('I' . $row, $records[0]->grade);
+                        $this->excel->getActiveSheet()->SetCellValue('H' . $row, ($records[0]->instrument .' '.$records[0]->grade));
                         $row++;
                     }
 
@@ -322,8 +321,7 @@ class Exam_registration extends MY_Controller
                     $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
                     $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
                     $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
-                    $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
-                    $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(10);
+                    $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
                     $this->excel->getDefaultStyle()->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
                     $filename = 'submission_list_' . date('Y_m_d_H_i_s');
                     if ($this->input->post('form_action') == 'export_excel') {
@@ -463,7 +461,7 @@ class Exam_registration extends MY_Controller
                 }
                 $titles = array_shift($arrResult);
 
-                $keys = array('ref_no', 'id', 'exam_no', 'exam_date', 'status', 'voucher_code');
+                $keys = array('submission_no', 'id', 'exam_no', 'exam_date', 'status', 'voucher_code');
                 $final = array();
                 foreach ($arrResult as $key => $value) {
                     $final[] = array_combine($keys, $value);
@@ -471,20 +469,20 @@ class Exam_registration extends MY_Controller
                 $rw = 2;
 
                 foreach ($final as $csv_pr) {
-                    if (isset($csv_pr['exam_no']) || isset($csv_pr['exam_date']) || isset($csv_pr['exam_no']) || isset($csv_pr['voucher_code'])) {
+                    if (isset($csv_pr['submission_no']) || isset($csv_pr['id']) || isset($csv_pr['exam_no']) || isset($csv_pr['voucher_code'])) {
                         $voucher_details = $this->exam_registration_model->get_voucher_from_exam_by_code($csv_pr['voucher_code']);
                         if (!$voucher_details) {
                             $this->session->set_flashdata('error', 'Voucher code(' . $csv_pr['voucher_code'] . ') not available.');
                             redirect($_SERVER["HTTP_REFERER"]);
                         }
 
-                        $submission_details = $this->exam_registration_model->get_submission_details($csv_pr['id'], $csv_pr['ref_no']);
+                        $submission_details = $this->exam_registration_model->get_submission_details($csv_pr['id'], $csv_pr['submission_no']);
                         if (!$submission_details) {
-                            $this->session->set_flashdata('error', 'Candidate(' . $csv_pr['ref_no'] . ') submission is not exist.');
+                            $this->session->set_flashdata('error', 'Candidate(' . $csv_pr['submission_no'] . ') submission is not exist.');
                             redirect($_SERVER["HTTP_REFERER"]);
                         }
                         $obj[] = array(
-                            'ref_no' => $csv_pr['ref_no'],
+                            'ref_no' => $csv_pr['submission_no'],
                             'id' => $csv_pr['id'],
                             'exam_no' => $csv_pr['exam_no'],
                             'exam_date' => $this->returnDate($csv_pr['exam_date']),

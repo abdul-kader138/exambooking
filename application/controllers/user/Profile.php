@@ -17,8 +17,7 @@ class Profile extends UR_Controller
         $user_details = $this->user_model->get_user_detail();
         $data['user'] = $user_details;
         if ($this->input->post('submit')) {
-            $this->form_validation->set_rules('firstname', 'Username', 'trim|required');
-            $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
+            $this->form_validation->set_rules('firstname', 'Name', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
             $this->form_validation->set_rules('mobile_no', 'Mobile Number', 'trim|required|regex_match[/^\+?[0-9-()]+$/]');
             $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
@@ -36,7 +35,6 @@ class Profile extends UR_Controller
                 $data = array(
                     /*'username' => $this->input->post('username'),*/
                     'firstname' => $this->input->post('firstname'),
-                    'lastname' => $this->input->post('lastname'),
                     'email' => $this->input->post('email'),
                     'mobile_no' => $this->input->post('mobile_no'),
                     'address' => $this->input->post('address'),

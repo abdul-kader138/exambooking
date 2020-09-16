@@ -22,6 +22,8 @@
                             <th>First Name</th>
                             <th>Second Name</th>
                             <th>School Name</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
                             <th>Venue</th>
                             <th>Type</th>
                             <th>Exam Type</th>
@@ -38,6 +40,8 @@
                             <th>First Name</th>
                             <th>Second Name</th>
                             <th>School Name</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
                             <th>Venue</th>
                             <th>Type</th>
                             <th>Exam Type</th>
@@ -117,15 +121,17 @@
             {"targets": 0, "name": "ci_user_exam_details.first_name", 'searchable': true, 'orderable': true},
             {"targets": 1, "name": "ci_user_exam_details.last_name", 'searchable': true, 'orderable': true},
             {"targets": 2, "name": "ci_user_exam_details.school_name", 'searchable': true, 'orderable': true},
-            {"targets": 3, "name": "ci_user_exam_details.venue_details", 'searchable': true, 'orderable': true},
-            {"targets": 4, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
-            {"targets": 5, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
-            {"targets": 6, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},
-            {"targets": 7, "name": "ci_exam_grade_diploma.grade_name", 'searchable': true, 'orderable': true},
-            {"targets": 8, "name": "ci_user_exam_details.fees", 'searchable': true, 'orderable': true},
-            {"targets": 9, "name": "ci_user_exam_details.submitted", 'searchable': true, 'orderable': true},
-            {"targets": 10, "name": "ci_user_exam_details.created_date", 'searchable': true, 'orderable': true},
-            {"targets": 11, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
+            {"targets": 3, "name": "ci_user_exam_details.dob", 'searchable': true, 'orderable': true},
+            {"targets": 4, "name": "ci_user_exam_details.gender", 'searchable': true, 'orderable': true},
+            {"targets": 5, "name": "ci_user_exam_details.venue_details", 'searchable': true, 'orderable': true},
+            {"targets": 6, "name": "ci_exam_type.name", 'searchable': true, 'orderable': true},
+            {"targets": 7, "name": "ci_exam_type_types.name", 'searchable': true, 'orderable': true},
+            {"targets": 8, "name": "ci_exam_instrument_product.instrument_name", 'searchable': true, 'orderable': true},
+            {"targets": 9, "name": "ci_exam_grade_diploma.grade_name", 'searchable': true, 'orderable': true},
+            {"targets": 10, "name": "ci_user_exam_details.fees", 'searchable': true, 'orderable': true},
+            {"targets": 11, "name": "ci_user_exam_details.submitted", 'searchable': true, 'orderable': true},
+            {"targets": 12, "name": "ci_user_exam_details.created_date", 'searchable': true, 'orderable': true},
+            {"targets": 13, "name": "Action", 'searchable': false, 'orderable': false, 'width': '100px'}
         ]
     });
     autosize($('textarea.auto-growth'));

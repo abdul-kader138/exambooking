@@ -18,7 +18,6 @@ class Profile extends MY_Controller
         if ($this->input->post('submit')) {
             $this->form_validation->set_rules('username', 'Username', 'trim');
             $this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
-            $this->form_validation->set_rules('lastname', 'Last Name', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required');
             if ($this->input->post('email') != $user_details['email']) {
                 $this->form_validation->set_rules('email', 'Email', 'is_unique[ci_users.email]');
@@ -32,7 +31,6 @@ class Profile extends MY_Controller
                 $data = array(
                     'username' => $this->input->post('username'),
                     'firstname' => $this->input->post('firstname'),
-                    'lastname' => $this->input->post('lastname'),
                     'email' => $this->input->post('email'),
                     'updated_at' => date('Y-m-d : h:m:s'),
                 );

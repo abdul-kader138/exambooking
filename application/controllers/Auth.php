@@ -126,7 +126,6 @@ class Auth extends CI_Controller {
             
 			//$this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[ci_users.username]');
 			$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
-			$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
 			$this->form_validation->set_rules('branch', 'Branch', 'trim|required');
 			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
@@ -147,7 +146,6 @@ class Auth extends CI_Controller {
 			else{
 				$data = array(
 					'firstname' => $this->input->post('firstname'),
-					'lastname' => $this->input->post('lastname'),
 					'email' => $this->input->post('email'),
 					'branch_id' => $this->input->post('branch'),
 					'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),

@@ -25,24 +25,12 @@
       <?php echo form_open(base_url('admin/users/add'), 'class="form-horizontal"');  ?> 
         <div class="row clearfix">
             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                <label for="firstname">First Name</label>
+                <label for="firstname">Name <br>(eg: Wong Sue Yee, K Art Studio)</label>
             </div>
             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                 <div class="form-group">
                     <div class="form-line">
                         <input type="text" id="firstname" name="firstname" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                <label for="lastname">Last Name</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                <div class="form-group">
-                    <div class="form-line">
-                        <input type="text" id="lastname" name="lastname" class="form-control">
                     </div>
                 </div>
             </div>
